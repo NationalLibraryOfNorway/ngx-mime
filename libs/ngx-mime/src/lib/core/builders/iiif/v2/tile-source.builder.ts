@@ -19,6 +19,7 @@ export class TileSourceBuilder {
         }
       }
     }
+
     return tilesources;
   }
 }

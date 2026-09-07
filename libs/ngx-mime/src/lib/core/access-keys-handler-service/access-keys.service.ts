@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { computed, inject, Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ContentSearchDialogService } from '../../content-search-dialog/content-search-dialog.service';
 import { InformationDialogService } from '../../information-dialog/information-dialog.service';
@@ -34,25 +34,22 @@ export class AccessKeysService {
     ContentSearchNavigationService,
   );
   private readonly altoService = inject(AltoService);
-  private isSearchable = false;
+  private readonly isSearchable = computed(() => {
+    const manifest = this.iiifManifestService.manifest();
+
+    return manifest ? this.isManifestSearchable(manifest) : false;
+  });
+  private readonly invert = computed(
+    () =>
+      this.iiifManifestService.manifest()?.viewingDirection ===
+      ViewingDirection.RTL,
+  );
   private hasHits = false;
   private disabledKeys: number[] = [];
-  private subscriptions = new Subscription();
-  private invert = false;
+  private subscriptions!: Subscription;
 
   initialize() {
     this.subscriptions = new Subscription();
-    this.subscriptions.add(
-      this.iiifManifestService.currentManifest.subscribe(
-        (manifest: Manifest | null) => {
-          if (manifest) {
-            this.isSearchable = this.isManifestSearchable(manifest);
-            this.invert = manifest.viewingDirection === ViewingDirection.RTL;
-          }
-        },
-      ),
-    );
-
     this.subscriptions.add(
       this.iiifContentSearchService.onChange.subscribe(
         (result: SearchResult) => {
@@ -71,13 +68,13 @@ export class AccessKeysService {
     if (!this.isKeyDisabled(event.keyCode)) {
       if (accessKeys.isArrowLeftKeys()) {
         if (!this.isZoomedIn()) {
-          this.invert
+          this.invert()
             ? accessKeys.execute(() => this.goToNextCanvasGroup())
             : accessKeys.execute(() => this.goToPreviousCanvasGroup());
         }
       } else if (accessKeys.isArrowRightKeys()) {
         if (!this.isZoomedIn()) {
-          this.invert
+          this.invert()
             ? accessKeys.execute(() => this.goToPreviousCanvasGroup())
             : accessKeys.execute(() => this.goToNextCanvasGroup());
         }
@@ -91,7 +88,7 @@ export class AccessKeysService {
         accessKeys.execute(() => this.goToPreviousHit());
       } else if (accessKeys.isFullscreenKeys()) {
         accessKeys.execute(() => this.toggleFullscreen());
-      } else if (accessKeys.isSearchDialogKeys() && this.isSearchable) {
+      } else if (accessKeys.isSearchDialogKeys() && this.isSearchable()) {
         accessKeys.execute(() => {
           this.toggleSearchDialog();
         });
@@ -131,7 +128,7 @@ export class AccessKeysService {
 
   private goToLastCanvasGroup() {
     this.viewerService.goToCanvasGroup(
-      this.canvasService.numberOfCanvasGroups - 1,
+      this.canvasService.canvasGroupCount() - 1,
       false,
     );
   }
@@ -143,7 +140,7 @@ export class AccessKeysService {
 
   private toggleRecognizedTextContentInSplitView() {
     if (
-      this.altoService.recognizedTextContentMode !== RecognizedTextMode.SPLIT
+      this.altoService.recognizedTextContentMode() !== RecognizedTextMode.SPLIT
     ) {
       this.altoService.showRecognizedTextContentInSplitView();
     } else {
@@ -160,7 +157,7 @@ export class AccessKeysService {
   }
 
   private zoomIn() {
-    if (this.modeService.mode === ViewerMode.DASHBOARD) {
+    if (this.modeService.mode() === ViewerMode.DASHBOARD) {
       this.modeService.toggleMode();
     } else {
       this.viewerService.zoomIn();
@@ -168,7 +165,7 @@ export class AccessKeysService {
   }
 
   private zoomOut() {
-    if (this.modeService.mode === ViewerMode.PAGE) {
+    if (this.modeService.mode() === ViewerMode.PAGE) {
       this.modeService.toggleMode();
     } else if (this.modeService.isPageZoomed()) {
       this.viewerService.zoomOut();
@@ -183,10 +180,10 @@ export class AccessKeysService {
 
   private toggleSearchDialog() {
     if (
-      this.modeService.mode === ViewerMode.PAGE ||
+      this.modeService.mode() === ViewerMode.PAGE ||
       this.modeService.isPageZoomed()
     ) {
-      this.modeService.mode = ViewerMode.DASHBOARD;
+      this.modeService.setMode(ViewerMode.DASHBOARD);
       this.contentSearchDialogService.open();
     } else {
       if (this.contentSearchDialogService.isOpen()) {
@@ -202,10 +199,10 @@ export class AccessKeysService {
 
   private toggleInformationDialog() {
     if (
-      this.modeService.mode === ViewerMode.PAGE ||
+      this.modeService.mode() === ViewerMode.PAGE ||
       this.modeService.isPageZoomed()
     ) {
-      this.modeService.mode = ViewerMode.DASHBOARD;
+      this.modeService.setMode(ViewerMode.DASHBOARD);
       this.informationDialogService.open();
     } else {
       if (this.informationDialogService.isOpen()) {
@@ -271,7 +268,7 @@ export class AccessKeysService {
 
   private isRecognizedTextContentModeOnly(): boolean {
     return (
-      this.altoService.recognizedTextContentMode === RecognizedTextMode.ONLY
+      this.altoService.recognizedTextContentMode() === RecognizedTextMode.ONLY
     );
   }
 
@@ -288,6 +285,7 @@ export class AccessKeysService {
 
   private isKeyDisabled(keyCode: number): boolean {
     this.updateDisabledKeys();
+
     return this.disabledKeys.indexOf(keyCode) > -1;
   }
 

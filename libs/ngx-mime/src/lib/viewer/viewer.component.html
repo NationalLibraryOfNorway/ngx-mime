@@ -2,17 +2,17 @@
   [id]="id"
   class="viewer-container"
   [ngClass]="setClasses()"
-  [hidden]="errorMessage !== null"
-  [tabIndex]="tabIndex"
+  [hidden]="errorMessage() !== null"
+  [tabIndex]="tabIndex()"
 >
   <mime-spinner></mime-spinner>
   <mime-viewer-header
     class="navbar navbar-header"
     #mimeHeader
-    [class.show]="showHeaderAndFooterState"
+    [class.show]="showHeaderAndFooterState()"
   ></mime-viewer-header>
-  @if (config.navigationControlEnabled) {
-    <mime-osd-toolbar [class.show]="osdToolbarState"></mime-osd-toolbar>
+  @if (config().navigationControlEnabled) {
+    <mime-osd-toolbar [class.show]="osdToolbarState()"></mime-osd-toolbar>
   }
 
   <mat-drawer-container class="viewer-drawer-container" autosize>
@@ -21,14 +21,14 @@
       mode="side"
       position="end"
       (openedChange)="goToHomeZoom()"
-      [opened]="recognizedTextContentMode !== recognizedTextMode.NONE"
+      [opened]="recognizedTextContentMode() !== recognizedTextMode.NONE"
       [ngClass]="{
-        only: recognizedTextContentMode === recognizedTextMode.ONLY,
-        split: recognizedTextContentMode === recognizedTextMode.SPLIT,
-        open: showHeaderAndFooterState,
+        only: recognizedTextContentMode() === recognizedTextMode.ONLY,
+        split: recognizedTextContentMode() === recognizedTextMode.SPLIT,
+        open: showHeaderAndFooterState(),
       }"
     >
-      @if (recognizedTextContentMode !== recognizedTextMode.NONE) {
+      @if (recognizedTextContentMode() !== recognizedTextMode.NONE) {
         <mime-recognized-text-content
           [viewerId]="id"
         ></mime-recognized-text-content>
@@ -40,7 +40,9 @@
         class="cdk-visually-hidden"
         [viewerId]="id"
         [attr.aria-hidden]="
-          recognizedTextContentMode !== recognizedTextMode.NONE ? 'true' : null
+          recognizedTextContentMode() !== recognizedTextMode.NONE
+            ? 'true'
+            : null
         "
       ></mime-recognized-text-content>
     </mat-drawer-content>
@@ -49,12 +51,12 @@
   <mime-viewer-footer
     class="navbar navbar-footer"
     #mimeFooter
-    [class.show]="showHeaderAndFooterState"
+    [class.show]="showHeaderAndFooterState()"
   ></mime-viewer-footer>
 </div>
 
-@if (errorMessage) {
+@if (errorMessage()) {
   <div class="error-container flex items-center justify-center">
-    {{ intl.somethingHasGoneWrongLabel }}
+    {{ intl().somethingHasGoneWrongLabel }}
   </div>
 }

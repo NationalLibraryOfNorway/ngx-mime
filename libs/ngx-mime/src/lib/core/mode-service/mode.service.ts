@@ -1,65 +1,59 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { distinctUntilChanged } from 'rxjs/operators';
+import { computed, Injectable, signal, Signal } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { MimeViewerConfig } from '../mime-viewer-config';
 import { ModeChanges, ViewerMode } from '../models';
 
 @Injectable()
 export class ModeService {
-  private config!: MimeViewerConfig;
-  private _mode!: ViewerMode;
-  private readonly toggleModeSubject: BehaviorSubject<ModeChanges>;
-  private readonly modeChanges = new ModeChanges();
+  readonly mode: Signal<ViewerMode>;
+  readonly modeChange: Signal<ModeChanges>;
+  readonly isPageZoomed: Signal<boolean>;
+  readonly onChange: Observable<ModeChanges>;
+  private config = new MimeViewerConfig();
+  private readonly modeChangeState = signal<ModeChanges>({
+    currentValue: this.config.initViewerMode,
+    previousValue: undefined,
+  });
+  private readonly modeChangesSubject = new Subject<ModeChanges>();
 
   constructor() {
-    this.toggleModeSubject = new BehaviorSubject(new ModeChanges());
-  }
-
-  get onChange(): Observable<ModeChanges> {
-    return this.toggleModeSubject.asObservable().pipe(distinctUntilChanged());
-  }
-
-  get mode(): ViewerMode {
-    return this._mode;
-  }
-
-  set mode(mode: ViewerMode) {
-    this._mode = mode;
-    this.change();
+    this.modeChange = this.modeChangeState.asReadonly();
+    this.mode = computed(
+      () => this.modeChange().currentValue ?? this.config.initViewerMode,
+    );
+    this.isPageZoomed = computed(() => this.mode() === ViewerMode.PAGE_ZOOMED);
+    this.onChange = this.modeChangesSubject.asObservable();
   }
 
   initialize(): void {
-    this.mode = this.config?.initViewerMode;
+    this.setMode(this.config.initViewerMode);
   }
 
   destroy() {
-    this.mode = this.config?.initViewerMode;
+    this.setMode(this.config.initViewerMode);
   }
 
   setConfig(config: MimeViewerConfig) {
     this.config = config;
   }
 
+  setMode(mode: ViewerMode): void {
+    const modeChange = {
+      currentValue: mode,
+      previousValue: this.mode(),
+    };
+    this.modeChangeState.set(modeChange);
+    this.modeChangesSubject.next(modeChange);
+  }
+
   toggleMode(): void {
-    if (this.mode === ViewerMode.DASHBOARD) {
-      this.mode = ViewerMode.PAGE;
+    if (this.mode() === ViewerMode.DASHBOARD) {
+      this.setMode(ViewerMode.PAGE);
     } else if (
-      this.mode === ViewerMode.PAGE ||
-      this.mode === ViewerMode.PAGE_ZOOMED
+      this.mode() === ViewerMode.PAGE ||
+      this.mode() === ViewerMode.PAGE_ZOOMED
     ) {
-      this.mode = ViewerMode.DASHBOARD;
+      this.setMode(ViewerMode.DASHBOARD);
     }
-  }
-
-  isPageZoomed(): boolean {
-    return this.mode === ViewerMode.PAGE_ZOOMED;
-  }
-
-  private change() {
-    this.modeChanges.previousValue = this.modeChanges.currentValue;
-    this.modeChanges.currentValue = this._mode;
-    this.toggleModeSubject.next({
-      ...this.modeChanges,
-    });
   }
 }

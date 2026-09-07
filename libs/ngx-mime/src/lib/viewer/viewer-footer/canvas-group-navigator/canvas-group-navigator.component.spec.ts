@@ -8,10 +8,10 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatDialogHarness } from '@angular/material/dialog/testing';
-import { By } from '@angular/platform-browser';
+import { MatSliderHarness } from '@angular/material/slider/testing';
 import { provideAutoSpy } from 'jest-auto-spies';
 import { CanvasGroupDialogComponent } from '../../../canvas-group-dialog/canvas-group-dialog.component';
 import { CanvasGroupDialogService } from '../../../canvas-group-dialog/canvas-group-dialog.service';
@@ -47,8 +47,8 @@ describe('CanvasGroupNavigatorComponent', () => {
   let viewerService: ViewerService;
   let intl: MimeViewerIntl;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         TestHostComponent,
@@ -64,16 +64,14 @@ describe('CanvasGroupNavigatorComponent', () => {
         provideAutoSpy(ViewerLayoutService),
       ],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     testHostFixture = TestBed.createComponent(TestHostComponent);
     testHostComponent = testHostFixture.componentInstance;
     rootLoader = TestbedHarnessEnvironment.documentRootLoader(testHostFixture);
     canvasService = TestBed.inject<any>(CanvasService);
     viewerService = TestBed.inject<any>(ViewerService);
     intl = TestBed.inject(MimeViewerIntl);
-    testHostFixture.detectChanges();
+    await testHostFixture.whenStable();
     component = testHostComponent.canvasGroupNavigatorComponent;
   });
 
@@ -97,16 +95,16 @@ describe('CanvasGroupNavigatorComponent', () => {
     expect(ariaLabel).toEqual(`Next Page`);
 
     intl.nextPageLabel = 'New test string';
-    intl.changes.next();
-    testHostFixture.detectChanges();
+    intl.notifyChanges();
+    await testHostFixture.whenStable();
 
     ariaLabel = await getAriaLabel(nextButton);
     expect(ariaLabel).toEqual('New test string');
   });
 
   it('should enable both navigation buttons when viewer is on second canvas group', async () => {
-    canvasService._currentCanvasGroupIndex.next(1);
-    testHostFixture.detectChanges();
+    canvasService.setCanvasGroupIndexChange(1);
+    await testHostFixture.whenStable();
 
     const previousButton = await getPreviousButton();
     const nextButton = await getNextButton();
@@ -115,85 +113,77 @@ describe('CanvasGroupNavigatorComponent', () => {
   });
 
   it('should disable previous button when viewer is on first canvas group', async () => {
-    canvasService._currentCanvasGroupIndex.next(0);
-    testHostFixture.detectChanges();
+    canvasService.setCanvasGroupIndexChange(0);
+    await testHostFixture.whenStable();
 
     const previousButton = await getPreviousButton();
     expect(await previousButton?.isDisabled()).toBeTruthy();
   });
 
-  it('should disable next button when viewer is on last canvas group', waitForAsync(() => {
-    canvasService._currentNumberOfCanvasGroups.next(10);
+  it('should disable next button when viewer is on last canvas group', async () => {
+    canvasService.setCanvasGroupCount(10);
 
-    canvasService._currentCanvasGroupIndex.next(9);
-    testHostFixture.detectChanges();
+    canvasService.setCanvasGroupIndexChange(9);
+    await testHostFixture.whenStable();
 
-    testHostFixture.whenStable().then(async () => {
-      const nextButton = await getNextButton();
+    const nextButton = await getNextButton();
+    expect(await nextButton?.isDisabled()).toBeTruthy();
+  });
 
-      expect(await nextButton?.isDisabled()).toBeTruthy();
-    });
-  }));
+  it('should reflect canvas group index changes from the service', () => {
+    canvasService.setCanvasGroupIndexChange(5);
 
-  it('should display next canvas group', waitForAsync(() => {
+    expect(component.currentCanvasGroupIndex()).toBe(5);
+
+    canvasService.setCanvasGroupIndexChange(0);
+
+    expect(component.currentCanvasGroupIndex()).toBe(0);
+  });
+
+  it('should display next canvas group', async () => {
     spy = jest.spyOn(viewerService, 'goToNextCanvasGroup').mockImplementation();
-    testHostFixture.whenStable().then(async () => {
-      const nextButton = await getNextButton();
+    await testHostFixture.whenStable();
+    const nextButton = await getNextButton();
 
-      await nextButton?.click();
+    await nextButton?.click();
 
-      testHostFixture.detectChanges();
-      expect(spy).toHaveBeenCalledTimes(1);
-    });
-  }));
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
 
-  it('should display previous canvas group', waitForAsync(() => {
+  it('should display previous canvas group', async () => {
     spy = jest.spyOn(viewerService, 'goToPreviousCanvasGroup');
 
-    canvasService._currentCanvasGroupIndex.next(9);
+    canvasService.setCanvasGroupIndexChange(9);
+    await testHostFixture.whenStable();
+    const previousButton = await getPreviousButton();
 
-    testHostFixture.whenStable().then(async () => {
-      testHostFixture.detectChanges();
-      const previousButton = await getPreviousButton();
+    await previousButton?.click();
+    await testHostFixture.whenStable();
 
-      await previousButton?.click();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
 
-      testHostFixture.detectChanges();
-      testHostFixture.whenStable().then(() => {
-        expect(spy).toHaveBeenCalledTimes(1);
-      });
-    });
-  }));
+  it('should disable previous and next button if there is only one canvas', async () => {
+    canvasService.setCanvasGroupCount(1);
+    await testHostFixture.whenStable();
 
-  it('should disable previous and next button if there is only one canvas', waitForAsync(() => {
-    canvasService._currentNumberOfCanvasGroups.next(1);
-    testHostFixture.detectChanges();
+    const previousButton = await getPreviousButton();
+    const nextButton = await getNextButton();
+    expect(await nextButton?.isDisabled()).toBe(true);
+    expect(await previousButton?.isDisabled()).toBe(true);
+  });
 
-    testHostFixture.whenStable().then(async () => {
-      const previousButton = await getPreviousButton();
-      const nextButton = await getNextButton();
-
-      expect(await nextButton?.isDisabled()).toBe(true);
-      expect(await previousButton?.isDisabled()).toBe(true);
-    });
-  }));
-
-  it('should check hotkeys', waitForAsync(() => {
-    const event: KeyboardEvent = new KeyboardEvent('keydown', {
-      code: '70', // 'f'
-    });
+  it('should check hotkeys', async () => {
     spy = jest.spyOn(component, 'onSliderHotKey');
 
-    testHostFixture.detectChanges();
-    testHostFixture.whenStable().then(() => {
-      const slider = testHostFixture.debugElement.query(
-        By.css('.navigation-slider'),
-      );
-      slider.nativeElement.dispatchEvent(event);
-      testHostFixture.detectChanges();
-      expect(spy).toHaveBeenCalled();
-    });
-  }));
+    const slider = await rootLoader.getHarness(
+      MatSliderHarness.with({ selector: '.navigation-slider' }),
+    );
+    const sliderHost = await slider.host();
+    await sliderHost.sendKeys('f');
+
+    expect(spy).toHaveBeenCalled();
+  });
 
   const getCanvasGroupDialogButton = async () =>
     rootLoader.getHarnessOrNull(
@@ -218,6 +208,7 @@ describe('CanvasGroupNavigatorComponent', () => {
 
   const getAriaLabel = async (buttonHarness: MatButtonHarness | null) => {
     const host = await buttonHarness?.host();
+
     return host?.getAttribute('aria-label');
   };
 });

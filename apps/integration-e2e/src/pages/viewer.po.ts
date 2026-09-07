@@ -1,10 +1,6 @@
 import { Locator, Page } from 'playwright';
 import { Animations } from '../helpers/animations';
 
-const thumbStartPosition = <any>{ x: 600, y: 300 };
-const pointerPosition1 = <any>{ x: 650, y: 275 };
-const pointerPosition2 = <any>{ x: 750, y: 200 };
-
 export class ViewerPage {
   public static readonly bookShelf = [
     {
@@ -42,12 +38,14 @@ export class ViewerPage {
   readonly openseadragonContainer: Locator;
   readonly attribution: Locator;
   readonly recognizedTextContentRegion: Locator;
+  readonly currentCanvasGroupLabel: Locator;
+  readonly modeDashboard: Locator;
+  readonly modePage: Locator;
   private isElements = false;
   private attributionCloseButton: Locator;
   private navigationSlider: Locator;
   private canvasGroupsButton: Locator;
   private canvasGroupInput: Locator;
-  private currentCanvasGroupLabel: Locator;
   private numOfCanvasGroups: Locator;
   private informationDialogButton: Locator;
   private informationContainer: Locator;
@@ -62,8 +60,6 @@ export class ViewerPage {
   private canvasGroupOverlay: Locator;
   private singlePageViewButton: Locator;
   private twoPageViewButton: Locator;
-  private modeDashboard: Locator;
-  private modePage: Locator;
   private openseadragonCanvas: Locator;
   private recognizedTextContentSplitViewButton: Locator;
   private recognizedTextContentOnlyButton: Locator;
@@ -217,6 +213,7 @@ export class ViewerPage {
         text += secondCanvasRecognizedText;
       }
     }
+
     return text;
   }
 
@@ -340,11 +337,13 @@ export class ViewerPage {
   async getCurrentCanvasGroupLabel(): Promise<string> {
     const currentCanvasGroupLabel =
       await this.currentCanvasGroupLabel.textContent();
+
     return currentCanvasGroupLabel ? currentCanvasGroupLabel : '';
   }
 
   async getNumberOfCanvasGroups() {
     const numberOfCanvasGroups = await this.numOfCanvasGroups.textContent();
+
     return numberOfCanvasGroups ? parseInt(numberOfCanvasGroups, 10) : -1;
   }
 
@@ -370,6 +369,7 @@ export class ViewerPage {
 
   async isFullscreen() {
     await this.page.waitForTimeout(1000);
+
     return await this.page.evaluate(
       '(document.fullscreenElement != null' +
         ' || document.mozFullScreenElement != null' +
@@ -377,8 +377,10 @@ export class ViewerPage {
         ' || document.msFullscreenElement != null)',
     );
   }
+
   async getSVGElement() {
     await this.svg.waitFor();
+
     return this.svg;
   }
 
@@ -397,6 +399,7 @@ export class ViewerPage {
   async getFirstCanvasGroupOverlay() {
     const first = this.canvasGroupOverlay.first();
     await first.waitFor();
+
     return first;
   }
 
@@ -454,35 +457,6 @@ export class ViewerPage {
     return this.recognizedTextContentHits.nth(index).innerHTML();
   }
 
-  async swipe(startPoint: Point, endPoint: Point): Promise<void> {
-    // https://github.com/microsoft/playwright/issues/2903
-    // await browser
-    //   .touchActions()
-    //   .tapAndHold(startPoint)
-    //   .release(endPoint)
-    //   .perform();
-  }
-
-  async pinchOut(): Promise<void> {
-    // https://github.com/microsoft/playwright/issues/2903
-    // await browser
-    //   .touchActions()
-    //   .tapAndHold(thumbStartPosition)
-    //   .tapAndHold(pointerPosition1)
-    //   .move(pointerPosition2)
-    //   .perform();
-  }
-
-  async pinchIn(): Promise<void> {
-    // https://github.com/microsoft/playwright/issues/2903
-    // await browser
-    //   .touchActions()
-    //   .tapAndHold(thumbStartPosition)
-    //   .tapAndHold(pointerPosition2)
-    //   .move(pointerPosition1)
-    //   .perform();
-  }
-
   pan(point: Point): Promise<any> {
     return this.page.evaluate(
       `window.openSeadragonViewer.viewport.panTo({x: ${point.x}, y: ${point.y}});`,
@@ -491,6 +465,7 @@ export class ViewerPage {
 
   async zoomIn(): Promise<void> {
     const newZoomLevel = (await this.getZoomLevel()) * 2;
+
     return this.page.evaluate(
       'window.openSeadragonViewer.viewport.zoomTo(' + newZoomLevel + ');',
     );
@@ -498,6 +473,7 @@ export class ViewerPage {
 
   async zoomOut(): Promise<void> {
     const newZoomLevel = (await this.getZoomLevel()) / 2;
+
     return this.page.evaluate(
       'window.openSeadragonViewer.viewport.zoomTo(' + newZoomLevel + ');',
     );
@@ -505,15 +481,6 @@ export class ViewerPage {
 
   async dblClick(): Promise<void> {
     await this.openseadragonContainer.dblclick();
-  }
-
-  async dblTap(): Promise<void> {
-    // https://github.com/microsoft/playwright/issues/2903
-    // await browser
-    //   .findthis.page.locator('.openseadragon-canvas > canvas'))
-    //   .then((canvas: WebElement) => {
-    //     return browser.touchActions().tap(canvas).tap(canvas).perform();
-    //   });
   }
 
   async openOsdControls(): Promise<void> {
@@ -572,6 +539,7 @@ export class ViewerPage {
       .nth(1)
       .locator('rect')
       .count();
+
     return secondPageGroupCount === 1;
   }
 
@@ -580,6 +548,7 @@ export class ViewerPage {
       .nth(1)
       .locator('rect')
       .count();
+
     return secondPageGroupCount === 2;
   }
 
@@ -630,9 +599,14 @@ export class ViewerPage {
   }
 
   async sendKeyboardEvent(key: string): Promise<void> {
+    await this.pressKeyboardEvent(key);
+
+    return this.animations.waitFor();
+  }
+
+  async pressKeyboardEvent(key: string): Promise<void> {
     await this.setFocusOnViewer();
     await this.page.keyboard.press(key);
-    return this.animations.waitFor();
   }
 
   async visibleCanvasGroups(): Promise<boolean[]> {
@@ -656,6 +630,7 @@ export class ViewerPage {
       );
       result.push(isVisible);
     }
+
     return result;
   }
 
@@ -679,6 +654,7 @@ export class ViewerPage {
           left: elementSize.x,
           right: elementSize.x + elementSize.width,
         };
+
         return (
           elementCalculatedLocastion.right >= leftCanvasGroupMask.width &&
           elementCalculatedLocastion.left <= rightCanvasGroupMask.x
@@ -687,6 +663,7 @@ export class ViewerPage {
     } catch (e) {
       console.log(`Ooups, this should not happen!`, e);
     }
+
     return false;
   }
 

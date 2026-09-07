@@ -55,8 +55,9 @@ export class ContentSearchPage {
       await this.page
         .locator(`.openseadragon-canvas .hit.selected[mimeHitIndex="${index}"]`)
         .waitFor();
+
       return true;
-    } catch (e) {
+    } catch {
       return false;
     }
   }
@@ -64,6 +65,7 @@ export class ContentSearchPage {
   async hitIsSelected(index: number): Promise<boolean> {
     const el: Locator = this.hits.nth(index).locator('mat-card');
     const classes = await el.getAttribute('class');
+
     return classes ? classes.indexOf('selected') !== -1 : false;
   }
 
@@ -76,6 +78,7 @@ export class ContentSearchPage {
     const selected = await this.hitStringToHitIndex(hit);
     await this.hits.nth(selected).click();
     await this.animations.waitFor(1000);
+
     return selected;
   }
 
@@ -94,10 +97,11 @@ export class ContentSearchPage {
     } else {
       try {
         index = parseInt(hit, 10);
-      } catch (e) {
+      } catch {
         throw new Error(`Unrecognized value "${hit}`);
       }
     }
+
     return index;
   }
 }

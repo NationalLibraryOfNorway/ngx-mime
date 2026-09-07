@@ -1,4 +1,3 @@
-import { fakeAsync, tick } from '@angular/core/testing';
 import { ClickService } from './click.service';
 
 describe('ClickService', () => {
@@ -7,7 +6,8 @@ describe('ClickService', () => {
   let doubleClickCounter: number;
   let event: any;
 
-  beforeEach(async () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
     event = {
       quick: true,
       tracker: { dblClickTimeThreshold: 300 },
@@ -16,12 +16,16 @@ describe('ClickService', () => {
     singleClickCounter = 0;
     doubleClickCounter = 0;
     service = new ClickService();
-    service.addSingleClickHandler((e) => {
+    service.addSingleClickHandler(() => {
       singleClickCounter++;
     });
-    service.addDoubleClickHandler((e) => {
+    service.addDoubleClickHandler(() => {
       doubleClickCounter++;
     });
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
   });
 
   it('clickcounters should start on 0 after setup', () => {
@@ -29,42 +33,42 @@ describe('ClickService', () => {
     expect(doubleClickCounter).toBe(0);
   });
 
-  it('only singleClickCounter should increase to 1 aftere one click', fakeAsync(() => {
+  it('only singleClickCounter should increase to 1 aftere one click', () => {
     service.click(event);
-    tick(event.tracker.dblClickTimeThreshold);
+    jest.advanceTimersByTime(event.tracker.dblClickTimeThreshold);
 
     expect(singleClickCounter).toBe(1);
     expect(doubleClickCounter).toBe(0);
-  }));
+  });
 
-  it('only doubleClickCounter should increase to 1 aftere double click', fakeAsync(() => {
+  it('only doubleClickCounter should increase to 1 aftere double click', () => {
     service.click(event);
     service.click(event);
 
     // We don't need to tick/wait for timer to end. A double click will clear the timeout
     expect(singleClickCounter).toBe(0);
     expect(doubleClickCounter).toBe(1);
-  }));
+  });
 
-  it('only singleClickCounter should increase to 2 aftere two clicks', fakeAsync(() => {
+  it('only singleClickCounter should increase to 2 aftere two clicks', () => {
     service.click(event);
-    tick(event.tracker.dblClickTimeThreshold);
+    jest.advanceTimersByTime(event.tracker.dblClickTimeThreshold);
     service.click(event);
-    tick(event.tracker.dblClickTimeThreshold);
+    jest.advanceTimersByTime(event.tracker.dblClickTimeThreshold);
 
     expect(singleClickCounter).toBe(2);
     expect(doubleClickCounter).toBe(0);
-  }));
+  });
 
-  it("both clickCounters should remain at 0 after 'slow' clicks", fakeAsync(() => {
+  it("both clickCounters should remain at 0 after 'slow' clicks", () => {
     event.quick = false;
 
     service.click(event);
-    tick(event.tracker.dblClickTimeThreshold);
+    jest.advanceTimersByTime(event.tracker.dblClickTimeThreshold);
     expect(singleClickCounter).toBe(0);
     service.click(event);
     service.click(event);
 
     expect(singleClickCounter).toBe(0);
-  }));
+  });
 });

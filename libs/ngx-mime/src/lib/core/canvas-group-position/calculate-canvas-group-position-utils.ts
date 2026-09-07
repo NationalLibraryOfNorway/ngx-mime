@@ -28,5 +28,6 @@ export const canvasRectFromCriteria = (
       y: Math.trunc((criteria.canvasSource.height * scale) / 2) * -1,
     };
   }
+
   return new Rect(rect);
 };

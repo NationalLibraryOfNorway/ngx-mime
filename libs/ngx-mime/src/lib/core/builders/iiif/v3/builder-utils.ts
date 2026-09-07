@@ -26,6 +26,7 @@ export class BuilderUtils {
     if (Array.isArray(value)) {
       return value[0];
     }
+
     return undefined;
   }
 
@@ -36,6 +37,7 @@ export class BuilderUtils {
         (canvas: Canvas) => canvas.id === canvases[0].id,
       );
     }
+
     return index;
   }
 
@@ -44,6 +46,7 @@ export class BuilderUtils {
     if (Array.isArray(provider)) {
       logo = this.extractId(provider[0].logo[0]);
     }
+
     return logo;
   }
 
@@ -58,6 +61,7 @@ export class BuilderUtils {
       preferredLanguage && data[preferredLanguage]
         ? preferredLanguage
         : this.extractDefaultLanguage(data);
+
     return data[key][0];
   }
 

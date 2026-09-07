@@ -30,6 +30,7 @@ export class OnePageCalculatePagePositionStrategy
           ? this.calculateLtrX(criteria)
           : this.calculateRtlX(criteria);
     }
+
     return canvasRectFromCriteria(
       rotation,
       criteria,

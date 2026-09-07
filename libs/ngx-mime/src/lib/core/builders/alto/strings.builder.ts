@@ -5,6 +5,7 @@ export class StringsBuilder {
 
   withStringXml(stringXml: any): StringsBuilder {
     this.stringXml = stringXml;
+
     return this;
   }
 

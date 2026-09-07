@@ -1,25 +1,26 @@
 import {
+  afterRenderEffect,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
+  computed,
   ElementRef,
   inject,
-  Input,
-  OnDestroy,
-  OnInit,
-  ViewChild,
+  input,
+  linkedSignal,
+  viewChild,
 } from '@angular/core';
-import { SafeHtml } from '@angular/platform-browser';
-import { Subscription } from 'rxjs';
 import { AltoService } from '../../core/alto-service/alto.service';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { HighlightService } from '../../core/highlight-service/highlight.service';
 import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
 import { ManifestUtils } from '../../core/iiif-manifest-service/iiif-manifest-utils';
-import { MimeViewerIntl } from '../../core/intl';
-import { Hit } from '../../core/models/hit';
-import { Manifest } from '../../core/models/manifest';
+import { MimeViewerIntl } from '../../core/intl/viewer-intl';
+import {
+  PreviousRecognizedTextState,
+  RecognizedTextSource,
+  RecognizedTextState,
+} from './recognized-text-content.model';
 
 @Component({
   selector: 'mime-recognized-text-content',
@@ -27,168 +28,172 @@ import { Manifest } from '../../core/models/manifest';
   styleUrls: ['./recognized-text-content.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RecognizedTextContentComponent implements OnInit, OnDestroy {
-  @ViewChild('recognizedTextContentContainer', { read: ElementRef })
-  recognizedTextContentContainer!: ElementRef;
-  @Input({ required: true }) viewerId!: string;
-  intl = inject(MimeViewerIntl);
-  firstCanvasRecognizedTextContent: SafeHtml | undefined;
-  secondCanvasRecognizedTextContent: SafeHtml | undefined;
-  isLoading = false;
-  error: string | undefined = undefined;
-  hasRecognizedTextContent: boolean | undefined;
-  currentCanvasGroupHasTextSource: boolean | undefined;
-  updatedCanvasGroupLabel: string | undefined;
-  updatedCanvasGroupPageCount = 0;
-  selectedHit: number | undefined;
-  private readonly cdr = inject(ChangeDetectorRef);
-  private readonly canvasService = inject(CanvasService);
-  private readonly altoService = inject(AltoService);
+export class RecognizedTextContentComponent {
   private readonly iiifManifestService = inject(IiifManifestService);
+  private readonly altoService = inject(AltoService);
   private readonly iiifContentSearchService = inject(IiifContentSearchService);
   private readonly highlightService = inject(HighlightService);
-  private readonly subscriptions = new Subscription();
+  private readonly canvasService = inject(CanvasService);
+  readonly intl = inject(MimeViewerIntl).value;
 
-  ngOnInit(): void {
-    this.subscriptions.add(
-      this.intl.changes.subscribe(() => this.cdr.markForCheck()),
-    );
+  readonly viewerId = input.required<string>();
+  readonly recognizedTextContentContainer = viewChild.required<
+    ElementRef<HTMLElement>
+  >('recognizedTextContentContainer');
+  readonly manifest = this.iiifManifestService.manifest;
+  readonly isLoading = this.altoService.isLoading;
+  readonly error = this.altoService.error;
+  readonly currentCanvasGroupHasTextSource =
+    this.altoService.currentCanvasGroupHasTextSource;
+  readonly selectedHit = computed(
+    () => this.iiifContentSearchService.selectedHit()?.id,
+  );
+  readonly textContentRevision = this.altoService.textContentRevision;
+  readonly highlightsRevision = this.altoService.highlightsRevision;
+  readonly hasRecognizedTextContent = computed(() =>
+    this.currentManifestHasRecognizedTextContent(),
+  );
+  readonly recognizedTextState = this.createRecognizedTextStateSignal();
+  readonly firstCanvasRecognizedTextContent = computed(
+    () => this.recognizedTextState().firstCanvas,
+  );
+  readonly secondCanvasRecognizedTextContent = computed(
+    () => this.recognizedTextState().secondCanvas,
+  );
+  readonly updatedCanvasGroupLabel = computed(
+    () => this.recognizedTextState().updatedCanvasGroupLabel,
+  );
+  readonly updatedCanvasGroupPageCount = computed(
+    () => this.recognizedTextState().updatedCanvasGroupPageCount,
+  );
+  private lastScrolledTextContentRevision = 0;
 
-    this.subscriptions.add(
-      this.iiifManifestService.currentManifest.subscribe(
-        (manifest: Manifest | null) => {
-          this.hasRecognizedTextContent = manifest
-            ? ManifestUtils.hasRecognizedTextContent(manifest)
-            : undefined;
-          this.updatedCanvasGroupLabel = undefined;
-          this.updatedCanvasGroupPageCount = 0;
-          this.clearRecognizedText();
-          this.cdr.detectChanges();
-        },
-      ),
-    );
+  constructor() {
+    afterRenderEffect(() => {
+      const revision = this.textContentRevision();
+      const container = this.recognizedTextContentContainer();
 
-    this.subscriptions.add(
-      this.iiifContentSearchService.onSelected.subscribe((hit: Hit | null) => {
-        this.selectedHit = hit?.id;
-        if (this.selectedHit !== undefined) {
-          this.highlightService.highlightSelectedHit(
-            this.viewerId,
-            this.selectedHit,
-          );
-        }
-      }),
-    );
+      this.scrollToTopOnTextContentChange(revision, container);
+    });
+    afterRenderEffect(() => {
+      // Recognized text changes replace the elements that contain highlights.
+      this.recognizedTextState();
+      const viewerId = this.viewerId();
+      const selectedHit = this.selectedHit();
 
-    this.subscriptions.add(
-      this.altoService.onTextContentReady$.subscribe(() => {
-        this.clearRecognizedText();
-        this.scrollToTop();
-        this.refreshRecognizedText(true);
-      }),
-    );
-    this.subscriptions.add(
-      this.altoService.onTextHighlightsChange$.subscribe(() => {
-        this.refreshRecognizedText();
-      }),
-    );
-    this.subscriptions.add(
-      this.altoService.isLoading$.subscribe((isLoading: boolean) => {
-        this.isLoading = isLoading;
-        if (isLoading) {
-          this.clearRecognizedText();
-          this.updatedCanvasGroupLabel = undefined;
-          this.updatedCanvasGroupPageCount = 0;
-        }
-        this.cdr.detectChanges();
-      }),
-    );
-    this.subscriptions.add(
-      this.altoService.hasErrors$.subscribe((error: string | undefined) => {
-        this.error = error;
-        this.cdr.detectChanges();
-      }),
-    );
-    this.subscriptions.add(
-      this.altoService.currentCanvasGroupHasTextSource$.subscribe(
-        (hasTextSource: boolean | undefined) => {
-          this.currentCanvasGroupHasTextSource = hasTextSource;
-          if (hasTextSource === undefined) {
-            this.clearRecognizedText();
-            this.updatedCanvasGroupLabel = undefined;
-            this.updatedCanvasGroupPageCount = 0;
-          }
-          this.cdr.detectChanges();
-        },
-      ),
-    );
-
-    this.refreshRecognizedText();
+      this.highlightSelectedHit(viewerId, selectedHit);
+    });
   }
 
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe();
+  private scrollToTopOnTextContentChange(
+    revision: number,
+    container: ElementRef<HTMLElement>,
+  ): void {
+    if (revision > this.lastScrolledTextContentRevision) {
+      container.nativeElement.scrollTop = 0;
+      this.lastScrolledTextContentRevision = revision;
+    }
   }
 
-  private clearRecognizedText() {
-    this.firstCanvasRecognizedTextContent = '';
-    this.secondCanvasRecognizedTextContent = '';
+  private highlightSelectedHit(
+    viewerId: string,
+    selectedHit: number | undefined,
+  ): void {
+    if (selectedHit !== undefined) {
+      this.highlightService.highlightSelectedHit(viewerId, selectedHit);
+    }
   }
 
-  private scrollToTop() {
-    this.recognizedTextContentContainer.nativeElement.scrollTop = 0;
+  private currentManifestHasRecognizedTextContent(): boolean | undefined {
+    const manifest = this.manifest();
+
+    return manifest
+      ? ManifestUtils.hasRecognizedTextContent(manifest)
+      : undefined;
   }
 
-  private refreshRecognizedText(announceUpdate = false): void {
-    const updatedCanvases = this.updateRecognizedText();
+  private createRecognizedTextStateSignal() {
+    return linkedSignal<RecognizedTextSource, RecognizedTextState>({
+      source: () => this.getRecognizedTextSource(),
+      computation: (source, previous) =>
+        this.getRecognizedTextState(source, previous),
+    });
+  }
 
-    if (announceUpdate) {
-      this.updatedCanvasGroupPageCount = updatedCanvases.length;
-      this.updatedCanvasGroupLabel = this.getCanvasGroupLabel(updatedCanvases);
+  private getRecognizedTextSource(): RecognizedTextSource {
+    return {
+      manifest: this.manifest(),
+      isLoading: this.isLoading(),
+      hasTextSource: this.currentCanvasGroupHasTextSource(),
+      textContentRevision: this.textContentRevision(),
+      highlightsRevision: this.highlightsRevision(),
+    };
+  }
+
+  private getRecognizedTextState(
+    source: RecognizedTextSource,
+    previous?: PreviousRecognizedTextState,
+  ): RecognizedTextState {
+    if (!previous) {
+      return this.refreshRecognizedText(false);
+    }
+    if (
+      source.manifest !== previous.source.manifest ||
+      source.isLoading ||
+      (source.hasTextSource === undefined &&
+        previous.source.hasTextSource !== undefined)
+    ) {
+      return this.emptyRecognizedTextState();
+    }
+    if (source.textContentRevision !== previous.source.textContentRevision) {
+      return this.refreshRecognizedText(true, previous.value);
+    }
+    if (source.highlightsRevision !== previous.source.highlightsRevision) {
+      return this.refreshRecognizedText(false, previous.value);
     }
 
-    this.cdr.detectChanges();
-    this.highlightSelectedHit();
+    return previous.value;
   }
 
-  private updateRecognizedText(): number[] {
+  private refreshRecognizedText(
+    announceUpdate: boolean,
+    previous?: RecognizedTextState,
+  ): RecognizedTextState {
     const canvases = this.canvasService.getCanvasesPerCanvasGroup(
       this.canvasService.currentCanvasGroupIndex,
     );
     if (!canvases?.length) {
-      return [];
+      return announceUpdate
+        ? this.emptyRecognizedTextState()
+        : (previous ?? this.emptyRecognizedTextState());
     }
 
-    return this.updateCanvases(canvases);
-  }
-
-  private updateCanvases(canvases: number[]): number[] {
-    const updatedCanvases: number[] = [];
-    this.firstCanvasRecognizedTextContent = this.altoService.getHtml(
-      canvases[0],
+    const firstCanvas = this.altoService.getHtml(canvases[0]);
+    const secondCanvas =
+      canvases.length === 2 ? this.altoService.getHtml(canvases[1]) : '';
+    const updatedCanvases = canvases.filter((_, index) =>
+      index === 0 ? firstCanvas !== undefined : secondCanvas !== undefined,
     );
-    if (this.firstCanvasRecognizedTextContent !== undefined) {
-      updatedCanvases.push(canvases[0]);
-    }
 
-    if (canvases.length === 2) {
-      this.secondCanvasRecognizedTextContent = this.altoService.getHtml(
-        canvases[1],
-      );
-      if (this.secondCanvasRecognizedTextContent !== undefined) {
-        updatedCanvases.push(canvases[1]);
-      }
-    }
-    return updatedCanvases;
+    return {
+      firstCanvas,
+      secondCanvas,
+      updatedCanvasGroupLabel: announceUpdate
+        ? this.getCanvasGroupLabel(updatedCanvases)
+        : previous?.updatedCanvasGroupLabel,
+      updatedCanvasGroupPageCount: announceUpdate
+        ? updatedCanvases.length
+        : (previous?.updatedCanvasGroupPageCount ?? 0),
+    };
   }
 
-  private highlightSelectedHit(): void {
-    if (this.selectedHit !== undefined) {
-      this.highlightService.highlightSelectedHit(
-        this.viewerId,
-        this.selectedHit,
-      );
-    }
+  private emptyRecognizedTextState(): RecognizedTextState {
+    return {
+      firstCanvas: '',
+      secondCanvas: '',
+      updatedCanvasGroupLabel: undefined,
+      updatedCanvasGroupPageCount: 0,
+    };
   }
 
   private getCanvasGroupLabel(canvases: number[]): string | undefined {
@@ -197,6 +202,7 @@ export class RecognizedTextContentComponent implements OnInit, OnDestroy {
     }
     const firstPage = canvases[0] + 1;
     const lastPage = canvases[canvases.length - 1] + 1;
+
     return firstPage === lastPage ? `${firstPage}` : `${firstPage}–${lastPage}`;
   }
 }

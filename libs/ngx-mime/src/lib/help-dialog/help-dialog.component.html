@@ -1,43 +1,43 @@
 <div class="help-container">
-  @if (isHandsetOrTabletInPortrait) {
+  @if (isHandsetOrTabletInPortrait()) {
     <mat-toolbar class="secondary-toolbar">
       <button
         mat-icon-button
-        [aria-label]="intl.helpCloseAriaLabel"
-        [matTooltip]="intl.closeLabel"
+        [aria-label]="intl().helpCloseAriaLabel"
+        [matTooltip]="intl().closeLabel"
         [matDialogClose]="true"
       >
         <mat-icon>close</mat-icon>
       </button>
-      <h1 mat-dialog-title>{{ intl.help.helpLabel }}</h1>
+      <h1 mat-dialog-title>{{ intl().help.helpLabel }}</h1>
     </mat-toolbar>
   } @else {
     <mat-toolbar class="secondary-toolbar justify-between">
       <h1 class="heading-desktop" mat-dialog-title>{{
-        intl.help.helpLabel
+        intl().help.helpLabel
       }}</h1>
       <button
         mat-icon-button
-        [aria-label]="intl.helpCloseAriaLabel"
-        [matTooltip]="intl.closeLabel"
+        [aria-label]="intl().helpCloseAriaLabel"
+        [matTooltip]="intl().closeLabel"
         [matDialogClose]="true"
       >
         <mat-icon>close</mat-icon>
       </button>
     </mat-toolbar>
   }
-  <mat-dialog-content [ngStyle]="tabHeight" class="help-content" tabindex="0">
-    <p [innerHTML]="intl.help.line1"></p>
-    <p [innerHTML]="intl.help.line2"></p>
-    <p [innerHTML]="intl.help.line3"></p>
-    <p [innerHTML]="intl.help.line4"></p>
-    <p [innerHTML]="intl.help.line5"></p>
-    <p [innerHTML]="intl.help.line6"></p>
-    <p [innerHTML]="intl.help.line12"></p>
-    <p [innerHTML]="intl.help.line7"></p>
-    <p [innerHTML]="intl.help.line8"></p>
-    <p [innerHTML]="intl.help.line9"></p>
-    <p [innerHTML]="intl.help.line10"></p>
-    <p [innerHTML]="intl.help.line11"></p>
+  <mat-dialog-content [ngStyle]="tabHeight()" class="help-content" tabindex="0">
+    <p [innerHTML]="intl().help.line1"></p>
+    <p [innerHTML]="intl().help.line2"></p>
+    <p [innerHTML]="intl().help.line3"></p>
+    <p [innerHTML]="intl().help.line4"></p>
+    <p [innerHTML]="intl().help.line5"></p>
+    <p [innerHTML]="intl().help.line6"></p>
+    <p [innerHTML]="intl().help.line12"></p>
+    <p [innerHTML]="intl().help.line7"></p>
+    <p [innerHTML]="intl().help.line8"></p>
+    <p [innerHTML]="intl().help.line9"></p>
+    <p [innerHTML]="intl().help.line10"></p>
+    <p [innerHTML]="intl().help.line11"></p>
   </mat-dialog-content>
 </div>

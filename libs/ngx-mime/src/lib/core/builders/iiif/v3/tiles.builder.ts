@@ -16,6 +16,7 @@ export class TilesBuilder {
         );
       }
     }
+
     return tiles;
   }
 }

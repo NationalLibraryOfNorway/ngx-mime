@@ -1,15 +1,15 @@
-@if (isHandsetOrTabletInPortrait) {
+@if (isHandsetOrTabletInPortrait()) {
   <mat-toolbar class="secondary-toolbar" data-testid="mobile-toolbar">
     <button
       data-testid="ngx-mime-view-dialog-close-button"
       mat-icon-button
-      [aria-label]="intl.closeLabel"
-      [matTooltip]="intl.closeLabel"
+      [aria-label]="intl().closeLabel"
+      [matTooltip]="intl().closeLabel"
       [matDialogClose]="true"
     >
       <mat-icon>close</mat-icon>
     </button>
-    <h1 mat-dialog-title>{{ intl.layoutMenuLabel }}</h1>
+    <h1 mat-dialog-title>{{ intl().layoutMenuLabel }}</h1>
   </mat-toolbar>
 } @else {
   <mat-toolbar
@@ -17,101 +17,101 @@
     data-testid="desktop-toolbar"
   >
     <h1 mat-dialog-title data-testid="ngx-mime-heading-desktop">{{
-      intl.layoutMenuLabel
+      intl().layoutMenuLabel
     }}</h1>
     <button
       data-testid="ngx-mime-view-dialog-close-button"
       mat-icon-button
-      [aria-label]="intl.closeLabel"
-      [matTooltip]="intl.closeLabel"
+      [aria-label]="intl().closeLabel"
+      [matTooltip]="intl().closeLabel"
       [matDialogClose]="true"
     >
       <mat-icon>close</mat-icon>
     </button>
   </mat-toolbar>
 }
-<mat-dialog-content [ngStyle]="tabHeight">
-  @if (isPagedManifest) {
+<mat-dialog-content [ngStyle]="tabHeight()">
+  @if (isPagedManifest()) {
     <section data-testid="page-layout">
-      <h2>{{ intl.pageLayoutLabel }}</h2>
+      <h2>{{ intl().pageLayoutLabel }}</h2>
       <div
         class="flex flex-col gap-y-2"
         role="group"
-        [attr.aria-label]="intl.pageLayoutLabel"
+        [attr.aria-label]="intl().pageLayoutLabel"
       >
         <div class="flex items-center">
           <mat-button-toggle
             data-testid="ngx-mime-single-page-view-button"
-            [aria-label]="intl.singlePageViewLabel"
+            [aria-label]="intl().singlePageViewLabel"
             [value]="ViewerLayout.ONE_PAGE"
-            [checked]="viewerLayout === ViewerLayout.ONE_PAGE"
+            [checked]="viewerLayout() === ViewerLayout.ONE_PAGE"
             (click)="setLayoutOnePage()"
           >
             <mime-icon [iconName]="'single_page_display'"> </mime-icon>
           </mat-button-toggle>
-          <div class="label">{{ intl.singlePageViewLabel }}</div>
+          <div class="label">{{ intl().singlePageViewLabel }}</div>
         </div>
         <div class="flex items-center">
           <mat-button-toggle
             data-testid="ngx-mime-two-page-view-button"
-            [aria-label]="intl.twoPageViewLabel"
+            [aria-label]="intl().twoPageViewLabel"
             [value]="ViewerLayout.TWO_PAGE"
-            [checked]="viewerLayout === ViewerLayout.TWO_PAGE"
+            [checked]="viewerLayout() === ViewerLayout.TWO_PAGE"
             (click)="setLayoutTwoPage()"
           >
             <mime-icon [iconName]="'two_page_display'"> </mime-icon>
           </mat-button-toggle>
-          <div class="label">{{ intl.twoPageViewLabel }}</div>
+          <div class="label">{{ intl().twoPageViewLabel }}</div>
         </div>
       </div>
     </section>
   }
-  @if (hasRecognizedTextContent) {
+  @if (hasRecognizedTextContent()) {
     <mat-divider></mat-divider>
     <section data-testid="recognized-text-content">
-      <h2>{{ intl.digitalTextLabel }}</h2>
+      <h2>{{ intl().digitalTextLabel }}</h2>
       <div
         class="flex flex-col gap-y-2"
         role="group"
-        [attr.aria-label]="intl.digitalTextLabel"
+        [attr.aria-label]="intl().digitalTextLabel"
       >
         <div class="flex items-center">
           <mat-button-toggle
             data-testid="ngx-mime-recognized-text-content-close-button"
-            [aria-label]="intl.recognizedTextContentCloseLabel"
+            [aria-label]="intl().recognizedTextContentCloseLabel"
             [value]="RecognizedTextMode.NONE"
-            [checked]="recognizedTextMode === RecognizedTextMode.NONE"
+            [checked]="recognizedTextMode() === RecognizedTextMode.NONE"
             (click)="closeRecognizedTextContent()"
           >
             <mat-icon>hide_source</mat-icon>
           </mat-button-toggle>
-          <div class="label">{{ intl.recognizedTextContentCloseLabel }}</div>
+          <div class="label">{{ intl().recognizedTextContentCloseLabel }}</div>
         </div>
         <div class="flex items-center">
           <mat-button-toggle
             data-testid="ngx-mime-recognized-text-content-split-view-button"
-            [aria-label]="intl.recognizedTextContentInSplitViewLabel"
+            [aria-label]="intl().recognizedTextContentInSplitViewLabel"
             [value]="RecognizedTextMode.SPLIT"
-            [checked]="recognizedTextMode === RecognizedTextMode.SPLIT"
+            [checked]="recognizedTextMode() === RecognizedTextMode.SPLIT"
             (click)="showRecognizedTextContentInSplitView()"
           >
             <mat-icon>view_sidebar</mat-icon>
           </mat-button-toggle>
           <div class="label">{{
-            intl.recognizedTextContentInSplitViewLabel
+            intl().recognizedTextContentInSplitViewLabel
           }}</div>
         </div>
         <div class="flex items-center">
           <mat-button-toggle
             data-testid="ngx-mime-recognized-text-content-only-button"
-            [aria-label]="intl.showRecognizedTextContentLabel"
+            [aria-label]="intl().showRecognizedTextContentLabel"
             [value]="RecognizedTextMode.ONLY"
-            [checked]="recognizedTextMode === RecognizedTextMode.ONLY"
+            [checked]="recognizedTextMode() === RecognizedTextMode.ONLY"
             (click)="showRecognizedTextContentOnly()"
           >
             <mat-icon>article</mat-icon>
           </mat-button-toggle>
-          <div class="label">{{ intl.showRecognizedTextContentLabel }}</div>
+          <div class="label">{{ intl().showRecognizedTextContentLabel }}</div>
         </div>
       </div>
     </section>

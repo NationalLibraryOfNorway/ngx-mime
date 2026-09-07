@@ -57,22 +57,25 @@ Then(
   async function (this: CustomWorld) {
     await this.viewerPage.openViewMenu();
 
-    expect(
-      await this.viewerPage.isRecognizedTextContentButtonsPresent(),
-    ).toBeTruthy();
+    await expect
+      .poll(() => this.viewerPage.isRecognizedTextContentButtonsPresent())
+      .toBeTruthy();
   },
 );
 
 Then(
   'both the digital pages and the recognized text content should be shown',
   async function (this: CustomWorld) {
-    const recognizedTextContent =
-      await this.viewerPage.getRecognizedTextContent();
-    const isRecognizedTextContentInSplitView =
-      await this.viewerPage.isRecognizedTextContentInSplitView();
-
-    expect(isRecognizedTextContentInSplitView).toBeTruthy();
-    expect(recognizedTextContent.length).toBeGreaterThan(0);
+    await expect
+      .poll(async () => ({
+        hasRecognizedTextContent:
+          (await this.viewerPage.getRecognizedTextContent()).length > 0,
+        isSplitView: await this.viewerPage.isRecognizedTextContentInSplitView(),
+      }))
+      .toEqual({
+        hasRecognizedTextContent: true,
+        isSplitView: true,
+      });
   },
 );
 

@@ -6,6 +6,7 @@ export class LayoutBuilder {
 
   withLayoutXml(layoutXml: any): LayoutBuilder {
     this.pageBuilder.withPageXml(layoutXml.Page[0]);
+
     return this;
   }
 
@@ -13,6 +14,7 @@ export class LayoutBuilder {
     textStyles: Map<string, TextStyle> | undefined,
   ): LayoutBuilder {
     this.pageBuilder.withTextStyles(textStyles);
+
     return this;
   }
 

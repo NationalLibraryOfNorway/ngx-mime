@@ -6,7 +6,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { enableProdMode } from '@angular/core';
 import { createCustomElement } from '@angular/elements';
 import { createApplication } from '@angular/platform-browser';
-import { MimeViewerIntl } from '@nationallibraryofnorway/ngx-mime';
+import { provideMimeViewerIntl } from '@nationallibraryofnorway/ngx-mime';
 import { AppComponent } from './app/app.component';
 import { environment } from './environments/environment';
 
@@ -19,7 +19,7 @@ if (environment.production) {
   const applicationRef = await createApplication({
     providers: [
       provideHttpClient(),
-      MimeViewerIntl,
+      provideMimeViewerIntl(),
       { provide: OverlayContainer, useClass: FullscreenOverlayContainer },
     ],
   });

@@ -1,6 +1,6 @@
 <mat-toolbar class="secondary-toolbar">
   <ng-template #mimeHeaderBefore></ng-template>
-  @if (manifest) {
+  @if (manifest(); as manifest) {
     <div
       data-testid="ngx-mime-manifest-label"
       class="label w-full"
@@ -8,13 +8,12 @@
       >{{ manifest.label }}</div
     >
   }
-  @if (isPagedManifest || hasRecognizedTextContent) {
+  @if (isPagedManifest() || hasRecognizedTextContent()) {
     <button
       data-testid="ngx-mime-view-menu-button"
-      #viewMenu
       mat-icon-button
-      [attr.aria-label]="intl.layoutMenuLabel"
-      [matTooltip]="intl.layoutMenuLabel"
+      [attr.aria-label]="intl().layoutMenuLabel"
+      [matTooltip]="intl().layoutMenuLabel"
       (click)="toggleView()"
       ><mat-icon aria-hidden="true">view_module</mat-icon></button
     >
@@ -22,18 +21,18 @@
   <button
     data-testid="ngx-mimeInformationDialogButton"
     mat-icon-button
-    [attr.aria-label]="intl.informationLabel"
-    [matTooltip]="intl.informationLabel"
+    [attr.aria-label]="intl().informationLabel"
+    [matTooltip]="intl().informationLabel"
     (click)="toggleInformationDialog()"
   >
     <mat-icon aria-hidden="true">list</mat-icon>
   </button>
-  @if (isContentSearchEnabled) {
+  @if (isContentSearchEnabled()) {
     <button
       data-testid="ngx-mimeContentSearchDialogButton"
       mat-icon-button
-      [attr.aria-label]="intl.searchLabel"
-      [matTooltip]="intl.searchLabel"
+      [attr.aria-label]="intl().searchLabel"
+      [matTooltip]="intl().searchLabel"
       (click)="toggleSearch()"
     >
       <mat-icon aria-hidden="true">search</mat-icon>
@@ -42,8 +41,8 @@
   <button
     data-testid="ngx-mimeHelpDialogButton"
     mat-icon-button
-    [attr.aria-label]="intl.help.helpLabel"
-    [matTooltip]="intl.help.helpLabel"
+    [attr.aria-label]="intl().help.helpLabel"
+    [matTooltip]="intl().help.helpLabel"
     (click)="toggleHelp()"
   >
     <mat-icon aria-hidden="true">help</mat-icon>
@@ -53,11 +52,11 @@
     <button
       data-testid="ngx-mimeFullscreenButton"
       mat-icon-button
-      [attr.aria-label]="fullscreenLabel"
-      [matTooltip]="fullscreenLabel"
+      [attr.aria-label]="fullscreenLabel()"
+      [matTooltip]="fullscreenLabel()"
       (click)="toggleFullscreen()"
     >
-      @if (isInFullscreen) {
+      @if (isInFullscreen()) {
         <mat-icon aria-hidden="true">fullscreen_exit</mat-icon>
       } @else {
         <mat-icon aria-hidden="true">fullscreen</mat-icon>

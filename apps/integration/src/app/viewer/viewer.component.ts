@@ -1,6 +1,6 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Component, computed, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, convertToParamMap, Params } from '@angular/router';
 import { ViewerComponent as ComponentViewerComponent } from './components/viewer/viewer.component';
 import { ViewerComponent as ElementsViewerComponent } from './elements/viewer/viewer.component';
 
@@ -10,43 +10,26 @@ import { ViewerComponent as ElementsViewerComponent } from './elements/viewer/vi
   styleUrls: ['./viewer.component.scss'],
   imports: [ComponentViewerComponent, ElementsViewerComponent],
 })
-export class ViewerComponent implements OnInit, OnDestroy {
-  isComponent = false;
-  manifestUris: string[] = [];
-  canvasIndex = 0;
-  private readonly route = inject(ActivatedRoute);
-  private readonly subscriptions = new Subscription();
+export class ViewerComponent {
+  private readonly activatedRoute = inject(ActivatedRoute);
 
-  ngOnInit() {
-    this.subscriptions.add(
-      this.route.params.subscribe((params) => {
-        this.isComponent = params['id'] === 'components';
-      }),
-    );
+  readonly routeParams = toSignal(this.activatedRoute.params, {
+    initialValue: {} as Params,
+  });
+  readonly queryParamMap = toSignal(this.activatedRoute.queryParamMap, {
+    initialValue: convertToParamMap({}),
+  });
+  readonly isComponent = computed(
+    () => this.routeParams()['id'] === 'components',
+  );
+  readonly manifestUris = computed(() =>
+    this.queryParamMap().has('manifestUri')
+      ? this.queryParamMap().getAll('manifestUri')
+      : ['http://localhost:4040/catalog/v1/iiif/a-ltr-book/manifest'],
+  );
+  readonly canvasIndex = computed(() => {
+    const value = this.queryParamMap().get('canvasIndex');
 
-    this.subscriptions.add(
-      this.route.queryParamMap.subscribe((params) => {
-        this.handleQueryParams(params);
-      }),
-    );
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe();
-  }
-
-  private handleQueryParams(params: any) {
-    if (params.has('manifestUri')) {
-      this.manifestUris = params.getAll('manifestUri');
-    } else {
-      this.manifestUris = [
-        'http://localhost:4040/catalog/v1/iiif/a-ltr-book/manifest',
-      ];
-    }
-
-    if (params.has('canvasIndex')) {
-      const canvasIndexValue = params.get('canvasIndex');
-      this.canvasIndex = canvasIndexValue ? parseInt(canvasIndexValue, 10) : 0;
-    }
-  }
+    return value ? Number.parseInt(value, 10) : 0;
+  });
 }

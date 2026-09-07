@@ -126,6 +126,7 @@ export class TwoCanvasPerCanvasGroupStrategy
 
   private getLastRect(canvasGroups: CanvasGroups): Rect {
     const lastCanvasGroup = this.getLastCanvasGroup(canvasGroups);
+
     return lastCanvasGroup.rect;
   }
 

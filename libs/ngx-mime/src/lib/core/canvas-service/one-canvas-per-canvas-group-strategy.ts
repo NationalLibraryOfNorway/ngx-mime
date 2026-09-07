@@ -72,6 +72,7 @@ export class OneCanvasPerCanvasGroupStrategy
 
   private createCanvasGroup(tileSource: any, position: Rect): CanvasGroup {
     const tileSourceAndRect: TileSourceAndRect = { tileSource, rect: position };
+
     return { tileSourceAndRects: [tileSourceAndRect], rect: position };
   }
 }

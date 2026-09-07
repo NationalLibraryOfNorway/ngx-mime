@@ -23,23 +23,16 @@ import { SiteTheme, ThemeService } from './theme-service/theme.service';
   ],
 })
 export class ThemePickerComponent {
-  currentTheme: SiteTheme;
-  themes: SiteTheme[];
   private readonly themeService = inject(ThemeService);
 
+  readonly themes = this.themeService.getAllThemes();
+  readonly currentTheme = this.themeService.currentTheme;
+
   constructor() {
-    this.themes = this.themeService.getAllThemes();
-    this.currentTheme = this.themeService.getStoredTheme();
-    if (this.currentTheme) {
-      this.installTheme(this.currentTheme);
-    }
+    this.installTheme(this.currentTheme());
   }
 
-  installTheme(theme: SiteTheme) {
-    this.currentTheme = theme;
-
-    if (this.currentTheme) {
-      this.themeService.storeTheme(this.currentTheme);
-    }
+  installTheme(theme: SiteTheme): void {
+    this.themeService.storeTheme(theme);
   }
 }

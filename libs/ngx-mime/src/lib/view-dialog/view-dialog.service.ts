@@ -1,7 +1,9 @@
 import {
   ElementRef,
+  effect,
   inject,
   Injectable,
+  untracked,
   ViewContainerRef,
 } from '@angular/core';
 import {
@@ -10,7 +12,6 @@ import {
   MatDialogRef,
   MatDialogState,
 } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { ViewDialogConfigStrategyFactory } from './view-dialog-config-strategy-factory';
 import { ViewDialogComponent } from './view-dialog.component';
@@ -25,7 +26,17 @@ export class ViewDialogService {
   private _el: ElementRef | undefined;
   private _viewContainerRef: ViewContainerRef | undefined;
   private dialogRef?: MatDialogRef<ViewDialogComponent>;
-  private subscriptions!: Subscription;
+  private initialized = false;
+
+  constructor() {
+    effect(() => {
+      const dimensions = this.mimeResizeService.dimensions();
+
+      if (dimensions && this.initialized) {
+        untracked(() => this.updateDialogLayout());
+      }
+    });
+  }
 
   set el(el: ElementRef) {
     this._el = el;
@@ -36,21 +47,12 @@ export class ViewDialogService {
   }
 
   public initialize(): void {
-    this.subscriptions = new Subscription();
-    this.subscriptions.add(
-      this.mimeResizeService.onResize.subscribe((rect) => {
-        if (this.isOpen()) {
-          const config = this.getDialogConfig();
-          this.dialogRef?.updatePosition(config.position);
-          this.dialogRef?.updateSize(config.width, config.height);
-        }
-      }),
-    );
+    this.initialized = true;
   }
 
   public destroy(): void {
     this.close();
-    this.unsubscribe();
+    this.initialized = false;
   }
 
   public open(): void {
@@ -84,9 +86,11 @@ export class ViewDialogService {
       .getConfig(this._el, this._viewContainerRef);
   }
 
-  private unsubscribe() {
-    if (this.subscriptions) {
-      this.subscriptions.unsubscribe();
+  private updateDialogLayout(): void {
+    if (this.isOpen()) {
+      const config = this.getDialogConfig();
+      this.dialogRef?.updatePosition(config.position);
+      this.dialogRef?.updateSize(config.width, config.height);
     }
   }
 }

@@ -18,7 +18,7 @@
       <mat-grid-tile>
         <div mat-menu-item (click)="installTheme(theme)">
           <div class="docs-theme-picker-swatch">
-            @if (currentTheme.name === theme.name) {
+            @if (currentTheme().name === theme.name) {
               <mat-icon class="docs-theme-chosen-icon">check_circle</mat-icon>
             }
             <div

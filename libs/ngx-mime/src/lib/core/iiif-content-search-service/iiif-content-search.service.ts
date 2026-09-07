@@ -1,12 +1,8 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of, Subject, throwError } from 'rxjs';
-import {
-  distinctUntilChanged,
-  finalize,
-  switchMap,
-  take,
-} from 'rxjs/operators';
+import { inject, Injectable, signal, Signal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { Observable, of, throwError } from 'rxjs';
+import { finalize, switchMap, take } from 'rxjs/operators';
 import { SearchResultBuilder } from '../builders/iiif/search-result.builder';
 import { MimeViewerConfig } from '../mime-viewer-config';
 import { Hit } from './../models/hit';
@@ -16,66 +12,65 @@ import { SearchResult } from './../models/search-result';
 
 @Injectable()
 export class IiifContentSearchService {
-  protected _currentSearchResult: Subject<SearchResult> =
-    new BehaviorSubject<SearchResult>(new SearchResult({}));
-  protected _searching = new BehaviorSubject<boolean>(false);
-  protected _currentQ = new BehaviorSubject<string>('');
-  protected _selected = new BehaviorSubject<Hit | null>(null);
+  readonly query: Signal<string>;
+  readonly searchResult: Signal<SearchResult>;
+  readonly searching: Signal<boolean>;
+  readonly selectedHit: Signal<Hit | null>;
+  readonly onChange: Observable<SearchResult>;
+  readonly onSelected: Observable<Hit | null>;
   private readonly http = inject(HttpClient);
+  private readonly queryState = signal('');
+  private readonly searchResultState = signal(new SearchResult({}));
+  private readonly searchingState = signal(false);
+  private readonly selectedHitState = signal<Hit | null>(null);
   private config!: MimeViewerConfig;
 
-  get onQChange(): Observable<string> {
-    return this._currentQ.asObservable().pipe(distinctUntilChanged());
-  }
-
-  get onChange(): Observable<SearchResult> {
-    return this._currentSearchResult.asObservable();
-  }
-
-  get isSearching(): Observable<boolean> {
-    return this._searching.asObservable();
-  }
-
-  get onSelected(): Observable<Hit | null> {
-    return this._selected.asObservable();
+  constructor() {
+    this.query = this.queryState.asReadonly();
+    this.searchResult = this.searchResultState.asReadonly();
+    this.searching = this.searchingState.asReadonly();
+    this.selectedHit = this.selectedHitState.asReadonly();
+    this.onChange = toObservable(this.searchResult);
+    this.onSelected = toObservable(this.selectedHit);
   }
 
   destroy() {
-    this._currentSearchResult.next(new SearchResult({}));
-    this._searching.next(false);
-    this._currentQ.next('');
-    this._selected.next(null);
+    this.searchResultState.set(new SearchResult({}));
+    this.searchingState.set(false);
+    this.queryState.set('');
+    this.selectedHitState.set(null);
   }
 
   public search(manifest: Manifest, q: string): void {
-    this._currentQ.next(q);
-    this._selected.next(null);
+    this.queryState.set(q);
+    this.selectedHitState.set(null);
 
     if (q.length === 0) {
-      this._currentSearchResult.next(new SearchResult());
+      this.searchResultState.set(new SearchResult());
+
       return;
     }
     if (!manifest.service || manifest.service === null) {
       return;
     }
-    this._searching.next(true);
+    this.searchingState.set(true);
     this.http
       .get(`${manifest.service.id}?q=${q}`)
       .pipe(
-        finalize(() => this._searching.next(false)),
+        finalize(() => this.searchingState.set(false)),
         take(1),
         switchMap((res: IiifSearchResult) => {
           return of(this.extractData(q, manifest, res));
         }),
       )
       .subscribe(
-        (res: SearchResult) => this._currentSearchResult.next(res),
-        (err: HttpErrorResponse) => this.handleError,
+        (res: SearchResult) => this.searchResultState.set(res),
+        (err: HttpErrorResponse) => this.handleError(err),
       );
   }
 
   public selected(hit: Hit) {
-    this._selected.next(hit);
+    this.selectedHitState.set(hit);
   }
 
   public setConfig(config: MimeViewerConfig) {
@@ -102,6 +97,7 @@ export class IiifContentSearchService {
     } else {
       errMsg = err.error;
     }
+
     return throwError(errMsg);
   }
 }

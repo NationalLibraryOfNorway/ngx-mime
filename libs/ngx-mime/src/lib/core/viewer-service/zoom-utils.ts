@@ -16,6 +16,7 @@ export class ZoomUtils {
     } else if (point.x > canvasGroupBounds.x + canvasGroupBounds.width) {
       point.x = canvasGroupBounds.x + canvasGroupBounds.width;
     }
+
     return point;
   }
 
@@ -25,6 +26,7 @@ export class ZoomUtils {
     maxZoom: number,
   ): number {
     const target = currentZoom * zoomFactor;
+
     return target > maxZoom ? (maxZoom / target) * zoomFactor : zoomFactor;
   }
 }

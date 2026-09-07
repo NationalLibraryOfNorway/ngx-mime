@@ -1,16 +1,10 @@
-import {
-  BreakpointObserver,
-  Breakpoints,
-  BreakpointState,
-} from '@angular/cdk/layout';
 import { NgStyle } from '@angular/common';
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
+  computed,
   inject,
-  OnDestroy,
-  OnInit,
+  signal,
 } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
 import {
@@ -23,12 +17,10 @@ import { MatIcon } from '@angular/material/icon';
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatTooltip } from '@angular/material/tooltip';
-import { Subscription } from 'rxjs';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
-import { MimeViewerIntl } from '../core/intl';
+import { MimeViewerIntl } from '../core/intl/viewer-intl';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
-import { Dimensions } from '../core/models/dimensions';
-import { Manifest } from './../core/models/manifest';
+import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { MetadataComponent } from './metadata/metadata.component';
 import { TocComponent } from './table-of-contents/table-of-contents.component';
 
@@ -52,77 +44,37 @@ import { TocComponent } from './table-of-contents/table-of-contents.component';
     TocComponent,
   ],
 })
-export class InformationDialogComponent implements OnInit, OnDestroy {
-  intl = inject(MimeViewerIntl);
-  manifest: Manifest | null = null;
-  tabHeight = {};
-  showToc = false;
-  selectedIndex = 0;
-  isHandsetOrTabletInPortrait = false;
-  private readonly breakpointObserver = inject(BreakpointObserver);
+export class InformationDialogComponent {
   private readonly dialogRef =
     inject<MatDialogRef<InformationDialogComponent>>(MatDialogRef);
-  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly viewerLayoutService = inject(ViewerLayoutService);
   private readonly iiifManifestService = inject(IiifManifestService);
   private readonly mimeResizeService = inject(MimeResizeService);
-  private mimeHeight = 0;
-  private readonly subscriptions = new Subscription();
+  readonly intl = inject(MimeViewerIntl).value;
 
-  ngOnInit() {
-    this.subscriptions.add(
-      this.breakpointObserver
-        .observe([Breakpoints.Handset, Breakpoints.TabletPortrait])
-        .subscribe(
-          (value: BreakpointState) =>
-            (this.isHandsetOrTabletInPortrait = value.matches),
-        ),
-    );
-
-    this.subscriptions.add(
-      this.iiifManifestService.currentManifest.subscribe(
-        (manifest: Manifest | null) => {
-          this.manifest = manifest;
-          this.showToc =
-            this.manifest !== null &&
-            this.manifest.structures !== undefined &&
-            this.manifest.structures.length > 0;
-        },
-      ),
-    );
-
-    this.subscriptions.add(
-      this.mimeResizeService.onResize.subscribe((dimensions: Dimensions) => {
-        this.mimeHeight = dimensions.height;
-        this.resizeTabHeight();
-      }),
-    );
-
-    this.resizeTabHeight();
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe();
-  }
+  readonly selectedIndex = signal(0);
+  readonly isHandsetOrTabletInPortrait =
+    this.viewerLayoutService.isHandsetOrTabletInPortrait;
+  readonly manifest = this.iiifManifestService.manifest;
+  readonly showToc = computed(() =>
+    Boolean(this.manifest()?.structures?.length),
+  );
+  readonly mimeHeight = computed(
+    () => this.mimeResizeService.dimensions()?.height ?? 0,
+  );
+  readonly tabHeight = computed(() => this.getTabHeight());
 
   onCanvasChanged() {
-    if (this.isHandsetOrTabletInPortrait) {
+    if (this.isHandsetOrTabletInPortrait()) {
       this.dialogRef.close();
     }
   }
 
-  private resizeTabHeight(): void {
-    let height = this.mimeHeight;
+  private getTabHeight(): { maxHeight: string } {
+    const height = this.isHandsetOrTabletInPortrait()
+      ? window.innerHeight - 128
+      : this.mimeHeight() - 288;
 
-    if (this.isHandsetOrTabletInPortrait) {
-      this.tabHeight = {
-        maxHeight: window.innerHeight - 128 + 'px',
-      };
-    } else {
-      height -= 288;
-      this.tabHeight = {
-        maxHeight: height + 'px',
-      };
-    }
-    this.changeDetectorRef.detectChanges();
+    return { maxHeight: `${height}px` };
   }
 }

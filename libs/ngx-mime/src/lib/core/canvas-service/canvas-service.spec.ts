@@ -68,6 +68,27 @@ describe('CanvasService', () => {
     expect(service.currentCanvasGroupIndex).toBe(99);
   });
 
+  it('should identify the first canvas group', () => {
+    service.currentCanvasGroupIndex = 0;
+
+    expect(service.isFirstCanvasGroup()).toBe(true);
+    expect(service.isLastCanvasGroup()).toBe(false);
+  });
+
+  it('should identify a middle canvas group', () => {
+    service.currentCanvasGroupIndex = 50;
+
+    expect(service.isFirstCanvasGroup()).toBe(false);
+    expect(service.isLastCanvasGroup()).toBe(false);
+  });
+
+  it('should identify the last canvas group', () => {
+    service.currentCanvasGroupIndex = 99;
+
+    expect(service.isFirstCanvasGroup()).toBe(false);
+    expect(service.isLastCanvasGroup()).toBe(true);
+  });
+
   it('should not set canvas group index if outside bounds', () => {
     service.currentCanvasGroupIndex = 76;
 

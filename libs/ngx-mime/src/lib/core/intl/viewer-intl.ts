@@ -1,10 +1,9 @@
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Injectable, signal, Signal } from '@angular/core';
 import { HelpIntl } from './help-intl';
 
 @Injectable()
 export class MimeViewerIntl {
-  changes: Subject<void> = new Subject<void>();
+  readonly value: Signal<MimeViewerIntl>;
 
   help: HelpIntl = new HelpIntl();
   closeLabel = 'Close';
@@ -55,6 +54,12 @@ export class MimeViewerIntl {
   pageDoesNotExists = 'Sorry, that page does not exist';
   textContentErrorLabel = `Oh dear, i can't find the text for you`;
 
+  private readonly valueState = signal(this, { equal: () => false });
+
+  constructor() {
+    this.value = this.valueState.asReadonly();
+  }
+
   recognizedTextContentUpdatedLabel = (
     pageLabel: string,
     numberOfPages: number,
@@ -72,4 +77,8 @@ export class MimeViewerIntl {
   currentHitLabel = (currentHit: number, numberOfHits: number) => {
     return `${currentHit} of ${numberOfHits} hits`;
   };
+
+  notifyChanges(): void {
+    this.valueState.set(this);
+  }
 }

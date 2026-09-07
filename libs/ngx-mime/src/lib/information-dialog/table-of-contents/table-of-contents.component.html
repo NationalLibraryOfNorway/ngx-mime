@@ -1,10 +1,10 @@
 <div class="ngx-mime-toc-container">
-  @for (structure of manifest?.structures; track structure.id) {
+  @for (structure of manifest()?.structures; track structure.id) {
     <a
       class="toc-link flex justify-between"
       href=""
       [class.currentCanvasGroup]="
-        currentCanvasGroupIndex === structure.canvasIndex
+        currentCanvasGroupIndex() === structure.canvasIndex
       "
       (click)="goToCanvas($event, structure.canvasIndex)"
     >

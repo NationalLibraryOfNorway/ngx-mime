@@ -7,6 +7,7 @@ export class PrintSpaceBuilder {
 
   withPrintSpaceXml(printSpaceXml: any) {
     this.printSpaceXml = printSpaceXml;
+
     return this;
   }
 
@@ -14,6 +15,7 @@ export class PrintSpaceBuilder {
     textStyles: Map<string, TextStyle> | undefined,
   ): PrintSpaceBuilder {
     this.textStyles = textStyles;
+
     return this;
   }
 
@@ -23,6 +25,7 @@ export class PrintSpaceBuilder {
     if (this.printSpaceXml?.$$) {
       textBlocks = this.extractTextBlocks(this.printSpaceXml.$$);
     }
+
     return {
       textBlocks: new TextBlocksBuilder()
         .withTextBlocksXml(textBlocks)
@@ -42,6 +45,7 @@ export class PrintSpaceBuilder {
         }
       }
     });
+
     return blocks;
   }
 

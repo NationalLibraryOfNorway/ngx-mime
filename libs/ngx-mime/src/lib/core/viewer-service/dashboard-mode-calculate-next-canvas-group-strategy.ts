@@ -26,6 +26,7 @@ export class DashboardModeCalculateNextCanvasGroupStrategy
           ? currentCanvasGroupIndex + canvasGroupDelta
           : currentCanvasGroupIndex - canvasGroupDelta;
     }
+
     return nextCanvasGroup;
   }
 
@@ -42,6 +43,7 @@ export class DashboardModeCalculateNextCanvasGroupStrategy
         canvasGroupsToGo = 5;
       }
     }
+
     return canvasGroupsToGo;
   }
 }

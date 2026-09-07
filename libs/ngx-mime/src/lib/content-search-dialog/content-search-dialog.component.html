@@ -1,27 +1,27 @@
 <div class="content-search-container">
-  @if (isHandsetOrTabletInPortrait) {
+  @if (isHandsetOrTabletInPortrait()) {
     <mat-toolbar class="secondary-toolbar">
       <button
         mat-icon-button
         class="close-content-search-dialog-button"
-        [aria-label]="intl.closeLabel"
-        [matTooltip]="intl.closeLabel"
+        [aria-label]="intl().closeLabel"
+        [matTooltip]="intl().closeLabel"
         [matDialogClose]="true"
       >
         <mat-icon>close</mat-icon>
       </button>
-      <h1 mat-dialog-title class="heading">{{ intl.searchLabel }}</h1>
+      <h1 mat-dialog-title class="heading">{{ intl().searchLabel }}</h1>
     </mat-toolbar>
   } @else {
     <mat-toolbar class="secondary-toolbar justify-between">
       <h1 mat-dialog-title class="heading heading-desktop">{{
-        intl.searchLabel
+        intl().searchLabel
       }}</h1>
       <button
         mat-icon-button
         class="close-content-search-dialog-button"
-        [aria-label]="intl.closeLabel"
-        [matTooltip]="intl.closeLabel"
+        [aria-label]="intl().closeLabel"
+        [matTooltip]="intl().closeLabel"
         [matDialogClose]="true"
       >
         <mat-icon>close</mat-icon>
@@ -29,14 +29,14 @@
     </mat-toolbar>
   }
   <mat-dialog-content class="content-search-form">
-    <form (ngSubmit)="onSubmit($event)" #searchForm="ngForm">
+    <form [formRoot]="searchForm">
       <mat-form-field class="content-search-box">
         <button
           type="submit"
           matPrefix
           mat-icon-button
-          [attr.aria-label]="intl.searchLabel"
-          [matTooltip]="intl.searchLabel"
+          [attr.aria-label]="intl().searchLabel"
+          [matTooltip]="intl().searchLabel"
         >
           <mat-icon class="icon">search</mat-icon>
         </button>
@@ -45,20 +45,19 @@
           cdkFocusInitial
           matInput
           class="content-search-input"
-          [(ngModel)]="q"
-          [attr.aria-label]="intl.searchLabel"
-          name="q"
+          [formField]="searchForm"
+          [attr.aria-label]="intl().searchLabel"
           autocomplete="off"
         />
-        @if (q) {
+        @if (searchModel()) {
           <button
             type="button"
             class="clearSearchButton"
             matSuffix
             mat-icon-button
-            [attr.aria-label]="intl.clearSearchLabel"
-            [matTooltip]="intl.clearSearchLabel"
-            [disabled]="isSearching"
+            [attr.aria-label]="intl().clearSearchLabel"
+            [matTooltip]="intl().clearSearchLabel"
+            [disabled]="searching()"
             (click)="clear()"
           >
             <mat-icon class="icon">clear</mat-icon>
@@ -69,29 +68,30 @@
     <div
       #contentSearchResult
       class="content-search-result-container"
-      [ngStyle]="tabHeight"
+      [ngStyle]="tabHeight()"
     >
       <div class="content-search-result grid grid-cols-1 gap-y-2">
-        @if (!isSearching) {
-          <input type="hidden" class="numberOfHits" [value]="numberOfHits" />
-          @if (currentSearch && currentSearch.length > 0) {
-            @if (numberOfHits > 0) {
+        @if (!searching()) {
+          <input type="hidden" class="numberOfHits" [value]="numberOfHits()" />
+          @if (currentSearch().length > 0) {
+            @if (numberOfHits() > 0) {
               <div
                 data-testid="resultsFoundLabel"
                 [innerHTML]="
-                  intl.resultsFoundLabel(numberOfHits, currentSearch)
+                  intl().resultsFoundLabel(numberOfHits(), currentSearch())
                 "
               ></div>
             } @else {
               <div
                 data-testid="noResultsFoundLabel"
-                [innerHTML]="intl.noResultsFoundLabel(currentSearch)"
+                [innerHTML]="intl().noResultsFoundLabel(currentSearch())"
               ></div>
             }
           }
           <div class="grid grid-cols-1 gap-y-2">
-            @for (hit of hits; track hit.id) {
+            @for (hit of hits(); track hit.id) {
               <a
+                #hitButton
                 href="javascript: void(0);"
                 data-testid="hit"
                 (click)="goToHit(hit)"
@@ -99,7 +99,7 @@
               >
                 <mat-card
                   appearance="outlined"
-                  [class.selected]="currentHit && hit.id === currentHit.id"
+                  [class.selected]="selectedHit()?.id === hit.id"
                 >
                   <mat-card-content>
                     <div class="flex items-start justify-between">
@@ -115,7 +115,7 @@
             }
           </div>
         }
-        @if (isSearching) {
+        @if (searching()) {
           <mat-progress-bar mode="indeterminate"></mat-progress-bar>
         }
       </div>

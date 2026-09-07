@@ -7,7 +7,8 @@
     "paths": {
       "@nationallibraryofnorway/*": ["../../libs/*"],
       "@nationallibraryofnorway/ngx-mime": ["../../libs/ngx-mime/src/index.ts"]
-    }
+    },
+    "isolatedModules": true
   },
   "files": ["src/test-setup.ts"],
   "include": [

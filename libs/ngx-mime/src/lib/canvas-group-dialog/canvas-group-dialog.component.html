@@ -1,24 +1,18 @@
 <h1 class="canvas-group-dialog-title" mat-dialog-title>{{
-  intl.goToPageLabel
+  intl().goToPageLabel
 }}</h1>
-<form
-  [formGroup]="canvasGroupForm"
-  (ngSubmit)="onSubmit()"
-  novalidate
-  autocomplete="off"
->
+<form [formRoot]="canvasGroupForm" autocomplete="off">
   <div mat-dialog-content>
     <mat-form-field [floatLabel]="'always'">
-      <mat-label>{{ intl.enterPageNumber }}</mat-label>
+      <mat-label>{{ intl().enterPageNumber }}</mat-label>
       <input
         class="go-to-canvas-group-input"
         type="number"
         matInput
-        min="1"
-        formControlName="canvasGroupControl"
+        [formField]="canvasGroupForm"
       />
-      @if (canvasGroupControl?.errors?.['max']) {
-        <mat-error>{{ intl.pageDoesNotExists }}</mat-error>
+      @if (canvasGroupDoesNotExist()) {
+        <mat-error>{{ intl().pageDoesNotExists }}</mat-error>
       }
     </mat-form-field>
   </div>
@@ -27,7 +21,7 @@
     <button
       type="submit"
       mat-button
-      [disabled]="canvasGroupForm.pristine || canvasGroupForm.invalid"
+      [disabled]="!canvasGroupForm().dirty() || canvasGroupForm().invalid()"
       >OK</button
     >
   </div>

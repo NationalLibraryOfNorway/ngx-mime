@@ -7,6 +7,7 @@ export class TextLinesBuilder {
 
   withTextLinesXml(textLinesXml: any) {
     this.textLinesXml = textLinesXml;
+
     return this;
   }
 

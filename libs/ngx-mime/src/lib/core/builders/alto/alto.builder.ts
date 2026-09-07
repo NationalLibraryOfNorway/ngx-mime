@@ -8,6 +8,7 @@ export class AltoBuilder {
 
   withAltoXml(altoXml: any): AltoBuilder {
     this.altoXml = altoXml;
+
     return this;
   }
 

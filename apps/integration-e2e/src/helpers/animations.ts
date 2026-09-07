@@ -11,7 +11,7 @@ export class Animations {
   }
 
   private getAnimationTimeInMs(): Promise<number> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       this.getAnimationTimeInSec().then((time) => {
         resolve(time * 1000);
       });

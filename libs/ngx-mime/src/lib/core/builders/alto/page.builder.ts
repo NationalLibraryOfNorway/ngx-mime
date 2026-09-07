@@ -7,11 +7,13 @@ export class PageBuilder {
 
   withPageXml(pageXml: any) {
     this.pageXml = pageXml;
+
     return this;
   }
 
   withTextStyles(textStyles: Map<string, TextStyle> | undefined): PageBuilder {
     this.printSpaceBuilder.withTextStyles(textStyles);
+
     return this;
   }
 

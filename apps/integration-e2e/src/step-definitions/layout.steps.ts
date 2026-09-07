@@ -6,14 +6,14 @@ Given('the layout is two-page', async function (this: CustomWorld) {
   await this.viewerPage.setDashboardMode();
   await this.viewerPage.setTwoPageView();
 
-  expect(await this.viewerPage.isTwoPageView()).toBeTruthy();
+  await expect.poll(() => this.viewerPage.isTwoPageView()).toBeTruthy();
 });
 
 Given('the layout is one-page', async function (this: CustomWorld) {
   await this.viewerPage.setDashboardMode();
   await this.viewerPage.setOnePageView();
 
-  expect(await this.viewerPage.isOnePageView()).toBeTruthy();
+  await expect.poll(() => this.viewerPage.isOnePageView()).toBeTruthy();
 });
 
 Then('only the cover page is displayed', async function (this: CustomWorld) {

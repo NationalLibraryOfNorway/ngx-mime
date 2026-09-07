@@ -1,4 +1,4 @@
-import { inject, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { provideAutoSpy } from 'jest-auto-spies';
 import { MimeResizeService } from './mime-resize.service';
 
@@ -9,9 +9,6 @@ describe('MimeResizeService', () => {
     TestBed.configureTestingModule({
       providers: [provideAutoSpy(MimeResizeService)],
     });
-  });
-
-  beforeEach(() => {
     service = TestBed.inject(MimeResizeService);
   });
 

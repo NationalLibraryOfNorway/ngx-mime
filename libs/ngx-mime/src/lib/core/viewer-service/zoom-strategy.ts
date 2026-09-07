@@ -55,9 +55,9 @@ export class ZoomStrategy {
   }
 
   goToHomeZoom(): void {
-    this.zoomTo(this.getHomeZoomLevel(this.modeService.mode));
+    this.zoomTo(this.getHomeZoomLevel(this.modeService.mode()));
     if (this.modeService.isPageZoomed()) {
-      this.modeService.mode = ViewerMode.PAGE;
+      this.modeService.setMode(ViewerMode.PAGE);
     }
   }
 
@@ -82,8 +82,8 @@ export class ZoomStrategy {
       }
     }
 
-    if (this.modeService.mode !== ViewerMode.PAGE_ZOOMED) {
-      this.modeService.mode = ViewerMode.PAGE_ZOOMED;
+    if (this.modeService.mode() !== ViewerMode.PAGE_ZOOMED) {
+      this.modeService.setMode(ViewerMode.PAGE_ZOOMED);
     }
 
     this.zoomBy(zoomFactor, position);
@@ -105,7 +105,7 @@ export class ZoomStrategy {
     }
 
     if (this.isViewportLargerThanCanvasGroup()) {
-      this.modeService.mode = ViewerMode.PAGE;
+      this.modeService.setMode(ViewerMode.PAGE);
     } else {
       this.zoomBy(zoomFactor, position);
     }
@@ -199,11 +199,12 @@ export class ZoomStrategy {
     const pbHeight = Math.round(canvasGroupRec.height);
     const vpWidth = Math.round(viewportBounds.width);
     const vpHeight = Math.round(viewportBounds.height);
+
     return vpHeight >= pbHeight || vpWidth >= pbWidth;
   }
 
   private getHomeZoomFactor() {
-    return this.modeService.mode === ViewerMode.DASHBOARD
+    return this.modeService.mode() === ViewerMode.DASHBOARD
       ? this.getDashboardZoomHomeFactor()
       : 1;
   }

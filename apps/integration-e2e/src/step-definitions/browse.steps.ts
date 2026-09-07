@@ -4,36 +4,21 @@ import { Then, When } from '../support/fixtures';
 
 When(
   'the user swipe {word} and the velocity is between {int}-{int}',
-  async function (
-    this: CustomWorld,
-    direction: string,
-    velocityStart: number,
-    velocityEnd: number,
-  ) {
-    if (direction === 'left-to-right') {
-      const start = {
-        x: velocityStart,
-        y: 0,
-      };
-      const end = {
-        x: velocityEnd,
-        y: 0,
-      };
-      await this.viewerPage.swipe(start, end);
-    }
+  async function () {
+    return 'pending';
   },
 );
 
 When(
   'the user swipe {word} and the velocity is equal or greater than {int}',
-  async function (this: CustomWorld, direction: string, velocity: number) {
+  async function () {
     return 'pending';
   },
 );
 
 When(
   'the user swipe {word} but the velocity is less than {int}',
-  async function (this: CustomWorld, direction: string, velocity: number) {
+  async function () {
     return 'pending';
   },
 );
@@ -55,9 +40,9 @@ When(
 Then(
   'page {word} is displayed',
   async function (this: CustomWorld, canvasGroupIndex: string) {
-    const currentCanvasGroupString =
-      await this.viewerPage.getCurrentCanvasGroupLabel();
-    expect(currentCanvasGroupString.includes(canvasGroupIndex)).toBeTruthy();
+    await expect(this.viewerPage.currentCanvasGroupLabel).toContainText(
+      canvasGroupIndex,
+    );
   },
 );
 

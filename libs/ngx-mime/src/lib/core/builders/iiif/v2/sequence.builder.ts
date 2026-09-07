@@ -21,6 +21,7 @@ export class SequenceBuilder {
         );
       }
     }
+
     return sequences;
   }
 }

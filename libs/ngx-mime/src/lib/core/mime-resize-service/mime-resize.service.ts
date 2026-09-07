@@ -1,29 +1,27 @@
-import { ElementRef, inject, Injectable } from '@angular/core';
-import { debounceTime, map, Observable, ReplaySubject } from 'rxjs';
+import { ElementRef, inject, Injectable, Signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { debounceTime, map, Subject } from 'rxjs';
 import { Dimensions } from '../models/dimensions';
 import { ViewerService } from '../viewer-service/viewer.service';
 
 @Injectable()
 export class MimeResizeService {
+  readonly dimensions: Signal<Dimensions | null>;
   private readonly viewerService = inject(ViewerService);
   private _el!: ElementRef;
-  private readonly resizeSubject: ReplaySubject<DOMRectReadOnly> =
-    new ReplaySubject();
+  private readonly resizeSubject = new Subject<DOMRectReadOnly>();
   private observer!: ResizeObserver;
 
-  get onResize(): Observable<Dimensions> {
-    return this.resizeSubject.pipe(
-      debounceTime(200),
-      map((contentRect: DOMRectReadOnly) => {
-        return {
-          bottom: contentRect.bottom,
-          height: contentRect.height,
-          left: contentRect.left,
-          right: contentRect.right,
-          top: contentRect.top,
-          width: contentRect.width,
-        };
-      }),
+  constructor() {
+    this.dimensions = toSignal(
+      this.resizeSubject.pipe(
+        debounceTime(200),
+        map(
+          ({ bottom, height, left, right, top, width }) =>
+            new Dimensions({ bottom, height, left, right, top, width }),
+        ),
+      ),
+      { initialValue: null },
     );
   }
 

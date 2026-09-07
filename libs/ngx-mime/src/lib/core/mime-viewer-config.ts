@@ -44,8 +44,9 @@ export class MimeViewerConfig {
           : this.attributionDialogEnabled;
 
       this.attributionDialogHideTimeout =
-        fields.attributionDialogHideTimeout ||
-        this.attributionDialogHideTimeout;
+        fields.attributionDialogHideTimeout !== undefined
+          ? fields.attributionDialogHideTimeout
+          : this.attributionDialogHideTimeout;
 
       this.navigationControlEnabled =
         fields.navigationControlEnabled !== undefined

@@ -21,7 +21,6 @@
         "outputPath": "dist/apps/integration",
         "index": "apps/integration/src/index.html",
         "main": "apps/integration/src/main.ts",
-        "polyfills": ["zone.js"],
         "tsConfig": "apps/integration/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [

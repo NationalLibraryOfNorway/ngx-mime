@@ -13,6 +13,7 @@ import { Hit } from '../../../core/models/hit';
 import { SearchResult } from '../../../core/models/search-result';
 import { ContentSearchNavigationService } from '../../../core/navigation/content-search-navigation-service/content-search-navigation.service';
 import { ViewerLayoutService } from '../../../core/viewer-layout-service/viewer-layout-service';
+import { ContentSearchNavigationServiceStub } from '../../../test/content-search-navigation-service-stub';
 import { IiifManifestServiceStub } from '../../../test/iiif-manifest-service-stub';
 import { ContentSearchNavigatorComponent } from './content-search-navigator.component';
 
@@ -20,7 +21,7 @@ describe('ContentSearchNavigatorComponent', () => {
   let component: ContentSearchNavigatorComponent;
   let fixture: ComponentFixture<ContentSearchNavigatorComponent>;
   let iiifContentSearchServiceSpy: Spy<IiifContentSearchService>;
-  let contentSearchNavigationServiceSpy: Spy<ContentSearchNavigationService>;
+  let contentSearchNavigationService: ContentSearchNavigationServiceStub;
   let intl: MimeViewerIntl;
   let loader: HarnessLoader;
   let nextButton: MatButtonHarness;
@@ -35,9 +36,10 @@ describe('ContentSearchNavigatorComponent', () => {
         provideAutoSpy(IiifContentSearchService, {
           observablePropsToSpyOn: ['onChange'],
         }),
-        provideAutoSpy(ContentSearchNavigationService, {
-          observablePropsToSpyOn: ['currentHitCounter'],
-        }),
+        {
+          provide: ContentSearchNavigationService,
+          useClass: ContentSearchNavigationServiceStub,
+        },
         provideAutoSpy(CanvasService, {
           observablePropsToSpyOn: ['onCanvasGroupIndexChange'],
         }),
@@ -47,23 +49,22 @@ describe('ContentSearchNavigatorComponent', () => {
         }),
       ],
     }).compileComponents();
-  });
 
-  beforeEach(async () => {
     fixture = TestBed.createComponent(ContentSearchNavigatorComponent);
     loader = TestbedHarnessEnvironment.loader(fixture);
     iiifContentSearchServiceSpy = TestBed.inject(
       IiifContentSearchService,
     ) as Spy<IiifContentSearchService>;
     intl = TestBed.inject(MimeViewerIntl);
-    contentSearchNavigationServiceSpy = TestBed.inject(
+    contentSearchNavigationService = TestBed.inject(
       ContentSearchNavigationService,
-    ) as Spy<ContentSearchNavigationService>;
+    ) as unknown as ContentSearchNavigationServiceStub;
 
     component = fixture.componentInstance;
-    component.searchResult = createDefaultData();
-    iiifContentSearchServiceSpy.onChange.nextWith(component.searchResult);
-    fixture.detectChanges();
+    const searchResult = createDefaultData();
+    fixture.componentRef.setInput('searchResult', searchResult);
+    iiifContentSearchServiceSpy.onChange.nextWith(searchResult);
+    await fixture.whenStable();
 
     nextButton = await getButtonHarness('footerNavigateNextHitButton');
     previousButton = await getButtonHarness('footerNavigatePreviousHitButton');
@@ -73,15 +74,15 @@ describe('ContentSearchNavigatorComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should re-render when the i18n labels have changed', () => {
+  it('should re-render when the i18n labels have changed', async () => {
     const text = fixture.debugElement.query(
       By.css('[data-testid="footerNavigateNextHitButton"]'),
     );
     expect(text.nativeElement.getAttribute('aria-label')).toContain(`Next Hit`);
 
     intl.nextHitLabel = 'New test string';
-    intl.changes.next();
-    fixture.detectChanges();
+    intl.notifyChanges();
+    await fixture.whenStable();
 
     expect(text.nativeElement.getAttribute('aria-label')).toContain(
       'New test string',
@@ -89,39 +90,39 @@ describe('ContentSearchNavigatorComponent', () => {
   });
 
   it('should go to previous hit when user presses "previous" button', async () => {
-    jest.spyOn(contentSearchNavigationServiceSpy, 'goToPreviousHit');
+    const goToPreviousHit = jest.spyOn(
+      contentSearchNavigationService,
+      'goToPreviousHit',
+    );
+    contentSearchNavigationService.setCurrentHitCounter(1);
+    await fixture.whenStable();
 
     await previousButton.click();
 
-    expect(
-      contentSearchNavigationServiceSpy.goToPreviousHit,
-    ).toHaveBeenCalledTimes(1);
+    expect(goToPreviousHit).toHaveBeenCalledTimes(1);
   });
 
   it('should go to next hit when user presses "next" button', async () => {
-    jest.spyOn(contentSearchNavigationServiceSpy, 'goToNextHit');
+    const goToNextHit = jest.spyOn(
+      contentSearchNavigationService,
+      'goToNextHit',
+    );
 
     await nextButton.click();
 
-    expect(contentSearchNavigationServiceSpy.goToNextHit).toHaveBeenCalledTimes(
-      1,
-    );
+    expect(goToNextHit).toHaveBeenCalledTimes(1);
   });
 
   it('should disable the "previous" button when the first search result is selected', async () => {
     const firstSearchHitIndex = 0;
-    contentSearchNavigationServiceSpy.currentHitCounter.nextWith(
-      firstSearchHitIndex,
-    );
+    contentSearchNavigationService.setCurrentHitCounter(firstSearchHitIndex);
 
     await checkButtonIsDisabled(previousButton);
   });
 
   it('should disable the "next" button when the last search result is selected', async () => {
-    const lastSearchHitIndex = component.searchResult.size() - 1;
-    contentSearchNavigationServiceSpy.currentHitCounter.nextWith(
-      lastSearchHitIndex,
-    );
+    const lastSearchHitIndex = component.searchResult().size() - 1;
+    contentSearchNavigationService.setCurrentHitCounter(lastSearchHitIndex);
 
     await checkButtonIsDisabled(nextButton);
   });
@@ -140,6 +141,7 @@ describe('ContentSearchNavigatorComponent', () => {
         index: 1,
       }),
     );
+
     return searchResult;
   }
 

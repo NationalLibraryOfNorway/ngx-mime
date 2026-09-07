@@ -24,6 +24,7 @@ export class TileSourceBuilder {
         }
       });
     }
+
     return tilesources;
   }
 
@@ -34,6 +35,7 @@ export class TileSourceBuilder {
         service: this.flattenService(service[0].service),
       };
     }
+
     return service;
   }
 }

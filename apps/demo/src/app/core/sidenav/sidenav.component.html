@@ -2,7 +2,7 @@
 <div class="api-format">
   <div>IIIF Presentation API</div>
   <mat-radio-group
-    [(ngModel)]="iiifVersion"
+    [formField]="iiifVersionForm"
     (change)="selectIiifVersion($event.value)"
   >
     <mat-radio-button [value]="'2'">v2.1</mat-radio-button>
@@ -10,7 +10,7 @@
   </mat-radio-group>
 </div>
 <mat-nav-list aria-label="Sample manifests">
-  @for (manifest of manifests; track manifest.uri) {
+  @for (manifest of manifests(); track manifest.uri) {
     <a
       mat-list-item
       [routerLink]="['demo']"
@@ -21,7 +21,7 @@
       {{ manifest.label }}
     </a>
   }
-  @switch (iiifVersion) {
+  @switch (iiifVersionModel()) {
     @case ('2') {
       <a
         mat-list-item

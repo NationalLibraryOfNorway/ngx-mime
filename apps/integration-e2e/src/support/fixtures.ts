@@ -89,6 +89,7 @@ function getMode(testInfo: TestInfo): TestMode {
   ) {
     return projectName;
   }
+
   return 'chrome';
 }
 
@@ -99,6 +100,7 @@ function getDeviceDescriptor(mode: TestMode) {
   if (mode === 'iphone') {
     return devices['iPhone 13'];
   }
+
   return devices['Desktop Chrome'];
 }
 

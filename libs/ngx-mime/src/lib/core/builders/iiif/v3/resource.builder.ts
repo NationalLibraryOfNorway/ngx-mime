@@ -9,6 +9,7 @@ export class ResourceBuilder {
     if (!this.resource) {
       throw new Error('No resource');
     }
+
     return new Resource({
       id: BuilderUtils.extractId(this.resource),
       type: BuilderUtils.extracType(this.resource),

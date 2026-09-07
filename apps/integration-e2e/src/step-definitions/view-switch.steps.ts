@@ -7,12 +7,12 @@ const switchAnimationTime = 1700;
 
 Given('the viewer is in dashboard view', async function (this: CustomWorld) {
   await this.viewerPage.setDashboardMode();
-  expect(await this.viewerPage.isDashboardMode()).toBeTruthy();
+  await expect(this.viewerPage.modeDashboard).toBeVisible();
 });
 
 Given('the viewer is in page view', async function (this: CustomWorld) {
   await this.viewerPage.setPageMode();
-  expect(await this.viewerPage.isPageMode()).toBeTruthy();
+  await expect(this.viewerPage.modePage).toBeVisible();
 });
 
 When('the user click in the viewer', async function (this: CustomWorld) {
@@ -26,17 +26,17 @@ When('the user click in the viewer', async function (this: CustomWorld) {
 Then(
   'the viewer should change to page view',
   async function (this: CustomWorld) {
-    expect(await this.viewerPage.isPageMode()).toBeTruthy();
+    await expect(this.viewerPage.modePage).toBeVisible();
   },
 );
 
 Given('the viewer should be in page view', async function (this: CustomWorld) {
-  expect(await this.viewerPage.isPageMode()).toBeTruthy();
+  await expect(this.viewerPage.modePage).toBeVisible();
 });
 
 Then(
   'the viewer should change to dashboard view',
   async function (this: CustomWorld) {
-    expect(await this.viewerPage.isDashboardMode()).toBeTruthy();
+    await expect(this.viewerPage.modeDashboard).toBeVisible();
   },
 );

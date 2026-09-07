@@ -12,6 +12,7 @@ export class StylesBuilder {
         });
       });
     }
+
     return textStyles;
   }
 }

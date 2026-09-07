@@ -9,9 +9,6 @@ describe('HelpDialogService', () => {
     TestBed.configureTestingModule({
       providers: [provideAutoSpy(HelpDialogService)],
     });
-  });
-
-  beforeEach(() => {
     service = TestBed.inject(HelpDialogService);
   });
 

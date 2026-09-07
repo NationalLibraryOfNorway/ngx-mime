@@ -16,8 +16,7 @@ When(
   async function (this: CustomWorld, key: string) {
     previousCanvasGroupLabel =
       await this.viewerPage.getCurrentCanvasGroupLabel();
-    await this.viewerPage.sendKeyboardEvent(key);
-    await this.animations.waitFor();
+    await this.viewerPage.pressKeyboardEvent(key);
   },
 );
 
@@ -33,7 +32,7 @@ Given(/^the information dialog is open$/, async function (this: CustomWorld) {
 });
 
 Then(/^the viewer should go to next page$/, async function (this: CustomWorld) {
-  expect(await this.viewerPage.getCurrentCanvasGroupLabel()).toEqual(
+  await expect(this.viewerPage.currentCanvasGroupLabel).toHaveText(
     `${parseInt(previousCanvasGroupLabel, 10) + 1}`,
   );
 });
@@ -41,14 +40,14 @@ Then(/^the viewer should go to next page$/, async function (this: CustomWorld) {
 Then(
   /^the viewer should go to previous page$/,
   async function (this: CustomWorld) {
-    expect(await this.viewerPage.getCurrentCanvasGroupLabel()).toEqual(
+    await expect(this.viewerPage.currentCanvasGroupLabel).toHaveText(
       `${parseInt(previousCanvasGroupLabel, 10) - 1}`,
     );
   },
 );
 
 Then(/^the viewer should go to last page$/, async function (this: CustomWorld) {
-  expect(await this.viewerPage.getCurrentCanvasGroupLabel()).toEqual(
+  await expect(this.viewerPage.currentCanvasGroupLabel).toHaveText(
     `${await this.viewerPage.getNumberOfCanvasGroups()}`,
   );
 });
@@ -56,12 +55,14 @@ Then(/^the viewer should go to last page$/, async function (this: CustomWorld) {
 Then(
   /^the viewer should go to first page$/,
   async function (this: CustomWorld) {
-    expect(await this.viewerPage.getCurrentCanvasGroupLabel()).toEqual('1');
+    await expect(this.viewerPage.currentCanvasGroupLabel).toHaveText('1');
   },
 );
 
 Then(/^the viewer should not change page$/, async function (this: CustomWorld) {
-  expect(await this.viewerPage.getCurrentCanvasGroupLabel()).toEqual(
+  await this.animations.waitFor();
+
+  await expect(this.viewerPage.currentCanvasGroupLabel).toHaveText(
     previousCanvasGroupLabel,
   );
 });

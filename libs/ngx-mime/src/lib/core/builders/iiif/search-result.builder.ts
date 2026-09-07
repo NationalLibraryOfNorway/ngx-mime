@@ -64,6 +64,7 @@ export class SearchResultBuilder {
         );
       });
     }
+
     return searchResult;
   }
 
@@ -81,6 +82,7 @@ export class SearchResultBuilder {
         }
       }
     }
+
     return resources;
   }
 
@@ -92,8 +94,10 @@ export class SearchResultBuilder {
     const on = resource.on;
     if (on && firstSequence && firstSequence.canvases) {
       const id = on.substring(0, on.indexOf('#'));
+
       return firstSequence.canvases.findIndex((c) => c.id === id);
     }
+
     return -1;
   }
 
@@ -102,17 +106,20 @@ export class SearchResultBuilder {
       return undefined;
     } else {
       const canvas = this.getFirstSequenceCanvas(index);
+
       return canvas ? canvas.label : undefined;
     }
   }
 
   private getFirstSequence(): Sequence | undefined {
     const sequences = this.manifest.sequences;
+
     return sequences ? sequences[0] : undefined;
   }
 
   private getFirstSequenceCanvas(index: number): Canvas | undefined {
     const firstSequence = this.getFirstSequence();
+
     return firstSequence && firstSequence.canvases !== undefined
       ? firstSequence.canvases[index]
       : undefined;
@@ -120,6 +127,7 @@ export class SearchResultBuilder {
 
   private getScale(index: number): number {
     const physicalScale = this.getPhysicalScale(index);
+
     return Utils.getScaleFactor(
       physicalScale,
       this.config?.ignorePhysicalScale,
@@ -128,6 +136,7 @@ export class SearchResultBuilder {
 
   private getPhysicalScale(index: number): number | undefined {
     const canvas = this.getFirstSequenceCanvas(index);
+
     return canvas?.images?.[0].resource?.service?.service?.physicalScale;
   }
 

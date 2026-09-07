@@ -1,10 +1,10 @@
-import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
+import { setupZonelessTestEnv } from 'jest-preset-angular/setup-env/zoneless';
 import 'jest-webgl-canvas-mock';
 import OpenSeadragon from 'openseadragon';
 
 globalThis.OpenSeadragon = OpenSeadragon;
 
-setupZoneTestEnv({
+setupZonelessTestEnv({
   errorOnUnknownElements: true,
   errorOnUnknownProperties: true,
 });

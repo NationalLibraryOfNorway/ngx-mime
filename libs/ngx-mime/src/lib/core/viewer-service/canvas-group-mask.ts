@@ -1,6 +1,6 @@
+import { effect, EffectRef, Injector } from '@angular/core';
 import * as d3 from 'd3';
 import * as OpenSeadragon from 'openseadragon';
-import { Subscription } from 'rxjs';
 import { Point } from '../models/point';
 import { Rect } from '../models/rect';
 import { ViewerOptions } from '../models/viewer-options';
@@ -17,33 +17,28 @@ export class CanvasGroupMask {
   center!: Point;
 
   backgroundColor!: string;
-  private subscriptions!: Subscription;
+  private readonly colorEffect: EffectRef;
 
   constructor(
     viewer: any,
-    private styleService: StyleService,
+    private readonly styleService: StyleService,
+    injector: Injector,
   ) {
     this.viewer = viewer;
+    this.colorEffect = effect(
+      () => {
+        const color = this.styleService.color();
+
+        this.updateBackgroundColor(color);
+      },
+      {
+        injector,
+        manualCleanup: true,
+      },
+    );
   }
 
   public initialize(pageBounds: Rect, visible: boolean): void {
-    this.unsubscribe();
-    this.subscriptions = new Subscription();
-
-    this.subscriptions.add(
-      this.styleService.onChange.subscribe((color: string | undefined) => {
-        if (color) {
-          this.backgroundColor = color;
-          if (this.leftMask) {
-            this.leftMask.style('fill', this.backgroundColor);
-          }
-          if (this.rightMask) {
-            this.rightMask.style('fill', this.backgroundColor);
-          }
-        }
-      }),
-    );
-
     this.canvasGroupRect = pageBounds;
 
     this.addCanvasGroupMask();
@@ -59,7 +54,7 @@ export class CanvasGroupMask {
   }
 
   public destroy() {
-    this.unsubscribe();
+    this.colorEffect.destroy();
   }
 
   public changeCanvasGroup(pageBounds: Rect) {
@@ -150,6 +145,20 @@ export class CanvasGroupMask {
       .style('fill', this.backgroundColor);
   }
 
+  private updateBackgroundColor(color: string | undefined): void {
+    if (!color) {
+      return;
+    }
+
+    this.backgroundColor = color;
+    if (this.leftMask) {
+      this.leftMask.style('fill', this.backgroundColor);
+    }
+    if (this.rightMask) {
+      this.rightMask.style('fill', this.backgroundColor);
+    }
+  }
+
   private setCenter(): void {
     this.center = new OpenSeadragon.Point(
       this.viewer.viewport._containerInnerSize.x / 2,
@@ -216,11 +225,5 @@ export class CanvasGroupMask {
       x: x,
       width: width,
     });
-  }
-
-  private unsubscribe() {
-    if (this.subscriptions) {
-      this.subscriptions.unsubscribe();
-    }
   }
 }

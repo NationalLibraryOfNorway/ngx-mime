@@ -17,6 +17,7 @@ export class ManifestUtils {
     if (manifest && manifest.sequences && manifest.sequences.length > 0) {
       firstSequence = manifest.sequences[0];
     }
+
     return firstSequence ? firstSequence.viewingHint === 'paged' : false;
   }
 
@@ -27,6 +28,7 @@ export class ManifestUtils {
         return firstSequence.canvases.find((c: any) => c.altoUrl) !== undefined;
       }
     }
+
     return false;
   }
 }

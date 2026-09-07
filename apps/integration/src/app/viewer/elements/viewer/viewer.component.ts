@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, input } from '@angular/core';
 
 @Component({
   selector: 'app-elements-viewer',
@@ -7,6 +7,5 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
   styleUrls: ['./viewer.component.scss'],
 })
 export class ViewerComponent {
-  @Input()
-  manifestUri!: string;
+  readonly manifestUri = input.required<string>();
 }

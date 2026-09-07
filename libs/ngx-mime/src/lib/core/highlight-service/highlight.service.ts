@@ -26,11 +26,13 @@ export class HighlightService {
         }
       }
     }
+
     return html;
   }
 
   private markHtml(html: string, pattern: string, id?: number): string {
     const wordBoundary = '\\b';
+
     return html?.replace(
       new RegExp(
         wordBoundary + this.escapeSpecialCharacters(pattern) + '(?!<)',
@@ -52,6 +54,7 @@ export class HighlightService {
   private escapeSpecialCharacters(text: string): string {
     const escapeAndRegexMatch = '\\$&';
     const searchValuePattern = /[-[\]{}()*"+?.,\\^$|#\s]/g;
+
     return text.charAt(0) === '"'
       ? text.substring(1).replace(searchValuePattern, escapeAndRegexMatch)
       : text.replace(searchValuePattern, escapeAndRegexMatch);

@@ -1,40 +1,59 @@
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged } from 'rxjs/operators';
-import { MimeViewerConfig } from '../core/mime-viewer-config';
+import { signal, Signal } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { Manifest } from '../core/models/manifest';
 import { Hit } from './../core/models/hit';
 import { SearchResult } from './../core/models/search-result';
 
 export class IiifContentSearchServiceStub {
-  public _currentSearchResult: Subject<SearchResult> =
-    new BehaviorSubject<SearchResult>(new SearchResult({}));
-  public _searching = new BehaviorSubject<boolean>(false);
-  public _currentQ = new BehaviorSubject<string>('');
-  protected _selected = new BehaviorSubject<Hit | null>(null);
-  private config!: MimeViewerConfig;
+  readonly query: Signal<string>;
+  readonly searchResult: Signal<SearchResult>;
+  readonly searching: Signal<boolean>;
+  readonly selectedHit: Signal<Hit | null>;
+  readonly onChange: Observable<SearchResult>;
+  readonly onSelected: Observable<Hit | null>;
+  private readonly querySignal = signal('');
+  private readonly searchResultSignal = signal(new SearchResult({}));
+  private readonly searchingSignal = signal(false);
+  private readonly selectedHitSignal = signal<Hit | null>(null);
+  private readonly searchResultState = new BehaviorSubject(
+    this.searchResultSignal(),
+  );
+  private readonly selectedHitState = new BehaviorSubject(
+    this.selectedHitSignal(),
+  );
 
-  get onQChange(): Observable<string> {
-    return this._currentQ.asObservable().pipe(distinctUntilChanged());
-  }
-
-  get onChange(): Observable<SearchResult> {
-    return this._currentSearchResult.asObservable();
-  }
-
-  get isSearching(): Observable<boolean> {
-    return this._searching.asObservable();
-  }
-
-  get onSelected(): Observable<Hit | null> {
-    return this._selected.asObservable();
+  constructor() {
+    this.query = this.querySignal.asReadonly();
+    this.searchResult = this.searchResultSignal.asReadonly();
+    this.searching = this.searchingSignal.asReadonly();
+    this.selectedHit = this.selectedHitSignal.asReadonly();
+    this.onChange = this.searchResultState.asObservable();
+    this.onSelected = this.selectedHitState.asObservable();
   }
 
   public selected(hit: Hit) {
-    this._selected.next(hit);
+    this.setSelected(hit);
   }
 
-  public setConfig(config: MimeViewerConfig) {
-    this.config = config;
-  }
+  public setConfig() {}
 
   destroy() {}
+
+  search(_manifest: Manifest, query: string): void {
+    this.setQuery(query);
+  }
+
+  setQuery(query: string): void {
+    this.querySignal.set(query);
+  }
+
+  setSearchResult(searchResult: SearchResult): void {
+    this.searchResultSignal.set(searchResult);
+    this.searchResultState.next(searchResult);
+  }
+
+  setSelected(hit: Hit | null): void {
+    this.selectedHitSignal.set(hit);
+    this.selectedHitState.next(hit);
+  }
 }

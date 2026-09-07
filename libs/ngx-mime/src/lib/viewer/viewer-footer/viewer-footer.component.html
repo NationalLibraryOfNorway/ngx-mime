@@ -1,17 +1,17 @@
 <mat-divider></mat-divider>
 <mat-toolbar class="footer-toolbar">
   <ng-template #mimeFooterBefore></ng-template>
-  @if (showContentSearchNavigator) {
+  @if (showContentSearchNavigator()) {
     <mime-content-search-navigator
-      [ngClass]="{ 'w-full': !showPageNavigator }"
-      [searchResult]="searchResult"
+      [ngClass]="{ 'w-full': !showPageNavigator() }"
+      [searchResult]="searchResult()"
     ></mime-content-search-navigator>
     <mat-divider class="h-full" vertical></mat-divider>
   }
   <mime-page-navigator
     class="w-full"
-    [hidden]="!showPageNavigator"
-    [searchResult]="searchResult"
+    [hidden]="!showPageNavigator()"
+    [searchResult]="searchResult()"
   ></mime-page-navigator>
   <ng-template #mimeFooterAfter></ng-template>
 </mat-toolbar>

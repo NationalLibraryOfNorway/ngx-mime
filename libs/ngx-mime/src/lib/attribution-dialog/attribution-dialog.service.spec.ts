@@ -9,9 +9,6 @@ describe('AttributionDialogService', () => {
     TestBed.configureTestingModule({
       providers: [provideAutoSpy(AttributionDialogService)],
     });
-  });
-
-  beforeEach(() => {
     service = TestBed.inject(AttributionDialogService);
   });
 

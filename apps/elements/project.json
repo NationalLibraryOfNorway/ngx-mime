@@ -7,13 +7,15 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "ngx-build-plus:browser",
+      "executor": "@nx/angular:webpack-browser",
       "options": {
+        "customWebpackConfig": {
+          "path": "apps/elements/webpack.config.js"
+        },
         "allowedCommonJsDependencies": ["openseadragon", "xml2js"],
         "outputPath": "dist/apps/elements",
         "index": "apps/elements/src/index.html",
         "main": "apps/elements/src/main.ts",
-        "polyfills": ["zone.js"],
         "tsConfig": "apps/elements/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": ["apps/elements/src/favicon.ico", "apps/elements/src/assets"],
@@ -28,7 +30,6 @@
       "configurations": {
         "production": {
           "outputHashing": "none",
-          "singleBundle": true,
           "budgets": [
             {
               "type": "initial",
@@ -60,7 +61,7 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "executor": "@nx/angular:dev-server",
       "options": {
         "host": "0.0.0.0",
         "port": 8080,

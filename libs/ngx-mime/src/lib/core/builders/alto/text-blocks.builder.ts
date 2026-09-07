@@ -8,6 +8,7 @@ export class TextBlocksBuilder {
 
   withTextBlocksXml(textBlocksXml: any) {
     this.textBlocksXml = textBlocksXml;
+
     return this;
   }
 
@@ -15,6 +16,7 @@ export class TextBlocksBuilder {
     textStyles: Map<string, TextStyle> | undefined,
   ): TextBlocksBuilder {
     this.textStyles = textStyles;
+
     return this;
   }
 
@@ -26,6 +28,7 @@ export class TextBlocksBuilder {
           if (styleRef && this.textStyles) {
             textStyle = this.textStyles.get(styleRef[0]);
           }
+
           return {
             textLines: this.textLinesBuilder
               .withTextLinesXml(textBlock.TextLine)

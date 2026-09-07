@@ -1,6 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { provideAutoSpy } from 'jest-auto-spies';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
@@ -20,8 +20,8 @@ describe('TocComponent', () => {
   let iiifManifestService: IiifManifestServiceStub;
   let viewerService: ViewerService;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [HttpClientModule, TocComponent],
       providers: [
         ClickService,
@@ -32,15 +32,13 @@ describe('TocComponent', () => {
         { provide: ViewerService, useClass: ViewerServiceStub },
       ],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(TocComponent);
     component = fixture.componentInstance;
     iiifManifestService = TestBed.inject<any>(IiifManifestService);
     viewerService = TestBed.inject(ViewerService);
 
-    iiifManifestService._currentManifest.next(
+    iiifManifestService.setManifest(
       new Manifest({
         sequences: [
           {
@@ -72,8 +70,7 @@ describe('TocComponent', () => {
         ],
       }),
     );
-
-    fixture.detectChanges();
+    await fixture.whenStable();
   });
 
   it('should be created', () => {
@@ -81,8 +78,6 @@ describe('TocComponent', () => {
   });
 
   it('should display table of contents', () => {
-    fixture.detectChanges();
-
     const structures: DebugElement[] = fixture.debugElement.queryAll(
       By.css('.toc-link'),
     );

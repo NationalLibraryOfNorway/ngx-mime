@@ -29,6 +29,7 @@ export class CanvasBuilder {
         );
       }
     }
+
     return canvases;
   }
 
@@ -40,6 +41,7 @@ export class CanvasBuilder {
     const altoService = seeAlso.find(
       (s) => s?.format === 'application/alto+xml',
     );
+
     return altoService ? BuilderUtils.extractId(altoService) : undefined;
   }
 }

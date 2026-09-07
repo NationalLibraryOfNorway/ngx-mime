@@ -1,26 +1,26 @@
 <div class="information-container">
-  @if (isHandsetOrTabletInPortrait) {
+  @if (isHandsetOrTabletInPortrait()) {
     <mat-toolbar data-testid="mobile-toolbar" class="secondary-toolbar">
       <button
         mat-icon-button
-        [aria-label]="intl.closeLabel"
-        [matTooltip]="intl.closeLabel"
+        [aria-label]="intl().closeLabel"
+        [matTooltip]="intl().closeLabel"
         [matDialogClose]="true"
       >
         <mat-icon>close</mat-icon>
       </button>
-      <h1 mat-dialog-title>{{ intl.informationLabel }}</h1>
+      <h1 mat-dialog-title>{{ intl().informationLabel }}</h1>
     </mat-toolbar>
   } @else {
     <mat-toolbar
       data-testid="desktop-toolbar"
       class="secondary-toolbar justify-between"
     >
-      <h1 mat-dialog-title>{{ intl.informationLabel }}</h1>
+      <h1 mat-dialog-title>{{ intl().informationLabel }}</h1>
       <button
         mat-icon-button
-        [aria-label]="intl.closeLabel"
-        [matTooltip]="intl.closeLabel"
+        [aria-label]="intl().closeLabel"
+        [matTooltip]="intl().closeLabel"
         [matDialogClose]="true"
       >
         <mat-icon>close</mat-icon>
@@ -29,14 +29,14 @@
   }
   <div mat-dialog-content>
     <mat-tab-group [(selectedIndex)]="selectedIndex">
-      <mat-tab [label]="intl.metadataLabel">
-        <div class="tab-container" [ngStyle]="tabHeight">
+      <mat-tab [label]="intl().metadataLabel">
+        <div class="tab-container" [ngStyle]="tabHeight()">
           <mime-metadata></mime-metadata>
         </div>
       </mat-tab>
-      @if (showToc) {
-        <mat-tab [label]="intl.tocLabel">
-          <div class="tab-container" [ngStyle]="tabHeight">
+      @if (showToc()) {
+        <mat-tab [label]="intl().tocLabel">
+          <div class="tab-container" [ngStyle]="tabHeight()">
             <mime-toc (canvasChanged)="onCanvasChanged()"></mime-toc>
           </div>
         </mat-tab>

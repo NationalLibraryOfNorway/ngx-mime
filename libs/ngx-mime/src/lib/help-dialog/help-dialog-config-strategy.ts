@@ -44,6 +44,7 @@ export class DesktopHelpDialogConfigStrategy
     viewContainerRef: ViewContainerRef,
   ): MatDialogConfig {
     const dimensions = this.getPosition(el);
+
     return {
       hasBackdrop: false,
       width: `${DesktopHelpDialogConfigStrategy.dialogWidth}px`,
@@ -59,6 +60,7 @@ export class DesktopHelpDialogConfigStrategy
 
   private getPosition(el: ElementRef): Dimensions {
     const dimensions = this.mimeDomHelper.getBoundingClientRect(el);
+
     return new Dimensions({
       top: dimensions.top + 80,
       left:

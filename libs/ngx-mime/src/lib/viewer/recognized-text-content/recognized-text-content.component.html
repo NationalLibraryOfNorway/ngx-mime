@@ -2,47 +2,47 @@
   #recognizedTextContentContainer
   class="recognized-text-content-container flex flex-col items-center"
   role="region"
-  [attr.aria-label]="intl.digitalTextLabel"
+  [attr.aria-label]="intl().digitalTextLabel"
 >
-  <h2 class="cdk-visually-hidden">{{ intl.digitalTextLabel }}</h2>
+  <h2 class="cdk-visually-hidden">{{ intl().digitalTextLabel }}</h2>
   <div class="cdk-visually-hidden" role="status" aria-live="polite">
-    @if (error) {
-      <div data-testid="error">{{ error }}</div>
+    @if (error(); as errorMessage) {
+      <div data-testid="error">{{ errorMessage }}</div>
     }
-    @if (hasRecognizedTextContent === false) {
+    @if (hasRecognizedTextContent() === false) {
       <p data-testid="recognizedTextContentUnavailable">
-        {{ intl.recognizedTextContentUnavailableLabel }}
+        {{ intl().recognizedTextContentUnavailableLabel }}
       </p>
-    } @else if (currentCanvasGroupHasTextSource === false) {
+    } @else if (currentCanvasGroupHasTextSource() === false) {
       <p data-testid="recognizedTextContentUnavailableForCurrentView">
-        {{ intl.recognizedTextContentUnavailableForCurrentViewLabel }}
+        {{ intl().recognizedTextContentUnavailableForCurrentViewLabel }}
       </p>
     }
-    @if (updatedCanvasGroupLabel) {
+    @if (updatedCanvasGroupLabel(); as canvasGroupLabel) {
       <p data-testid="recognizedTextContentUpdated">
         {{
-          intl.recognizedTextContentUpdatedLabel(
-            updatedCanvasGroupLabel,
-            updatedCanvasGroupPageCount
+          intl().recognizedTextContentUpdatedLabel(
+            canvasGroupLabel,
+            updatedCanvasGroupPageCount()
           )
         }}
       </p>
     }
   </div>
-  @if (!isLoading) {
-    @if (firstCanvasRecognizedTextContent) {
+  @if (!isLoading()) {
+    @if (firstCanvasRecognizedTextContent(); as firstCanvas) {
       <div
         class="content"
         data-testid="firstCanvasRecognizedTextContent"
-        [innerHTML]="firstCanvasRecognizedTextContent"
+        [innerHTML]="firstCanvas"
       >
       </div>
     }
-    @if (secondCanvasRecognizedTextContent) {
+    @if (secondCanvasRecognizedTextContent(); as secondCanvas) {
       <div
         class="content"
         data-testid="secondCanvasRecognizedTextContent"
-        [innerHTML]="secondCanvasRecognizedTextContent"
+        [innerHTML]="secondCanvas"
       >
       </div>
     }

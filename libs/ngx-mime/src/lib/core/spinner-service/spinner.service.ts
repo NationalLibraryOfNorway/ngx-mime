@@ -1,23 +1,19 @@
-import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-
-export interface SpinnerState {
-  show: boolean;
-}
+import { Injectable, signal, Signal } from '@angular/core';
 
 @Injectable()
 export class SpinnerService {
-  private readonly spinnerSubject = new Subject<SpinnerState>();
+  readonly visible: Signal<boolean>;
+  private readonly visibleState = signal(false);
 
-  get spinnerState(): Observable<SpinnerState> {
-    return this.spinnerSubject.asObservable();
+  constructor() {
+    this.visible = this.visibleState.asReadonly();
   }
 
   show() {
-    this.spinnerSubject.next(<SpinnerState>{ show: true });
+    this.visibleState.set(true);
   }
 
   hide() {
-    this.spinnerSubject.next(<SpinnerState>{ show: false });
+    this.visibleState.set(false);
   }
 }

@@ -12,6 +12,7 @@ export class StyleManagerService {
       document.head.removeChild(existingLinkElement);
     }
   }
+
   private getLinkElementForKey(key: string) {
     return (
       this.getExistingLinkElementByKey(key) ||
@@ -30,6 +31,7 @@ export class StyleManagerService {
     linkEl.setAttribute('rel', 'stylesheet');
     linkEl.classList.add(this.getClassNameForKey(key));
     document.head.appendChild(linkEl);
+
     return linkEl;
   }
 

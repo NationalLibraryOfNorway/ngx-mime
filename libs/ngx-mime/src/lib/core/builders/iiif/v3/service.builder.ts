@@ -11,6 +11,7 @@ export class ServiceBuilder {
       return undefined;
     } else {
       const service = this.service[0];
+
       return new Service({
         id: BuilderUtils.extractId(service),
         context: BuilderUtils.extractContext(service),

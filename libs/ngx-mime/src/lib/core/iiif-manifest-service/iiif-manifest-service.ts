@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { distinctUntilChanged, finalize, take } from 'rxjs/operators';
+import { inject, Injectable, signal, Signal } from '@angular/core';
+import { Observable } from 'rxjs';
+import { finalize, take } from 'rxjs/operators';
 import { ManifestBuilder as IiifV2ManifestBuilder } from '../builders/iiif/v2/manifest.builder';
 import { ManifestBuilder as IiifV3ManifestBuilder } from '../builders/iiif/v3/manifest.builder';
 import { MimeViewerIntl } from '../intl';
@@ -11,23 +11,24 @@ import { SpinnerService } from '../spinner-service/spinner.service';
 @Injectable()
 export class IiifManifestService {
   intl = inject(MimeViewerIntl);
-  protected _currentManifest = new BehaviorSubject<Manifest | null>(null);
-  protected _errorMessage = new BehaviorSubject<string | null>(null);
+  readonly manifest: Signal<Manifest | null>;
+  readonly error: Signal<string | null>;
   private readonly http = inject(HttpClient);
   private readonly spinnerService = inject(SpinnerService);
+  private readonly manifestState = signal<Manifest | null>(null);
+  private readonly errorState = signal<string | null>(null, {
+    equal: () => false,
+  });
 
-  get currentManifest(): Observable<Manifest | null> {
-    return this._currentManifest.asObservable().pipe(distinctUntilChanged());
-  }
-
-  get errorMessage(): Observable<string | null> {
-    return this._errorMessage.asObservable();
+  constructor() {
+    this.manifest = this.manifestState.asReadonly();
+    this.error = this.errorState.asReadonly();
   }
 
   load(manifestUri: string | null): Observable<boolean> {
     return new Observable((observer) => {
       if (!manifestUri || manifestUri.length === 0) {
-        this._errorMessage.next(this.intl.manifestUriMissingLabel);
+        this.errorState.set(this.intl.manifestUriMissingLabel);
         observer.next(false);
       } else {
         this.spinnerService.show();
@@ -41,15 +42,15 @@ export class IiifManifestService {
             (response: Response) => {
               const manifest = this.extractData(response);
               if (this.isManifestValid(manifest)) {
-                this._currentManifest.next(manifest);
+                this.manifestState.set(manifest);
                 observer.next(true);
               } else {
-                this._errorMessage.next(this.intl.manifestNotValidLabel);
+                this.errorState.set(this.intl.manifestNotValidLabel);
                 observer.next(false);
               }
             },
             (err: HttpErrorResponse) => {
-              this._errorMessage.next(this.handleError(err));
+              this.errorState.set(this.handleError(err));
               observer.next(false);
             },
           );
@@ -63,11 +64,11 @@ export class IiifManifestService {
   }
 
   private resetCurrentManifest() {
-    this._currentManifest.next(null);
+    this.manifestState.set(null);
   }
 
   private resetErrorMessage() {
-    this._errorMessage.next(null);
+    this.errorState.set(null);
   }
 
   private extractData(response: any) {
@@ -93,6 +94,7 @@ export class IiifManifestService {
     } else {
       errMsg = err.error;
     }
+
     return errMsg;
   }
 }

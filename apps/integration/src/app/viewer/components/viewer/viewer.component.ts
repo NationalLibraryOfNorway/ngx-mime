@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { MimeModule } from '@nationallibraryofnorway/ngx-mime';
 
 @Component({
@@ -8,8 +8,6 @@ import { MimeModule } from '@nationallibraryofnorway/ngx-mime';
   imports: [MimeModule],
 })
 export class ViewerComponent {
-  @Input()
-  manifestUri!: string;
-  @Input()
-  canvasIndex!: number;
+  readonly manifestUri = input.required<string>();
+  readonly canvasIndex = input.required<number>();
 }

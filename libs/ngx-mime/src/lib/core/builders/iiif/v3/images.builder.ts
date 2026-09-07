@@ -25,6 +25,7 @@ export class ImagesBuilder {
         }
       });
     }
+
     return images;
   }
 }

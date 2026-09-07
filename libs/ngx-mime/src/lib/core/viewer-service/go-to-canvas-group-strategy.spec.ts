@@ -51,7 +51,7 @@ describe('DefaultGoToCanvasGroupStrategy ', () => {
         config.preserveZoomOnCanvasGroupChange = true;
         config.startOnTopOnCanvasGroupChange = true;
         canvasServiceSpy.currentCanvasGroupIndex = 10;
-        modeService.mode = ViewerMode.PAGE_ZOOMED;
+        modeService.setMode(ViewerMode.PAGE_ZOOMED);
 
         spy = jest
           .spyOn(canvasServiceSpy, 'constrainToRange')
@@ -80,7 +80,7 @@ describe('DefaultGoToCanvasGroupStrategy ', () => {
         });
         spy = jest.spyOn(viewport, 'panTo');
 
-        const res = strategy.goToCanvasGroup({
+        strategy.goToCanvasGroup({
           canvasGroupIndex: 9,
           immediately: false,
         });
@@ -94,7 +94,7 @@ describe('DefaultGoToCanvasGroupStrategy ', () => {
         config.preserveZoomOnCanvasGroupChange = true;
         config.startOnTopOnCanvasGroupChange = true;
         canvasServiceSpy.currentCanvasGroupIndex = 10;
-        modeService.mode = ViewerMode.PAGE_ZOOMED;
+        modeService.setMode(ViewerMode.PAGE_ZOOMED);
 
         spy = jest
           .spyOn(canvasServiceSpy, 'constrainToRange')
@@ -123,7 +123,7 @@ describe('DefaultGoToCanvasGroupStrategy ', () => {
         });
         spy = jest.spyOn(viewport, 'panTo');
 
-        const res = strategy.goToCanvasGroup({
+        strategy.goToCanvasGroup({
           canvasGroupIndex: 12,
           immediately: false,
         });

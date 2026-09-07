@@ -1,15 +1,9 @@
-import { Observable, of } from 'rxjs';
+import { signal } from '@angular/core';
 
 export class FullscreenServiceStub {
-  get onChange(): Observable<boolean> {
-    return of(true);
-  }
+  readonly isFullscreen = signal(false).asReadonly();
 
-  public isEnabled(): boolean {
+  isEnabled(): boolean {
     return true;
-  }
-
-  public isFullscreen(): boolean {
-    return false;
   }
 }

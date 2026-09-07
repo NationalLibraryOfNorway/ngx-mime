@@ -1,8 +1,10 @@
-import { BreakpointObserver } from '@angular/cdk/layout';
+import { HarnessLoader } from '@angular/cdk/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatButtonToggleHarness } from '@angular/material/button-toggle/testing';
 import { By } from '@angular/platform-browser';
 import { TestManifests } from '../../testing';
 import { AltoService } from '../core/alto-service/alto.service';
@@ -18,25 +20,25 @@ import { AltoServiceStub } from '../test/alto-service-stub';
 import { IiifContentSearchServiceStub } from '../test/iiif-content-search-service-stub';
 import { IiifManifestServiceStub } from '../test/iiif-manifest-service-stub';
 import { MimeResizeServiceStub } from '../test/mime-resize-service-stub';
-import { MockBreakpointObserver } from '../test/mock-breakpoint-observer';
+import { ViewerLayoutServiceStub } from '../test/viewer-layout-service-stub';
 import { ViewerServiceStub } from '../test/viewer-service-stub';
 import { ViewDialogComponent } from './view-dialog.component';
 
 describe('ViewDialogComponent', () => {
   let component: ViewDialogComponent;
   let fixture: ComponentFixture<ViewDialogComponent>;
+  let loader: HarnessLoader;
   let iiifManifestService: IiifManifestServiceStub;
-  let breakpointObserver: MockBreakpointObserver;
+  let viewerLayoutServiceStub: ViewerLayoutServiceStub;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       imports: [ViewDialogComponent],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
         MimeViewerIntl,
-        ViewerLayoutService,
         CanvasService,
         HighlightService,
         { provide: AltoService, useClass: AltoServiceStub },
@@ -47,102 +49,103 @@ describe('ViewDialogComponent', () => {
           useClass: IiifContentSearchServiceStub,
         },
         { provide: MimeResizeService, useClass: MimeResizeServiceStub },
-        { provide: BreakpointObserver, useClass: MockBreakpointObserver },
+        {
+          provide: ViewerLayoutService,
+          useClass: ViewerLayoutServiceStub,
+        },
       ],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ViewDialogComponent);
     component = fixture.componentInstance;
+    loader = TestbedHarnessEnvironment.loader(fixture);
     iiifManifestService = TestBed.inject<any>(IiifManifestService);
-    breakpointObserver = TestBed.inject(
-      BreakpointObserver,
-    ) as MockBreakpointObserver;
-    fixture.detectChanges();
+    viewerLayoutServiceStub = TestBed.inject<any>(ViewerLayoutService);
   });
 
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display desktop toolbar', waitForAsync(() => {
-    breakpointObserver.setMatches(false);
+  it('should display desktop toolbar', async () => {
+    await fixture.whenStable();
 
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-
-      const heading: DebugElement = fixture.debugElement.query(
-        By.css('[data-testid="ngx-mime-heading-desktop"]'),
-      );
-      expect(heading).not.toBeNull();
-    });
-  }));
-
-  it('should display mobile toolbar', waitForAsync(() => {
-    breakpointObserver.setMatches(true);
-
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-
-      const heading: DebugElement = fixture.debugElement.query(
-        By.css('[data-testid="ngx-mime-heading-desktop"]'),
-      );
-      expect(heading).toBeNull();
-    });
-  }));
-
-  it('should show page layout toggle group if manifest is paged', waitForAsync(() => {
-    iiifManifestService._currentManifest.next(TestManifests.aDefault());
-
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-
-      const pageLayoutSection = fixture.debugElement.query(
-        By.css('[data-testid="page-layout"]'),
-      );
-      expect(pageLayoutSection).not.toBeNull();
-    });
-  }));
-
-  it('should hide page layout toggle group if manifest is not paged', waitForAsync(() => {
-    iiifManifestService._currentManifest.next(TestManifests.aEmpty());
-
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-
-      const pageLayoutSection = fixture.debugElement.query(
-        By.css('[data-testid="page-layout"]'),
-      );
-      expect(pageLayoutSection).toBeNull();
-    });
-  }));
-
-  it('should show digital text toggle group if digital text is available', waitForAsync(() => {
-    iiifManifestService._currentManifest.next(
-      TestManifests.withDigitalTextContent(),
+    const heading: DebugElement = fixture.debugElement.query(
+      By.css('[data-testid="ngx-mime-heading-desktop"]'),
     );
+    expect(heading).not.toBeNull();
+  });
 
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
+  it('should display mobile toolbar', async () => {
+    viewerLayoutServiceStub.useMobileViewport();
+    await fixture.whenStable();
 
-      const recognizedTextContentSection = fixture.debugElement.query(
-        By.css('[data-testid="recognized-text-content"]'),
-      );
-      expect(recognizedTextContentSection).not.toBeNull();
-    });
-  }));
+    const heading: DebugElement = fixture.debugElement.query(
+      By.css('[data-testid="ngx-mime-heading-desktop"]'),
+    );
+    expect(heading).toBeNull();
+  });
 
-  it('should hide digital text toggle group if digital text is not available', waitForAsync(() => {
-    iiifManifestService._currentManifest.next(TestManifests.aEmpty());
+  it('should show page layout toggle group if manifest is paged', async () => {
+    iiifManifestService.setManifest(TestManifests.aDefault());
+    await fixture.whenStable();
 
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
+    const pageLayoutToggle = await loader.getHarnessOrNull(
+      MatButtonToggleHarness.with({
+        selector: '[data-testid="ngx-mime-single-page-view-button"]',
+      }),
+    );
+    expect(pageLayoutToggle).not.toBeNull();
+  });
 
-      const recognizedTextContentSection = fixture.debugElement.query(
-        By.css('[data-testid="recognized-text-content"]'),
-      );
-      expect(recognizedTextContentSection).toBeNull();
-    });
-  }));
+  it('should hide page layout toggle group if manifest is not paged', async () => {
+    iiifManifestService.setManifest(TestManifests.aEmpty());
+    await fixture.whenStable();
+
+    const pageLayoutToggle = await loader.getHarnessOrNull(
+      MatButtonToggleHarness.with({
+        selector: '[data-testid="ngx-mime-single-page-view-button"]',
+      }),
+    );
+    expect(pageLayoutToggle).toBeNull();
+  });
+
+  it('should show digital text toggle group if digital text is available', async () => {
+    iiifManifestService.setManifest(TestManifests.withDigitalTextContent());
+    await fixture.whenStable();
+
+    const recognizedTextContentToggle = await loader.getHarnessOrNull(
+      MatButtonToggleHarness.with({
+        selector:
+          '[data-testid="ngx-mime-recognized-text-content-close-button"]',
+      }),
+    );
+    expect(recognizedTextContentToggle).not.toBeNull();
+  });
+
+  it('should hide digital text toggle group if digital text is not available', async () => {
+    iiifManifestService.setManifest(TestManifests.aEmpty());
+    await fixture.whenStable();
+
+    const recognizedTextContentToggle = await loader.getHarnessOrNull(
+      MatButtonToggleHarness.with({
+        selector:
+          '[data-testid="ngx-mime-recognized-text-content-close-button"]',
+      }),
+    );
+    expect(recognizedTextContentToggle).toBeNull();
+  });
+
+  it('should re-render when the international labels change', async () => {
+    const intl = TestBed.inject(MimeViewerIntl);
+    intl.layoutMenuLabel = 'Updated view label';
+
+    intl.notifyChanges();
+    await fixture.whenStable();
+
+    const heading: DebugElement = fixture.debugElement.query(
+      By.css('[data-testid="ngx-mime-heading-desktop"]'),
+    );
+    expect(heading.nativeElement.textContent).toContain('Updated view label');
+  });
 });

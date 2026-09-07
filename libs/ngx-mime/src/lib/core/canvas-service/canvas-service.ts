@@ -1,8 +1,8 @@
-import { inject, Injectable } from '@angular/core';
+import { computed, inject, Injectable, signal, Signal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import * as OpenSeadragon from 'openseadragon';
 import { Viewer } from 'openseadragon';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { distinctUntilChanged } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { MimeViewerConfig } from '../mime-viewer-config';
 import { Resource } from '../models/manifest';
 import { ViewerLayout } from '../models/viewer-layout';
@@ -17,12 +17,16 @@ import { TileSourceAndRect } from './tile-source-and-rect.model';
 
 @Injectable()
 export class CanvasService {
-  protected _currentNumberOfCanvasGroups: BehaviorSubject<number> =
-    new BehaviorSubject(0);
-  protected _currentCanvasGroupIndex: BehaviorSubject<number> =
-    new BehaviorSubject(0);
+  readonly canvasGroupCount: Signal<number>;
+  readonly canvasGroupIndex: Signal<number>;
+  readonly canvasCount: Signal<number>;
+  readonly isFirstCanvasGroup: Signal<boolean>;
+  readonly isLastCanvasGroup: Signal<boolean>;
+  readonly onCanvasGroupIndexChange: Observable<number>;
+  protected readonly canvasGroupCountState = signal(0);
+  protected readonly canvasGroupIndexState = signal(0);
+  protected readonly canvasCountState = signal(0);
   protected canvasGroups: CanvasGroups = new CanvasGroups();
-  protected _numberOfCanvases = 0;
   private readonly viewerLayoutService = inject(ViewerLayoutService);
   private config = new MimeViewerConfig();
   private tileSources: any[] = [];
@@ -32,50 +36,37 @@ export class CanvasService {
   private svgNode: any;
   private _overlays: SVGRectElement[] = [];
 
+  constructor() {
+    this.canvasGroupCount = this.canvasGroupCountState.asReadonly();
+    this.canvasGroupIndex = this.canvasGroupIndexState.asReadonly();
+    this.canvasCount = this.canvasCountState.asReadonly();
+    this.isFirstCanvasGroup = computed(() => this.canvasGroupIndex() === 0);
+    this.isLastCanvasGroup = computed(
+      () => this.canvasGroupIndex() === this.canvasGroupCount() - 1,
+    );
+    this.onCanvasGroupIndexChange = toObservable(this.canvasGroupIndex);
+  }
+
   get overlays(): ReadonlyArray<SVGRectElement> {
     return this._overlays;
-  }
-
-  get onCanvasGroupIndexChange(): Observable<number> {
-    return this._currentCanvasGroupIndex
-      .asObservable()
-      .pipe(distinctUntilChanged());
-  }
-
-  get onNumberOfCanvasGroupsChange(): Observable<number> {
-    return this._currentNumberOfCanvasGroups
-      .asObservable()
-      .pipe(distinctUntilChanged());
-  }
-
-  get numberOfCanvasGroups(): number {
-    return this.canvasGroups.length();
   }
 
   get currentCanvasIndex(): number {
     const canvases =
       this.canvasGroups.canvasesPerCanvasGroup[this.currentCanvasGroupIndex];
+
     return canvases && canvases.length >= 1 ? canvases[0] : 0;
   }
 
   get currentCanvasGroupIndex(): number {
-    return this._currentCanvasGroupIndex.value;
+    return this.canvasGroupIndex();
   }
 
   set currentCanvasGroupIndex(currentCanvasGroupIndex: number) {
     if (!this.isWithinBounds(currentCanvasGroupIndex)) {
       return;
     }
-    this._currentCanvasGroupIndex.next(currentCanvasGroupIndex);
-  }
-
-  // eslint-disable-next-line @typescript-eslint/member-ordering
-  get numberOfCanvases(): number {
-    return this._numberOfCanvases;
-  }
-
-  set numberOfCanvases(numberOfCanvases: number) {
-    this._numberOfCanvases = numberOfCanvases;
+    this.canvasGroupIndexState.set(currentCanvasGroupIndex);
   }
 
   setViewer(viewer: any): void {
@@ -109,7 +100,7 @@ export class CanvasService {
 
   isWithinBounds(canvasGroupIndex: number): boolean {
     return (
-      canvasGroupIndex > -1 && canvasGroupIndex <= this.numberOfCanvasGroups - 1
+      canvasGroupIndex > -1 && canvasGroupIndex <= this.canvasGroupCount() - 1
     );
   }
 
@@ -123,6 +114,7 @@ export class CanvasService {
       return -1;
     }
     this.currentCanvasGroupIndex++;
+
     return this.currentCanvasGroupIndex;
   }
 
@@ -132,14 +124,15 @@ export class CanvasService {
       return -1;
     }
     this.currentCanvasGroupIndex--;
+
     return this.currentCanvasGroupIndex;
   }
 
   constrainToRange(canvasGroupsIndex: number): number {
     if (canvasGroupsIndex < 0) {
       return 0;
-    } else if (canvasGroupsIndex >= this.numberOfCanvasGroups - 1) {
-      return this.numberOfCanvasGroups - 1;
+    } else if (canvasGroupsIndex >= this.canvasGroupCount() - 1) {
+      return this.canvasGroupCount() - 1;
     } else {
       return canvasGroupsIndex;
     }
@@ -204,8 +197,9 @@ export class CanvasService {
   reset() {
     this.viewer = undefined;
     this._overlays = [];
-    this.numberOfCanvases = 0;
-    this._currentCanvasGroupIndex.next(0);
+    this.canvasCountState.set(0);
+    this.canvasGroupCountState.set(0);
+    this.canvasGroupIndexState.set(0);
     this.canvasGroups = new CanvasGroups();
   }
 
@@ -275,7 +269,7 @@ export class CanvasService {
   }
 
   private createCanvasGroups(): void {
-    this.numberOfCanvases = this.tileSources.length;
+    this.canvasCountState.set(this.tileSources.length);
     const canvasGroupStrategy = CanvasGroupStrategyFactory.create(
       this.viewerLayoutService.layout,
       this.config,
@@ -283,7 +277,7 @@ export class CanvasService {
       this.rotation,
     );
     this.canvasGroups = canvasGroupStrategy.addAll(this.tileSources);
-    this._currentNumberOfCanvasGroups.next(this.canvasGroups.length());
+    this.canvasGroupCountState.set(this.canvasGroups.length());
   }
 
   private applyCustomBorders(

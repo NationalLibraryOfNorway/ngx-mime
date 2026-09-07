@@ -14,15 +14,11 @@ export class CanvasGroups {
 
     if (canvasGroup.tileSourceAndRects) {
       canvasGroup.tileSourceAndRects.forEach(
-        (tileSourceAndRect: TileSourceAndRect, i: number) => {
+        (tileSourceAndRect: TileSourceAndRect) => {
           this.tileSourceAndRects.push(tileSourceAndRect);
         },
       );
     }
-  }
-
-  public addRange(canvasGroups: ReadonlyArray<CanvasGroup>): void {
-    this.canvasGroups = [...canvasGroups];
   }
 
   public get(index: number): CanvasGroup {
@@ -43,8 +39,10 @@ export class CanvasGroups {
       }
       i = index;
       lastDelta = delta;
+
       return false;
     });
+
     return i;
   }
 

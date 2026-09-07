@@ -5,6 +5,7 @@ declare const OpenSeadragon: any;
 export function createSvgOverlay() {
   if (!OpenSeadragon) {
     console.error('[openseadragon-svg-overlay] requires OpenSeadragon');
+
     return;
   }
 
@@ -46,7 +47,7 @@ export function createSvgOverlay() {
         self.resize();
       });
 
-      this._viewer.addHandler('rotate', function (evt: any) {
+      this._viewer.addHandler('rotate', function () {
         self.resize();
       });
 
@@ -56,6 +57,7 @@ export function createSvgOverlay() {
 
       this.resize();
     }
+
     node() {
       return this._node;
     }
@@ -114,6 +116,7 @@ export function createSvgOverlay() {
     }
 
     this._svgOverlayInfo = new Overlay(this);
+
     return this._svgOverlayInfo;
   };
 }

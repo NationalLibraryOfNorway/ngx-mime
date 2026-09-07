@@ -89,7 +89,7 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
       this.zoomStrategy.goToHomeZoom();
       setTimeout(() => {
         this.panToCenter(newCanvasGroup, canvasGroup.immediately);
-        this.modeService.mode = ViewerMode.PAGE;
+        this.modeService.setMode(ViewerMode.PAGE);
       }, ViewerOptions.transitions.OSDAnimationTime);
     } else {
       this.panToCenter(newCanvasGroup, canvasGroup.immediately);
@@ -121,7 +121,7 @@ export class DefaultGoToCanvasGroupStrategy implements GoToCanvasGroupStrategy {
   public goToNextCanvasGroup(currentCanvasIndex: number): void {
     if (
       this.canvasService.currentCanvasGroupIndex <
-      this.canvasService.numberOfCanvasGroups
+      this.canvasService.canvasGroupCount()
     ) {
       const viewportCenter = this.getViewportCenter();
       const currentCanvasGroupIndex =

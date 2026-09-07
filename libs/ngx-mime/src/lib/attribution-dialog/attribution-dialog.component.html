@@ -1,14 +1,14 @@
-<div #container class="attribution-container">
+<div class="attribution-container">
   <div class="attribution-toolbar mr-4 flex items-center justify-between">
-    <h1 mat-dialog-title>{{ intl.attributionLabel }}</h1>
+    <h1 mat-dialog-title>{{ intl().attributionLabel }}</h1>
     <button
       mat-icon-button
-      [aria-label]="intl.attributonCloseAriaLabel"
-      [matTooltip]="intl.closeLabel"
+      [aria-label]="intl().attributonCloseAriaLabel"
+      [matTooltip]="intl().closeLabel"
       [matDialogClose]="true"
     >
       <mat-icon>close</mat-icon>
     </button>
   </div>
-  <p mat-dialog-content [innerHTML]="manifest?.attribution"> </p>
+  <p mat-dialog-content [innerHTML]="manifest()?.attribution"> </p>
 </div>

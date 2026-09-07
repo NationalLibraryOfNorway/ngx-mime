@@ -1,10 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import {
-  ComponentFixture,
-  inject,
-  TestBed,
-  waitForAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SpinnerService } from '../../core/spinner-service/spinner.service';
 import { ViewerSpinnerComponent } from './viewer-spinner.component';
@@ -12,37 +7,31 @@ import { ViewerSpinnerComponent } from './viewer-spinner.component';
 describe('ViewerSpinnerComponent', () => {
   let component: ViewerSpinnerComponent;
   let fixture: ComponentFixture<ViewerSpinnerComponent>;
+  let spinnerService: SpinnerService;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [ViewerSpinnerComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [SpinnerService],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ViewerSpinnerComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    spinnerService = TestBed.inject(SpinnerService);
   });
 
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show spinner', waitForAsync(
-    inject([SpinnerService], (spinnerService: SpinnerService) => {
-      let spinner: any;
+  it('should show spinner', async () => {
+    spinnerService.show();
+    await fixture.whenStable();
 
-      spinnerService.show();
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        spinner = fixture.debugElement.query(By.css('.mime-spinner'));
-        expect(window.getComputedStyle(spinner.nativeElement).display).toBe(
-          'block',
-        );
-      });
-    }),
-  ));
+    const spinner = fixture.debugElement.query(By.css('.mime-spinner'));
+    expect(window.getComputedStyle(spinner.nativeElement).display).toBe(
+      'block',
+    );
+  });
 });

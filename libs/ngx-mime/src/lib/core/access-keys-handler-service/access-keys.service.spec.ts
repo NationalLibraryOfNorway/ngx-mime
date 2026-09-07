@@ -33,9 +33,6 @@ describe('AccessKeysService', () => {
         provideAutoSpy(AltoService),
       ],
     });
-  });
-
-  beforeEach(() => {
     service = TestBed.inject(AccessKeysService);
   });
 

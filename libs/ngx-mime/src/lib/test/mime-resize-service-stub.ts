@@ -1,16 +1,10 @@
-import { ElementRef, Injectable } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
+import { ElementRef, Injectable, signal } from '@angular/core';
 import { Dimensions } from '../core/models/dimensions';
 
 @Injectable()
 export class MimeResizeServiceStub {
+  readonly dimensions = signal<Dimensions | null>(null);
   private _el!: ElementRef;
-  private readonly resizeSubject: ReplaySubject<Dimensions> =
-    new ReplaySubject();
-
-  get onResize(): Observable<Dimensions> {
-    return this.resizeSubject.asObservable();
-  }
 
   get el() {
     return this._el;
@@ -28,9 +22,9 @@ export class MimeResizeServiceStub {
 
   triggerResize(dimensions?: DOMRectReadOnly): void {
     if (dimensions) {
-      this.resizeSubject.next(dimensions);
+      this.dimensions.set(new Dimensions(dimensions));
     } else {
-      this.resizeSubject.next(new Dimensions());
+      this.dimensions.set(new Dimensions());
     }
   }
 }

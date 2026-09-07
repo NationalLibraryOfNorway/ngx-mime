@@ -27,7 +27,9 @@
       "@nationallibraryofnorway/ngx-mime": [
         "../../dist/libs/@nationallibraryofnorway/ngx-mime"
       ]
-    }
+    },
+    "module": "preserve",
+    "moduleResolution": "bundler"
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

@@ -1,12 +1,12 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, computed, effect, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
 import {
   MimeModule,
   MimeViewerConfig,
   MimeViewerMode,
   RecognizedTextMode,
 } from '@nationallibraryofnorway/ngx-mime';
-import { Subscription } from 'rxjs';
 import { ManifestService } from '../core/manifest-service/manifest.service';
 
 @Component({
@@ -14,9 +14,19 @@ import { ManifestService } from '../core/manifest-service/manifest.service';
   styleUrls: ['./viewer.component.scss'],
   imports: [MimeModule],
 })
-export class ViewerComponent implements OnInit, OnDestroy {
-  manifestUris: string[] = [];
-  config = new MimeViewerConfig({
+export class ViewerComponent {
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly manifestService = inject(ManifestService);
+
+  readonly queryParamMap = toSignal(this.activatedRoute.queryParamMap, {
+    initialValue: convertToParamMap({}),
+  });
+  readonly iiifVersion = computed(() => this.queryParamMap().get('v') ?? '3');
+  readonly manifestUris = computed(() =>
+    this.queryParamMap().getAll('manifestUri'),
+  );
+  readonly config = new MimeViewerConfig({
     attributionDialogEnabled: true,
     attributionDialogHideTimeout: -1,
     navigationControlEnabled: true,
@@ -26,40 +36,23 @@ export class ViewerComponent implements OnInit, OnDestroy {
     initViewerMode: MimeViewerMode.PAGE,
     initRecognizedTextContentMode: RecognizedTextMode.NONE,
   });
-  private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
-  private readonly manifestService = inject(ManifestService);
-  private readonly subscriptions: Subscription = new Subscription();
-  private iiifVersion = '3';
 
-  ngOnInit(): void {
-    this.subscriptions.add(
-      this.route.queryParamMap.subscribe(this.handleQueryParamMap.bind(this)),
-    );
+  constructor() {
+    effect(() => {
+      if (this.manifestUris().length === 0) {
+        const iiifVersion = this.iiifVersion();
+
+        this.redirectToFirstManifest(iiifVersion);
+      }
+    });
   }
 
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
-  }
-
-  private handleQueryParamMap(params: any): void {
-    const iiifVersionQueryParam = params.get('v');
-    this.iiifVersion = iiifVersionQueryParam || this.iiifVersion;
-
-    this.manifestUris = params.getAll('manifestUri');
-
-    if (this.manifestUris.length === 0) {
-      this.redirectToFirstManifest();
-    }
-  }
-
-  private redirectToFirstManifest(): void {
-    const firstManifestUri = this.manifestService.getManifests(
-      this.iiifVersion,
-    )[0].uri;
+  private redirectToFirstManifest(iiifVersion: string): void {
+    const firstManifestUri =
+      this.manifestService.getManifests(iiifVersion)[0].uri;
     this.router.navigate(['demo'], {
       queryParams: {
-        v: this.iiifVersion,
+        v: iiifVersion,
         manifestUri: firstManifestUri,
       },
     });

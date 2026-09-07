@@ -45,6 +45,7 @@ export class DesktopContentSearchDialogConfigStrategy
     viewContainerRef: ViewContainerRef,
   ): MatDialogConfig {
     const dimensions = this.getPosition(el);
+
     return {
       hasBackdrop: false,
       autoFocus: false,
@@ -61,6 +62,7 @@ export class DesktopContentSearchDialogConfigStrategy
 
   private getPosition(el: ElementRef): Dimensions {
     const dimensions = this.mimeDomHelper.getBoundingClientRect(el);
+
     return new Dimensions({
       top: dimensions.top + 80,
       left:

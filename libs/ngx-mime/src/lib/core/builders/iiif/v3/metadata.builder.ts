@@ -17,6 +17,7 @@ export class MetadataBuilder {
         );
       }
     }
+
     return metadatas;
   }
 }

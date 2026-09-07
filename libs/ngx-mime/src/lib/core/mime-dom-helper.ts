@@ -18,7 +18,7 @@ export class MimeDomHelper {
       } else {
         return this.createDimensions(el);
       }
-    } catch (e) {
+    } catch {
       return new Dimensions();
     }
   }
@@ -49,6 +49,7 @@ export class MimeDomHelper {
     const dimensions = el.nativeElement.getBoundingClientRect();
     const width = this.getFullscreenWidth();
     const height = this.getFullscreenHeight();
+
     return new Dimensions({
       ...dimensions,
       top: 0,
@@ -62,6 +63,7 @@ export class MimeDomHelper {
 
   private createDimensions(el: ElementRef): Dimensions {
     const dimensions = el.nativeElement.getBoundingClientRect();
+
     return new Dimensions({
       top: dimensions.top,
       bottom: dimensions.bottom,

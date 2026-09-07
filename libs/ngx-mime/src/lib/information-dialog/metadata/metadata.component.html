@@ -1,4 +1,4 @@
-@if (manifest) {
+@if (manifest(); as manifest) {
   <div class="ngx-mime-metadata-container">
     @for (metadata of manifest.metadata; track metadata.label) {
       <div class="metadata">
@@ -7,14 +7,14 @@
       </div>
     }
     @if (manifest.attribution) {
-      <div class="title">{{ intl.attributionLabel }}</div>
+      <div class="title">{{ intl().attributionLabel }}</div>
       <span
         class="content attribution"
         [innerHTML]="manifest.attribution"
       ></span>
     }
     @if (manifest.license) {
-      <div class="title">{{ intl.licenseLabel }}</div>
+      <div class="title">{{ intl().licenseLabel }}</div>
       <span class="content license"
         ><a [href]="manifest.license" target="_blank">{{
           manifest.license

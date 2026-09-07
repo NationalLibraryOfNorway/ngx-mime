@@ -1,15 +1,9 @@
-import { BreakpointObserver } from '@angular/cdk/layout';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
-import {
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  waitForAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatTabGroupHarness } from '@angular/material/tabs/testing';
 import { By } from '@angular/platform-browser';
@@ -31,7 +25,7 @@ import { ViewerService } from '../core/viewer-service/viewer.service';
 import { AltoServiceStub } from '../test/alto-service-stub';
 import { IiifManifestServiceStub } from '../test/iiif-manifest-service-stub';
 import { MatDialogRefStub } from '../test/mat-dialog-ref-stub';
-import { MockBreakpointObserver } from '../test/mock-breakpoint-observer';
+import { ViewerLayoutServiceStub } from '../test/viewer-layout-service-stub';
 import { InformationDialogComponent } from './information-dialog.component';
 import { MetadataComponent } from './metadata/metadata.component';
 import { TocComponent } from './table-of-contents/table-of-contents.component';
@@ -40,14 +34,14 @@ describe('InformationDialogComponent', () => {
   let component: InformationDialogComponent;
   let fixture: ComponentFixture<InformationDialogComponent>;
   let loader: HarnessLoader;
-  let breakpointObserver: MockBreakpointObserver;
+  let viewerLayoutServiceStub: ViewerLayoutServiceStub;
   let iiifManifestService: IiifManifestServiceStub;
   let intl: MimeViewerIntl;
   let dialogRef: MatDialogRef<InformationDialogComponent>;
   let viewerService: ViewerService;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       imports: [InformationDialogComponent, MetadataComponent, TocComponent],
       providers: [
@@ -61,25 +55,23 @@ describe('InformationDialogComponent', () => {
         MimeResizeService,
         MimeDomHelper,
         FullscreenService,
-        ViewerLayoutService,
         IiifContentSearchService,
         StyleService,
         HighlightService,
         { provide: AltoService, useClass: AltoServiceStub },
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
         { provide: MatDialogRef, useClass: MatDialogRefStub },
-        { provide: BreakpointObserver, useClass: MockBreakpointObserver },
+        {
+          provide: ViewerLayoutService,
+          useClass: ViewerLayoutServiceStub,
+        },
       ],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(InformationDialogComponent);
     component = fixture.componentInstance;
     loader = TestbedHarnessEnvironment.loader(fixture);
-    breakpointObserver = TestBed.inject(
-      BreakpointObserver,
-    ) as MockBreakpointObserver;
+    viewerLayoutServiceStub = TestBed.inject<any>(ViewerLayoutService);
     viewerService = TestBed.inject(ViewerService);
     iiifManifestService = TestBed.inject<any>(IiifManifestService);
     intl = TestBed.inject(MimeViewerIntl);
@@ -90,10 +82,8 @@ describe('InformationDialogComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display desktop toolbar', () => {
-    breakpointObserver.setMatches(false);
-
-    fixture.detectChanges();
+  it('should display desktop toolbar', async () => {
+    await fixture.whenStable();
 
     const heading: DebugElement = fixture.debugElement.query(
       By.css('mat-toolbar[data-testid="desktop-toolbar"]'),
@@ -101,10 +91,9 @@ describe('InformationDialogComponent', () => {
     expect(heading).not.toBeNull();
   });
 
-  it('should display mobile toolbar', () => {
-    breakpointObserver.setMatches(true);
-
-    fixture.detectChanges();
+  it('should display mobile toolbar', async () => {
+    viewerLayoutServiceStub.useMobileViewport();
+    await fixture.whenStable();
 
     const heading: DebugElement = fixture.debugElement.query(
       By.css('mat-toolbar[data-testid="mobile-toolbar"]'),
@@ -112,47 +101,33 @@ describe('InformationDialogComponent', () => {
     expect(heading).not.toBeNull();
   });
 
-  it('should show toc', waitForAsync(() => {
-    fixture.detectChanges();
+  it('should show toc', async () => {
     const manifest = new Manifest({
       structures: [new Structure()],
     });
-    iiifManifestService._currentManifest.next(manifest);
+    iiifManifestService.setManifest(manifest);
     intl.tocLabel = 'TocTestLabel';
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
+    await fixture.whenStable();
 
-      const tabs: NodeList =
-        fixture.nativeElement.querySelectorAll('.mat-mdc-tab');
-      const tocTab = Array.from(tabs).find(
-        (t) => t.textContent === intl.tocLabel,
-      );
-      expect(tocTab).toBeDefined();
-    });
-  }));
+    const tabGroup = await loader.getHarness(MatTabGroupHarness);
+    expect(await tabGroup.getTabs({ label: intl.tocLabel })).toHaveLength(1);
+  });
 
-  it('should hide toc', waitForAsync(() => {
+  it('should hide toc', async () => {
     const manifest = new Manifest();
-    iiifManifestService._currentManifest.next(manifest);
+    iiifManifestService.setManifest(manifest);
+    await fixture.whenStable();
 
-    fixture.detectChanges();
+    const tabGroup = await loader.getHarness(MatTabGroupHarness);
+    expect(await tabGroup.getTabs({ label: intl.tocLabel })).toHaveLength(0);
+  });
 
-    fixture.whenStable().then(() => {
-      const tabs: NodeList =
-        fixture.nativeElement.querySelectorAll('.mat-mdc-tab');
-      const tocTab = Array.from(tabs).find(
-        (t) => t.textContent === intl.tocLabel,
-      );
-      expect(tocTab).toBeUndefined();
-    });
-  }));
-
-  it('should close information dialog when selecting a canvas group in TOC when on mobile', fakeAsync(async () => {
-    breakpointObserver.setMatches(true);
+  it('should close information dialog when selecting a canvas group in TOC when on mobile', async () => {
+    viewerLayoutServiceStub.useMobileViewport();
     jest.spyOn(viewerService, 'goToCanvas').mockImplementation(() => {});
     jest.spyOn(dialogRef, 'close');
 
-    iiifManifestService._currentManifest.next(
+    iiifManifestService.setManifest(
       new Manifest({
         metadata: [
           new Metadata('label1', 'value1'),
@@ -192,16 +167,16 @@ describe('InformationDialogComponent', () => {
       }),
     );
     intl.tocLabel = 'TocTestLabel';
-    fixture.detectChanges();
+    component.selectedIndex.set(1);
+    await fixture.whenStable();
 
-    const tabGroup = await loader.getHarness(MatTabGroupHarness);
-    await tabGroup.selectTab({ label: intl.tocLabel });
     const divs: DebugElement[] = fixture.debugElement.queryAll(
       By.css('.toc-link'),
     );
 
+    expect(divs).toHaveLength(3);
     divs[2].triggerEventHandler('click', new Event('fakeEvent'));
 
     expect(dialogRef.close).toHaveBeenCalled();
-  }));
+  });
 });

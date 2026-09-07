@@ -1,23 +1,15 @@
-import {
-  BreakpointObserver,
-  Breakpoints,
-  BreakpointState,
-} from '@angular/cdk/layout';
 import { NgClass } from '@angular/common';
 import {
-  ChangeDetectorRef,
   Component,
+  computed,
   inject,
-  OnDestroy,
-  OnInit,
-  ViewChild,
+  viewChild,
   ViewContainerRef,
 } from '@angular/core';
 import { MatDivider } from '@angular/material/divider';
 import { MatToolbar } from '@angular/material/toolbar';
-import { Subscription } from 'rxjs';
 import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
-import { SearchResult } from '../../core/models/search-result';
+import { ViewerLayoutService } from '../../core/viewer-layout-service/viewer-layout-service';
 import { CanvasGroupNavigatorComponent } from './canvas-group-navigator/canvas-group-navigator.component';
 import { ContentSearchNavigatorComponent } from './content-search-navigator/content-search-navigator.component';
 
@@ -33,58 +25,22 @@ import { ContentSearchNavigatorComponent } from './content-search-navigator/cont
     CanvasGroupNavigatorComponent,
   ],
 })
-export class ViewerFooterComponent implements OnInit, OnDestroy {
-  @ViewChild('mimeFooterBefore', { read: ViewContainerRef, static: true })
-  mimeFooterBefore!: ViewContainerRef;
-  @ViewChild('mimeFooterAfter', { read: ViewContainerRef, static: true })
-  mimeFooterAfter!: ViewContainerRef;
-  searchResult: SearchResult = new SearchResult();
-  showPageNavigator = true;
-  showContentSearchNavigator = false;
-  private readonly breakpointObserver = inject(BreakpointObserver);
-  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+export class ViewerFooterComponent {
   private readonly iiifContentSearchService = inject(IiifContentSearchService);
-  private readonly subscriptions = new Subscription();
+  private readonly viewerLayoutService = inject(ViewerLayoutService);
 
-  ngOnInit() {
-    this.setupContentSearchObserver();
-    this.setupBreakpointObserver();
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe();
-  }
-
-  private setupContentSearchObserver() {
-    this.subscriptions.add(
-      this.iiifContentSearchService.onChange.subscribe((sr: SearchResult) => {
-        this.searchResult = sr;
-        this.showContentSearchNavigator = this.searchResult.size() > 0;
-        this.updateShowPageNavigator();
-        this.changeDetectorRef.detectChanges();
-      }),
-    );
-  }
-
-  private setupBreakpointObserver() {
-    this.subscriptions.add(
-      this.breakpointObserver
-        .observe([Breakpoints.XSmall])
-        .subscribe((value: BreakpointState) => {
-          this.showPageNavigator = value.matches
-            ? this.searchResult.size() === 0
-            : true;
-          this.changeDetectorRef.detectChanges();
-        }),
-    );
-  }
-
-  private updateShowPageNavigator() {
-    this.showPageNavigator =
-      this.searchResult.size() === 0 || !this.isHandsetPortrait();
-  }
-
-  private isHandsetPortrait(): boolean {
-    return this.breakpointObserver.isMatched(Breakpoints.HandsetPortrait);
-  }
+  readonly mimeFooterBefore = viewChild.required('mimeFooterBefore', {
+    read: ViewContainerRef,
+  });
+  readonly mimeFooterAfter = viewChild.required('mimeFooterAfter', {
+    read: ViewContainerRef,
+  });
+  readonly searchResult = this.iiifContentSearchService.searchResult;
+  readonly isXSmall = this.viewerLayoutService.isXSmall;
+  readonly showContentSearchNavigator = computed(
+    () => this.searchResult().size() > 0,
+  );
+  readonly showPageNavigator = computed(
+    () => this.searchResult().size() === 0 || !this.isXSmall(),
+  );
 }

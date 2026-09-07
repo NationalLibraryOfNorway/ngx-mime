@@ -20,13 +20,13 @@ When(
 Then(
   'the viewer should be presented using the entire screen',
   async function (this: CustomWorld) {
-    expect(await this.viewerPage.isFullscreen()).toBeTruthy();
+    await expect.poll(() => this.viewerPage.isFullscreen()).toBeTruthy();
   },
 );
 
 Then(
   'the viewer should be presented normally',
   async function (this: CustomWorld) {
-    expect(await this.viewerPage.isFullscreen()).toBeFalsy();
+    await expect.poll(() => this.viewerPage.isFullscreen()).toBeFalsy();
   },
 );

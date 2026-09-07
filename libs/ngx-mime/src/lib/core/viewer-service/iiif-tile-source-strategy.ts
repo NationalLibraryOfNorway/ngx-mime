@@ -21,6 +21,7 @@ export class IiifTileSourceStrategy implements TileSourceStrategy {
           ? `${tileSource}/info.json`
           : tileSource;
     }
+
     return tileSource;
   }
 }

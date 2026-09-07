@@ -4,7 +4,8 @@
     "outDir": "../../dist/out-tsc",
     "target": "ES2022",
     "esModuleInterop": true,
-    "types": ["jest", "node"]
+    "types": ["jest", "node"],
+    "isolatedModules": true
   },
   "files": ["src/test-setup.ts"],
   "include": [

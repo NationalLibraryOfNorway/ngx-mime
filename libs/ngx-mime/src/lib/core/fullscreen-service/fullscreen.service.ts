@@ -1,82 +1,98 @@
-import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
+import { DOCUMENT } from '@angular/common';
+import { DestroyRef, inject, Injectable, signal, Signal } from '@angular/core';
 
 @Injectable()
 export class FullscreenService {
-  private readonly changeSubject: ReplaySubject<boolean> = new ReplaySubject();
+  readonly isFullscreen: Signal<boolean>;
+  private readonly document = inject(DOCUMENT);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly fullscreenState = signal(this.getFullscreenState());
 
   constructor() {
-    this.onchange();
+    this.isFullscreen = this.fullscreenState.asReadonly();
+    this.listenForFullscreenChanges();
   }
 
-  get onChange(): Observable<boolean> {
-    return this.changeSubject.asObservable();
-  }
+  isEnabled(): boolean {
+    const document = this.document as any;
 
-  public isEnabled(): boolean {
-    const d: any = document;
-    return (
-      d.fullscreenEnabled ||
-      d.webkitFullscreenEnabled ||
-      d.mozFullScreenEnabled ||
-      d.msFullscreenEnabled
+    return Boolean(
+      document.fullscreenEnabled ||
+        document.webkitFullscreenEnabled ||
+        document.mozFullScreenEnabled ||
+        document.msFullscreenEnabled,
     );
   }
 
-  public isFullscreen(): boolean {
-    const d: any = document;
-    return (
-      d.fullscreenElement ||
-      d.webkitFullscreenElement ||
-      d.mozFullScreenElement ||
-      d.msFullscreenElement
-    );
+  toggle(element: HTMLElement): void {
+    this.isFullscreen() ? this.closeFullscreen() : this.openFullscreen(element);
   }
 
-  public toggle(el: HTMLElement) {
-    this.isFullscreen() ? this.closeFullscreen(el) : this.openFullscreen(el);
-  }
-
-  public onchange() {
-    const d: any = document;
-
-    const func = () => {
-      this.changeSubject.next(true);
+  private listenForFullscreenChanges(): void {
+    const eventName = this.getFullscreenChangeEventName();
+    if (!eventName) {
+      return;
+    }
+    const handleFullscreenChange = () => {
+      this.fullscreenState.set(this.getFullscreenState());
     };
+    this.document.addEventListener(eventName, handleFullscreenChange);
+    this.destroyRef.onDestroy(() =>
+      this.document.removeEventListener(eventName, handleFullscreenChange),
+    );
+  }
 
-    if (d.fullscreenEnabled) {
-      document.addEventListener('fullscreenchange', func);
-    } else if (d.webkitFullscreenEnabled) {
-      document.addEventListener('webkitfullscreenchange', func);
-    } else if (d.mozFullScreenEnabled) {
-      document.addEventListener('mozfullscreenchange', func);
-    } else if (d.msFullscreenEnabled) {
-      document.addEventListener('msfullscreenchange', func);
+  private getFullscreenChangeEventName(): string | undefined {
+    const document = this.document as any;
+    if (document.fullscreenEnabled) {
+      return 'fullscreenchange';
+    }
+    if (document.webkitFullscreenEnabled) {
+      return 'webkitfullscreenchange';
+    }
+    if (document.mozFullScreenEnabled) {
+      return 'mozfullscreenchange';
+    }
+    if (document.msFullscreenEnabled) {
+      return 'msfullscreenchange';
+    }
+
+    return undefined;
+  }
+
+  private getFullscreenState(): boolean {
+    const document = this.document as any;
+
+    return Boolean(
+      document.fullscreenElement ||
+        document.webkitFullscreenElement ||
+        document.mozFullScreenElement ||
+        document.msFullscreenElement,
+    );
+  }
+
+  private openFullscreen(element: any): void {
+    if (element.requestFullscreen) {
+      element.requestFullscreen();
+    } else if (element.mozRequestFullScreen) {
+      element.mozRequestFullScreen();
+    } else if (element.webkitRequestFullscreen) {
+      element.webkitRequestFullscreen();
+    } else if (element.msRequestFullscreen) {
+      element.msRequestFullscreen();
     }
   }
 
-  private openFullscreen(elem: any) {
-    if (elem.requestFullscreen) {
-      elem.requestFullscreen();
-    } else if (elem.mozRequestFullScreen) {
-      elem.mozRequestFullScreen();
-    } else if (elem.webkitRequestFullscreen) {
-      elem.webkitRequestFullscreen();
-    } else if (elem.msRequestFullscreen) {
-      elem.msRequestFullscreen();
-    }
-  }
-
-  private closeFullscreen(elem: any) {
-    const d = <any>document;
-    if (d.exitFullscreen) {
-      d.exitFullscreen();
-    } else if (d.mozCancelFullScreen) {
-      d.mozCancelFullScreen();
-    } else if (d.webkitExitFullscreen) {
-      d.webkitExitFullscreen();
-    } else if (d.msExitFullscreen) {
-      d.msExitFullscreen();
+  private closeFullscreen(): void {
+    const document = this.document as any;
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.mozCancelFullScreen) {
+      document.mozCancelFullScreen();
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) {
+      document.msExitFullscreen();
     }
   }
 }

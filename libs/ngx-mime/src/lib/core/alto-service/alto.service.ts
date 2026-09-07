@@ -1,14 +1,20 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import {
+  effect,
+  EffectRef,
+  inject,
+  Injectable,
+  Injector,
+  signal,
+  Signal,
+} from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import {
-  BehaviorSubject,
   combineLatest,
   EMPTY,
   forkJoin,
   Observable,
   of,
-  Subject,
   Subscriber,
   Subscription,
   timer,
@@ -21,7 +27,7 @@ import { HighlightService } from '../highlight-service/highlight.service';
 import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../intl';
 import { MimeViewerConfig } from '../mime-viewer-config';
-import { RecognizedTextMode, RecognizedTextModeChanges } from '../models';
+import { RecognizedTextMode } from '../models';
 import { Hit } from '../models/hit';
 import { Manifest } from '../models/manifest';
 import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
@@ -31,70 +37,48 @@ import { HtmlFormatter } from './html.formatter';
 @Injectable()
 export class AltoService {
   intl = inject(MimeViewerIntl);
+  readonly recognizedTextContentMode: Signal<RecognizedTextMode>;
+  readonly isLoading: Signal<boolean>;
+  readonly error: Signal<string | undefined>;
+  readonly currentCanvasGroupHasTextSource: Signal<boolean | undefined>;
+  readonly textContentRevision: Signal<number>;
+  readonly highlightsRevision: Signal<number>;
   private readonly http = inject(HttpClient);
   private readonly iiifManifestService = inject(IiifManifestService);
   private readonly highlightService = inject(HighlightService);
   private readonly canvasService = inject(CanvasService);
   private readonly viewerLayoutService = inject(ViewerLayoutService);
   private readonly sanitizer = inject(DomSanitizer);
+  private readonly injector = inject(Injector);
   private config!: MimeViewerConfig;
   private altos: string[] = [];
-  private readonly isLoading = new BehaviorSubject(false);
-  private readonly textContentReady = new Subject<void>();
-  private readonly textHighlightsChanged = new Subject<void>();
-  private readonly textError = new BehaviorSubject<string | undefined>(
-    undefined,
+  private readonly recognizedTextContentModeState = signal(
+    RecognizedTextMode.NONE,
   );
-  private readonly currentCanvasGroupHasTextSource = new BehaviorSubject<
+  private readonly isLoadingState = signal(false);
+  private readonly errorState = signal<string | undefined>(undefined);
+  private readonly currentCanvasGroupHasTextSourceState = signal<
     boolean | undefined
   >(undefined);
+  private readonly textContentRevisionState = signal(0);
+  private readonly highlightsRevisionState = signal(0);
   private manifest: Manifest | null = null;
   private subscriptions = new Subscription();
   private readonly altoBuilder = new AltoBuilder();
   private htmlFormatter!: HtmlFormatter;
   private hits: Hit[] | undefined;
   private initialized = false;
-  private readonly _recognizedTextContentModeChanges =
-    new BehaviorSubject<RecognizedTextModeChanges>({
-      previousValue: RecognizedTextMode.NONE,
-      currentValue: RecognizedTextMode.NONE,
-    });
-  private previousRecognizedTextMode = RecognizedTextMode.NONE;
+  private manifestEffect?: EffectRef;
 
-  get onRecognizedTextContentModeChange$(): Observable<RecognizedTextModeChanges> {
-    return this._recognizedTextContentModeChanges.asObservable();
-  }
-
-  get onTextContentReady$(): Observable<void> {
-    return this.textContentReady.asObservable();
-  }
-
-  get onTextHighlightsChange$(): Observable<void> {
-    return this.textHighlightsChanged.asObservable();
-  }
-
-  get isLoading$(): Observable<boolean> {
-    return this.isLoading.asObservable();
-  }
-
-  get hasErrors$(): Observable<string | undefined> {
-    return this.textError.asObservable();
-  }
-
-  get currentCanvasGroupHasTextSource$(): Observable<boolean | undefined> {
-    return this.currentCanvasGroupHasTextSource.asObservable();
-  }
-
-  get recognizedTextContentMode(): RecognizedTextMode {
-    return this._recognizedTextContentModeChanges.value.currentValue;
-  }
-
-  set recognizedTextContentMode(value: RecognizedTextMode) {
-    this._recognizedTextContentModeChanges.next({
-      currentValue: value,
-      previousValue: this.previousRecognizedTextMode,
-    });
-    this.previousRecognizedTextMode = value;
+  constructor() {
+    this.recognizedTextContentMode =
+      this.recognizedTextContentModeState.asReadonly();
+    this.isLoading = this.isLoadingState.asReadonly();
+    this.error = this.errorState.asReadonly();
+    this.currentCanvasGroupHasTextSource =
+      this.currentCanvasGroupHasTextSourceState.asReadonly();
+    this.textContentRevision = this.textContentRevisionState.asReadonly();
+    this.highlightsRevision = this.highlightsRevisionState.asReadonly();
   }
 
   initialize() {
@@ -106,15 +90,14 @@ export class AltoService {
     this.htmlFormatter = new HtmlFormatter();
     this.subscriptions = new Subscription();
 
-    this.subscriptions.add(
-      this.iiifManifestService.currentManifest.subscribe(
-        (manifest: Manifest | null) => {
-          this.manifest = manifest;
-          this.textError.next(undefined);
-          this.currentCanvasGroupHasTextSource.next(undefined);
-          this.clearCache();
-        },
-      ),
+    this.manifestEffect = effect(
+      () => {
+        this.manifest = this.iiifManifestService.manifest();
+        this.errorState.set(undefined);
+        this.currentCanvasGroupHasTextSourceState.set(undefined);
+        this.clearCache();
+      },
+      { injector: this.injector },
     );
 
     this.subscriptions.add(
@@ -124,33 +107,38 @@ export class AltoService {
       ])
         .pipe(
           switchMap(([currentCanvasGroupIndex]) => {
-            this.textError.next(undefined);
-            this.currentCanvasGroupHasTextSource.next(undefined);
-            this.isLoading.next(true);
+            this.errorState.set(undefined);
+            this.currentCanvasGroupHasTextSourceState.set(undefined);
+            this.isLoadingState.set(true);
+
             return timer(200).pipe(
               switchMap(() => this.loadCanvasGroup(currentCanvasGroupIndex)),
-              finalize(() => this.isLoading.next(false)),
+              finalize(() => this.isLoadingState.set(false)),
             );
           }),
         )
-        .subscribe(() => this.textContentReady.next()),
+        .subscribe(() =>
+          this.textContentRevisionState.update((revision) => revision + 1),
+        ),
     );
   }
 
   setHits(hits?: Hit[]) {
     this.hits = hits;
-    this.textHighlightsChanged.next();
+    this.highlightsRevisionState.update((revision) => revision + 1);
   }
 
   destroy() {
-    this.recognizedTextContentMode = this.config?.initRecognizedTextContentMode
-      ? this.config?.initRecognizedTextContentMode
-      : RecognizedTextMode.NONE;
+    this.setRecognizedTextContentMode(
+      this.config?.initRecognizedTextContentMode ?? RecognizedTextMode.NONE,
+    );
 
     this.subscriptions.unsubscribe();
+    this.manifestEffect?.destroy();
+    this.manifestEffect = undefined;
     this.initialized = false;
-    this.textError.next(undefined);
-    this.currentCanvasGroupHasTextSource.next(undefined);
+    this.errorState.set(undefined);
+    this.currentCanvasGroupHasTextSourceState.set(undefined);
     this.clearCache();
   }
 
@@ -159,15 +147,15 @@ export class AltoService {
   }
 
   showRecognizedTextContentOnly() {
-    this.recognizedTextContentMode = RecognizedTextMode.ONLY;
+    this.setRecognizedTextContentMode(RecognizedTextMode.ONLY);
   }
 
   showRecognizedTextContentInSplitView() {
-    this.recognizedTextContentMode = RecognizedTextMode.SPLIT;
+    this.setRecognizedTextContentMode(RecognizedTextMode.SPLIT);
   }
 
   closeRecognizedTextContent() {
-    this.recognizedTextContentMode = RecognizedTextMode.NONE;
+    this.setRecognizedTextContentMode(RecognizedTextMode.NONE);
   }
 
   getHtml(index: number): SafeHtml | undefined {
@@ -189,14 +177,16 @@ export class AltoService {
     );
 
     if (!canvasGroup || canvasGroup.length === 0) {
-      this.currentCanvasGroupHasTextSource.next(false);
+      this.currentCanvasGroupHasTextSourceState.set(false);
+
       return EMPTY;
     }
     this.addAltoSource(canvasGroup[0], sources);
     if (canvasGroup.length === 2) {
       this.addAltoSource(canvasGroup[1], sources);
     }
-    this.currentCanvasGroupHasTextSource.next(sources.length > 0);
+    this.currentCanvasGroupHasTextSourceState.set(sources.length > 0);
+
     return sources.length > 0
       ? forkJoin(sources).pipe(
           take(1),
@@ -221,8 +211,10 @@ export class AltoService {
     return new Observable((observer) => {
       if (this.isInCache(index)) {
         this.done(observer);
+
         return;
       }
+
       return this.load(observer, index, url);
     });
   }
@@ -257,7 +249,7 @@ export class AltoService {
             throw data.err;
           }
         } catch {
-          this.error(observer);
+          this.handleLoadError(observer);
         }
       });
   }
@@ -270,9 +262,13 @@ export class AltoService {
     this.complete(observer);
   }
 
-  private error(observer: Subscriber<void>) {
-    this.textError.next(this.intl.textContentErrorLabel);
+  private handleLoadError(observer: Subscriber<void>) {
+    this.errorState.set(this.intl.textContentErrorLabel);
     this.complete(observer);
+  }
+
+  private setRecognizedTextContentMode(value: RecognizedTextMode): void {
+    this.recognizedTextContentModeState.set(value);
   }
 
   private complete(observer: Subscriber<void>) {

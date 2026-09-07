@@ -1,7 +1,9 @@
 import {
   ElementRef,
+  effect,
   inject,
   Injectable,
+  untracked,
   ViewContainerRef,
 } from '@angular/core';
 import {
@@ -9,7 +11,6 @@ import {
   MatDialogRef,
   MatDialogState,
 } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { HelpDialogConfigStrategyFactory } from './help-dialog-config-strategy-factory';
 import { HelpDialogComponent } from './help-dialog.component';
@@ -24,7 +25,17 @@ export class HelpDialogService {
   private _el: ElementRef | undefined;
   private _viewContainerRef: ViewContainerRef | undefined;
   private dialogRef?: MatDialogRef<HelpDialogComponent>;
-  private subscriptions!: Subscription;
+  private initialized = false;
+
+  constructor() {
+    effect(() => {
+      const dimensions = this.mimeResizeService.dimensions();
+
+      if (dimensions && this.initialized) {
+        untracked(() => this.updateDialogLayout());
+      }
+    });
+  }
 
   set el(el: ElementRef) {
     this._el = el;
@@ -35,21 +46,12 @@ export class HelpDialogService {
   }
 
   public initialize(): void {
-    this.subscriptions = new Subscription();
-    this.subscriptions.add(
-      this.mimeResizeService.onResize.subscribe(() => {
-        if (this.isOpen()) {
-          const config = this.getDialogConfig();
-          this.dialogRef?.updatePosition(config.position);
-          this.dialogRef?.updateSize(config.width, config.height);
-        }
-      }),
-    );
+    this.initialized = true;
   }
 
   public destroy(): void {
     this.close();
-    this.unsubscribe();
+    this.initialized = false;
   }
 
   public open(): void {
@@ -85,9 +87,11 @@ export class HelpDialogService {
       : {};
   }
 
-  private unsubscribe() {
-    if (this.subscriptions) {
-      this.subscriptions.unsubscribe();
+  private updateDialogLayout(): void {
+    if (this.isOpen()) {
+      const config = this.getDialogConfig();
+      this.dialogRef?.updatePosition(config.position);
+      this.dialogRef?.updateSize(config.width, config.height);
     }
   }
 }

@@ -1,18 +1,12 @@
-import {
-  BreakpointObserver,
-  Breakpoints,
-  BreakpointState,
-} from '@angular/cdk/layout';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { OverlayContainer } from '@angular/cdk/overlay';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, computed, effect, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatDrawerMode, MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { map } from 'rxjs';
 import { NavbarComponent } from './core/navbar/navbar.component';
-import {
-  SiteTheme,
-  ThemeService,
-} from './core/navbar/theme-picker/theme-service/theme.service';
+import { ThemeService } from './core/navbar/theme-picker/theme-service/theme.service';
 import { SidenavComponent } from './core/sidenav/sidenav.component';
 
 @Component({
@@ -21,46 +15,33 @@ import { SidenavComponent } from './core/sidenav/sidenav.component';
   styleUrls: ['./app.component.scss'],
   imports: [MatSidenavModule, SidenavComponent, NavbarComponent, RouterOutlet],
 })
-export class AppComponent implements OnInit, OnDestroy {
-  sidenavMode: MatDrawerMode = 'side';
-  sidenavIsOpen = false;
+export class AppComponent {
   private readonly breakpointObserver = inject(BreakpointObserver);
   private readonly overlayContainer = inject(OverlayContainer);
   private readonly themeService = inject(ThemeService);
-  private readonly subscriptions = new Subscription();
 
-  ngOnInit(): void {
-    this.subscriptions.add(
-      this.breakpointObserver
-        .observe([Breakpoints.Handset, Breakpoints.TabletPortrait])
-        .subscribe((result: BreakpointState) => {
-          this.layout(result.matches);
-        }),
-    );
+  readonly isHandsetOrTabletInPortrait = toSignal(
+    this.breakpointObserver
+      .observe([Breakpoints.Handset, Breakpoints.TabletPortrait])
+      .pipe(map(({ matches }) => matches)),
+    { initialValue: false },
+  );
+  readonly sidenavMode = computed<MatDrawerMode>(() =>
+    this.isHandsetOrTabletInPortrait() ? 'over' : 'side',
+  );
+  readonly sidenavIsOpen = computed(() => !this.isHandsetOrTabletInPortrait());
 
-    this.setTheme(this.themeService.getStoredTheme().name);
-    this.subscriptions.add(
-      this.themeService.onThemeUpdate.subscribe((theme: SiteTheme) => {
-        this.setTheme(theme.name);
-      }),
-    );
+  constructor() {
+    effect(() => {
+      const themeName = this.themeService.currentTheme().name;
+
+      this.applyThemeToOverlay(themeName);
+    });
   }
 
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe();
-  }
-
-  private layout(isHandsetOrTabletInPortrait: boolean) {
-    if (isHandsetOrTabletInPortrait) {
-      this.sidenavMode = 'over';
-      this.sidenavIsOpen = false;
-    } else {
-      this.sidenavMode = 'side';
-      this.sidenavIsOpen = true;
-    }
-  }
-
-  private setTheme(name: string) {
-    this.overlayContainer.getContainerElement().classList.add(name);
+  private applyThemeToOverlay(themeName: string): void {
+    const overlayClasses =
+      this.overlayContainer.getContainerElement().classList;
+    overlayClasses.add(themeName);
   }
 }

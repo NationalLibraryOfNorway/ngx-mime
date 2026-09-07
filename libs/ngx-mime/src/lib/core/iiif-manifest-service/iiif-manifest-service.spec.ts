@@ -3,11 +3,10 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { fakeAsync, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { testManifest } from '../../test/testManifest';
 import { ManifestBuilder } from '../builders/iiif/v2/manifest.builder';
 import { MimeViewerIntl } from '../intl';
-import { Manifest } from '../models/manifest';
 import { SpinnerService } from '../spinner-service/spinner.service';
 import { IiifManifestService } from './iiif-manifest-service';
 
@@ -37,60 +36,33 @@ describe('IiifManifestService', () => {
     expect(svc).toBeTruthy();
   });
 
-  it('should return a Manifest', fakeAsync(() => {
-    let result: Manifest | null = new Manifest();
-    let error: string | null = null;
-
+  it('should return a Manifest', () => {
     svc.load('dummyUrl').subscribe();
 
     const request = httpTestingController.expectOne(`dummyUrl`);
     request.flush(new ManifestBuilder(testManifest).build());
 
-    svc.currentManifest.subscribe(
-      (manifest: Manifest | null) => (result = manifest),
-    );
-
-    svc.errorMessage.subscribe((err: string | null) => (error = err));
-
-    expect(error).toBeNull();
+    const result = svc.manifest();
+    expect(svc.error()).toBeNull();
     expect(result).toBeDefined();
     if (result) {
       expect(result.label).toBe('Fjellkongen Ludvig "Ludden"');
     }
-  }));
+  });
 
-  it('should return error message if manifest url is missing', fakeAsync(() => {
-    let result: Manifest | null = null;
-    let error: string | null = null;
-
-    svc.currentManifest.subscribe((manifest: Manifest | null) => {
-      result = manifest;
-    });
-
-    svc.errorMessage.subscribe((err: string | null) => {
-      error = err;
-    });
-
+  it('should return error message if manifest url is missing', () => {
     svc.load('').subscribe();
 
     httpTestingController.expectNone('');
-    expect(result).toBeNull();
+    const error = svc.error();
+    expect(svc.manifest()).toBeNull();
     expect(error).toBeDefined();
     if (error) {
       expect(error).toBe('ManifestUri is missing');
     }
-  }));
+  });
 
-  it('should return error message if IiifManifestService could not load manifest', fakeAsync(() => {
-    let result: Manifest | null = null;
-    let error: string | null = null;
-
-    svc.currentManifest.subscribe(
-      (manifest: Manifest | null) => (result = manifest),
-    );
-
-    svc.errorMessage.subscribe((err: string | null) => (error = err));
-
+  it('should return error message if IiifManifestService could not load manifest', () => {
     svc.load('wrongManifestUrl').subscribe();
 
     httpTestingController
@@ -101,17 +73,15 @@ describe('IiifManifestService', () => {
       });
 
     httpTestingController.verify();
-    expect(result).toBeNull();
+    const error = svc.error();
+    expect(svc.manifest()).toBeNull();
     expect(error).toBeDefined();
     if (error) {
       expect(error).toEqual('Cannot /GET wrongManifestUrl');
     }
-  }));
+  });
 
-  it('should return error message when manifest is not valid', fakeAsync(() => {
-    let result: Manifest | null = new Manifest();
-    let error: string | null = null;
-
+  it('should return error message when manifest is not valid', () => {
     const invalidManifest = new ManifestBuilder(testManifest).build();
     invalidManifest.sequences = [];
 
@@ -120,18 +90,11 @@ describe('IiifManifestService', () => {
     const req = httpTestingController.expectOne(`invalidManifest`);
     req.flush(invalidManifest);
 
-    svc.currentManifest.subscribe((manifest: Manifest | null) => {
-      result = manifest;
-    });
-
-    svc.errorMessage.subscribe((err: string | null) => {
-      error = err;
-    });
-
-    expect(result).toBeNull();
+    const error = svc.error();
+    expect(svc.manifest()).toBeNull();
     expect(error).toBeDefined();
     if (error) {
       expect(error).toBe('Manifest is not valid');
     }
-  }));
+  });
 });

@@ -11,6 +11,7 @@ export class SizesBuilder {
         sizes.push(new Size(size.width, size.height));
       }
     }
+
     return sizes;
   }
 }

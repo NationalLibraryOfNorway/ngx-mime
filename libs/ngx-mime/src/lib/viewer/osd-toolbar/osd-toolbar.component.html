@@ -1,37 +1,37 @@
-<div #container class="osd-toolbar" [class.open]="fabState === 'open'">
-  @if (isWeb) {
+<div class="osd-toolbar" [class.open]="fabState() === 'open'">
+  @if (isWeb()) {
     <div class="flex gap-2">
       <div class="flex flex-col gap-2">
         <button
           mat-fab
           aria-controls="osdControls"
           data-testid="fabButton"
-          [attr.aria-expanded]="fabState === 'open'"
+          [attr.aria-expanded]="fabState() === 'open'"
           [attr.aria-label]="
-            fabState === 'open'
-              ? intl.closeOsdControlPanelLabel
-              : intl.openOsdControlPanelLabel
+            fabState() === 'open'
+              ? intl().closeOsdControlPanelLabel
+              : intl().openOsdControlPanelLabel
           "
           [matTooltip]="
-            fabState === 'open'
-              ? intl.closeOsdControlPanelLabel
-              : intl.openOsdControlPanelLabel
+            fabState() === 'open'
+              ? intl().closeOsdControlPanelLabel
+              : intl().openOsdControlPanelLabel
           "
           (click)="toggleFab()"
         >
-          <mat-icon>{{ fabIcon }}</mat-icon>
+          <mat-icon>{{ fabIcon() }}</mat-icon>
         </button>
       </div>
       <div id="osdControls" class="flex items-center gap-2">
-        @if (invert) {
+        @if (invert()) {
           <button
             data-testid="navigateBeforeButton"
             mat-mini-fab
             [style.--delayEnter]="0"
             [style.--delayLeave]="baseAnimationDelay * 5"
-            [attr.aria-label]="intl.previousPageLabel"
-            [matTooltip]="intl.previousPageLabel"
-            [disabled]="isFirstCanvasGroup"
+            [attr.aria-label]="intl().previousPageLabel"
+            [matTooltip]="intl().previousPageLabel"
+            [disabled]="isFirstCanvasGroup()"
             (click)="goToPreviousCanvasGroup()"
           >
             <mat-icon>navigate_before</mat-icon>
@@ -42,23 +42,23 @@
             mat-mini-fab
             [style.--delayEnter]="0"
             [style.--delayLeave]="baseAnimationDelay * 5"
-            [attr.aria-label]="intl.nextPageLabel"
-            [matTooltip]="intl.nextPageLabel"
-            [disabled]="isLastCanvasGroup"
+            [attr.aria-label]="intl().nextPageLabel"
+            [matTooltip]="intl().nextPageLabel"
+            [disabled]="isLastCanvasGroup()"
             (click)="goToNextCanvasGroup()"
           >
             <mat-icon>navigate_before</mat-icon>
           </button>
         }
-        @if (invert) {
+        @if (invert()) {
           <button
             data-testid="navigateNextButton"
             mat-mini-fab
             [style.--delayEnter]="baseAnimationDelay"
             [style.--delayLeave]="baseAnimationDelay * 4"
-            [attr.aria-label]="intl.nextPageLabel"
-            [matTooltip]="intl.nextPageLabel"
-            [disabled]="isLastCanvasGroup"
+            [attr.aria-label]="intl().nextPageLabel"
+            [matTooltip]="intl().nextPageLabel"
+            [disabled]="isLastCanvasGroup()"
             (click)="goToNextCanvasGroup()"
           >
             <mat-icon>navigate_next</mat-icon>
@@ -69,9 +69,9 @@
             mat-mini-fab
             [style.--delayEnter]="baseAnimationDelay"
             [style.--delayLeave]="baseAnimationDelay * 4"
-            [attr.aria-label]="intl.previousPageLabel"
-            [matTooltip]="intl.previousPageLabel"
-            [disabled]="isFirstCanvasGroup"
+            [attr.aria-label]="intl().previousPageLabel"
+            [matTooltip]="intl().previousPageLabel"
+            [disabled]="isFirstCanvasGroup()"
             (click)="goToPreviousCanvasGroup()"
           >
             <mat-icon>navigate_next</mat-icon>
@@ -83,8 +83,8 @@
           mat-mini-fab
           [style.--delayEnter]="baseAnimationDelay * 2"
           [style.--delayLeave]="baseAnimationDelay * 3"
-          [attr.aria-label]="intl.zoomInLabel"
-          [matTooltip]="intl.zoomInLabel"
+          [attr.aria-label]="intl().zoomInLabel"
+          [matTooltip]="intl().zoomInLabel"
         >
           <mat-icon>zoom_in</mat-icon>
         </button>
@@ -94,9 +94,9 @@
           mat-mini-fab
           [style.--delayEnter]="baseAnimationDelay * 3"
           [style.--delayLeave]="baseAnimationDelay * 2"
-          [attr.aria-label]="intl.resetZoomLabel"
-          [disabled]="!isZoomed"
-          [matTooltip]="intl.resetZoomLabel"
+          [attr.aria-label]="intl().resetZoomLabel"
+          [disabled]="!isZoomed()"
+          [matTooltip]="intl().resetZoomLabel"
         >
           <mat-icon>home</mat-icon>
         </button>
@@ -106,8 +106,8 @@
           mat-mini-fab
           [style.--delayEnter]="baseAnimationDelay * 4"
           [style.--delayLeave]="baseAnimationDelay"
-          [attr.aria-label]="intl.zoomOutLabel"
-          [matTooltip]="intl.zoomOutLabel"
+          [attr.aria-label]="intl().zoomOutLabel"
+          [matTooltip]="intl().zoomOutLabel"
         >
           <mat-icon>zoom_out</mat-icon>
         </button>
@@ -117,8 +117,8 @@
           mat-mini-fab
           [style.--delayEnter]="baseAnimationDelay * 5"
           [style.--delayLeave]="0"
-          [attr.aria-label]="intl.rotateCwLabel"
-          [matTooltip]="intl.rotateCwLabel"
+          [attr.aria-label]="intl().rotateCwLabel"
+          [matTooltip]="intl().rotateCwLabel"
         >
           <mat-icon>rotate_right</mat-icon>
         </button>

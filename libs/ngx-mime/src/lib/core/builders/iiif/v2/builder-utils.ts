@@ -29,6 +29,7 @@ export class BuilderUtils {
         (canvas: Canvas) => canvas.id === canvases[0],
       );
     }
+
     return index;
   }
 }

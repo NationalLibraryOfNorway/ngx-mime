@@ -11,6 +11,7 @@ export class MetadataBuilder {
         metadatas.push(new Metadata(data.label, data.value));
       }
     }
+
     return metadatas;
   }
 }

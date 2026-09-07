@@ -2,17 +2,17 @@
   <div
     class="w-full"
     data-testid="navigation-slider-container"
-    [dir]="currentViewingDirection"
+    [dir]="currentViewingDirection()"
   >
     <mat-slider
       class="navigation-slider"
-      [max]="numberOfCanvasGroups - 1"
+      [max]="canvasGroupCount() - 1"
       (keydown)="onSliderHotKey($event)"
     >
       <input
         matSliderThumb
-        [attr.aria-label]="intl.currentPageLabel"
-        [(ngModel)]="currentCanvasGroupIndex"
+        [attr.aria-label]="intl().currentPageLabel"
+        [value]="currentCanvasGroupIndex()"
         (input)="onSliderChange($event)"
     /></mat-slider>
   </div>
@@ -22,19 +22,19 @@
     class="canvasGroups"
     (click)="openCanvasGroupDialog()"
   >
-    <span data-testid="currentCanvasGroupLabel">{{ canvasGroupLabel }}</span
+    <span data-testid="currentCanvasGroupLabel">{{ canvasGroupLabel() }}</span
     ><span>/</span
-    ><span data-testid="numOfCanvasGroups">{{ numberOfCanvases }}</span>
+    ><span data-testid="numOfCanvasGroups">{{ canvasCount() }}</span>
   </button>
   <div class="navigation-buttons">
-    @if (currentViewingDirection === ViewingDirection.LTR) {
+    @if (currentViewingDirection() === ViewingDirection.LTR) {
       <button
         data-testid="footerNavigateBeforeButton"
         mat-icon-button
-        [attr.aria-label]="intl.previousPageLabel"
-        [matTooltip]="intl.previousPageLabel"
+        [attr.aria-label]="intl().previousPageLabel"
+        [matTooltip]="intl().previousPageLabel"
         matTooltipPosition="above"
-        [disabled]="isFirstCanvasGroup"
+        [disabled]="isFirstCanvasGroup()"
         (click)="goToPreviousCanvasGroup()"
       >
         <mat-icon>navigate_before</mat-icon>
@@ -42,10 +42,10 @@
       <button
         data-testid="footerNavigateNextButton"
         mat-icon-button
-        [attr.aria-label]="intl.nextPageLabel"
-        [matTooltip]="intl.nextPageLabel"
+        [attr.aria-label]="intl().nextPageLabel"
+        [matTooltip]="intl().nextPageLabel"
         matTooltipPosition="above"
-        [disabled]="isLastCanvasGroup"
+        [disabled]="isLastCanvasGroup()"
         (click)="goToNextCanvasGroup()"
       >
         <mat-icon>navigate_next</mat-icon>
@@ -54,10 +54,10 @@
       <button
         data-testid="footerNavigateNextButton"
         mat-icon-button
-        [attr.aria-label]="intl.nextPageLabel"
-        [matTooltip]="intl.nextPageLabel"
+        [attr.aria-label]="intl().nextPageLabel"
+        [matTooltip]="intl().nextPageLabel"
         matTooltipPosition="above"
-        [disabled]="isLastCanvasGroup"
+        [disabled]="isLastCanvasGroup()"
         (click)="goToNextCanvasGroup()"
       >
         <mat-icon>navigate_before</mat-icon>
@@ -65,10 +65,10 @@
       <button
         data-testid="footerNavigateBeforeButton"
         mat-icon-button
-        [attr.aria-label]="intl.previousPageLabel"
-        [matTooltip]="intl.previousPageLabel"
+        [attr.aria-label]="intl().previousPageLabel"
+        [matTooltip]="intl().previousPageLabel"
         matTooltipPosition="above"
-        [disabled]="isFirstCanvasGroup"
+        [disabled]="isFirstCanvasGroup()"
         (click)="goToPreviousCanvasGroup()"
       >
         <mat-icon>navigate_next</mat-icon>

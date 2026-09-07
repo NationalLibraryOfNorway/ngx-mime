@@ -1,7 +1,6 @@
 import { Direction } from '../models/direction';
 import { Point } from '../models/point';
 import { Rect } from '../models/rect';
-import { ViewerMode } from '../models/viewer-mode';
 import { ViewerOptions } from '../models/viewer-options';
 import { SwipeUtils } from './swipe-utils';
 

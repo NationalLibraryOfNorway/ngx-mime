@@ -1,45 +1,39 @@
 import { HttpClientModule } from '@angular/common/http';
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { provideAutoSpy, Spy } from 'jest-auto-spies';
 import { IiifManifestService } from '../../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../../core/intl';
 import { Manifest, Metadata } from '../../core/models/manifest';
+import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
 import { MetadataComponent } from './metadata.component';
 
 describe('MetadataComponent', () => {
   let component: MetadataComponent;
   let fixture: ComponentFixture<MetadataComponent>;
-  let iiifManifestServiceSpy: Spy<IiifManifestService>;
+  let iiifManifestService: IiifManifestServiceStub;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [HttpClientModule, MetadataComponent],
       providers: [
         MimeViewerIntl,
-        provideAutoSpy(IiifManifestService, {
-          observablePropsToSpyOn: ['currentManifest'],
-        }),
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
       ],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(MetadataComponent);
     component = fixture.componentInstance;
-    iiifManifestServiceSpy = TestBed.inject(
-      IiifManifestService,
-    ) as Spy<IiifManifestService>;
-    fixture.detectChanges();
+    iiifManifestService = TestBed.inject<any>(IiifManifestService);
+    await fixture.whenStable();
   });
 
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display metadata', () => {
-    iiifManifestServiceSpy.currentManifest.nextWith(
+  it('should display metadata', async () => {
+    iiifManifestService.setManifest(
       new Manifest({
         metadata: [
           new Metadata('label1', 'value1'),
@@ -47,7 +41,7 @@ describe('MetadataComponent', () => {
         ],
       }),
     );
-    fixture.detectChanges();
+    await fixture.whenStable();
 
     const metadatas: DebugElement[] = fixture.debugElement.queryAll(
       By.css('.metadata'),
@@ -55,26 +49,26 @@ describe('MetadataComponent', () => {
     expect(metadatas.length).toEqual(2);
   });
 
-  it('should display attribution', () => {
-    iiifManifestServiceSpy.currentManifest.nextWith(
+  it('should display attribution', async () => {
+    iiifManifestService.setManifest(
       new Manifest({
         attribution: 'This is a test attribution',
       }),
     );
-    fixture.detectChanges();
+    await fixture.whenStable();
 
     const attribution: HTMLElement =
       fixture.nativeElement.querySelector('.attribution');
     expect(attribution.textContent).toBe('This is a test attribution');
   });
 
-  it('should display license', () => {
-    iiifManifestServiceSpy.currentManifest.nextWith(
+  it('should display license', async () => {
+    iiifManifestService.setManifest(
       new Manifest({
         license: 'https://wiki.creativecommons.org/wiki/CC0',
       }),
     );
-    fixture.detectChanges();
+    await fixture.whenStable();
 
     const attribution: HTMLElement =
       fixture.nativeElement.querySelector('.license');
@@ -83,13 +77,13 @@ describe('MetadataComponent', () => {
     );
   });
 
-  it('should display logo', () => {
-    iiifManifestServiceSpy.currentManifest.nextWith(
+  it('should display logo', async () => {
+    iiifManifestService.setManifest(
       new Manifest({
         logo: 'http://example.com/dummylogo.jpg',
       }),
     );
-    fixture.detectChanges();
+    await fixture.whenStable();
 
     const attribution: DebugElement = fixture.debugElement.query(
       By.css('.logo'),

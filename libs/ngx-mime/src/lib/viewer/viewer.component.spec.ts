@@ -1,13 +1,16 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA, Injector } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { provideAutoSpy } from 'jest-auto-spies';
+import { provideAutoSpy, Spy } from 'jest-auto-spies';
 import 'openseadragon';
+import { filter, firstValueFrom } from 'rxjs';
 import { AttributionDialogService } from '../attribution-dialog/attribution-dialog.service';
 import { ContentSearchDialogService } from '../content-search-dialog/content-search-dialog.service';
 import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
+import { AltoService } from '../core/alto-service/alto.service';
 import { CanvasService } from '../core/canvas-service/canvas-service';
 import { IiifContentSearchService } from '../core/iiif-content-search-service/iiif-content-search.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
@@ -16,6 +19,7 @@ import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { ModeService } from '../core/mode-service/mode.service';
 import { ViewerMode } from '../core/models';
 import { Manifest } from '../core/models/manifest';
+import { SearchResult } from '../core/models/search-result';
 import { ViewerLayout } from '../core/models/viewer-layout';
 import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import { ViewerService } from '../core/viewer-service/viewer.service';
@@ -37,6 +41,7 @@ describe('ViewerComponent', () => {
   const config: MimeViewerConfig = new MimeViewerConfig();
   const osdAnimationTime = 4000;
   let comp: ViewerComponent;
+  let injector: Injector;
   let testHostComponent: TestHostComponent;
   let testHostFixture: ComponentFixture<TestHostComponent>;
   let viewerService: ViewerService;
@@ -49,12 +54,13 @@ describe('ViewerComponent', () => {
   let accessKeysService: AccessKeysService;
   let attributionDialogService: AttributionDialogService;
   let viewDialogService: ViewDialogService;
-  let informationDialogService: InformationDialogService;
-  let contentSearchDialogService: ContentSearchDialogService;
+  let informationDialogService: Spy<InformationDialogService>;
+  let contentSearchDialogService: Spy<ContentSearchDialogService>;
   let helpDialogService: HelpDialogService;
   let resizeService: MimeResizeService;
+  let altoService: AltoService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.overrideComponent(ViewerComponent, {
       set: {
         providers: [],
@@ -69,7 +75,7 @@ describe('ViewerComponent', () => {
     TestBed.overrideProvider(IiifContentSearchService, {
       useValue: new IiifContentSearchServiceStub(),
     });
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         TestHostComponent,
@@ -91,14 +97,13 @@ describe('ViewerComponent', () => {
         provideAutoSpy(HelpDialogService),
       ],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     testHostFixture = TestBed.createComponent(TestHostComponent);
     comp = testHostFixture.componentInstance.viewerComponent;
     testHostComponent = testHostFixture.componentInstance;
     testHostComponent.manifestUri = 'dummyURI1';
 
+    injector = TestBed.inject(Injector);
     viewerService = TestBed.inject(ViewerService);
     canvasService = TestBed.inject(CanvasService);
     modeService = TestBed.inject(ModeService);
@@ -111,16 +116,36 @@ describe('ViewerComponent', () => {
     accessKeysService = TestBed.inject(AccessKeysService);
     attributionDialogService = TestBed.inject(AttributionDialogService);
     viewDialogService = TestBed.inject(ViewDialogService);
-    informationDialogService = TestBed.inject(InformationDialogService);
-    contentSearchDialogService = TestBed.inject(ContentSearchDialogService);
+    informationDialogService = TestBed.inject(
+      InformationDialogService,
+    ) as Spy<InformationDialogService>;
+    contentSearchDialogService = TestBed.inject(
+      ContentSearchDialogService,
+    ) as Spy<ContentSearchDialogService>;
     helpDialogService = TestBed.inject(HelpDialogService);
     resizeService = TestBed.inject(MimeResizeService);
+    altoService = TestBed.inject(AltoService);
   });
 
   it('should create component', () => {
     testHostFixture.detectChanges();
 
     expect(comp).toBeDefined();
+  });
+
+  it('should emit the latest recognized-text mode', async () => {
+    const recognizedTextContentModeChanged = jest.fn();
+    comp.recognizedTextContentModeChanged.subscribe(
+      recognizedTextContentModeChanged,
+    );
+    testHostFixture.detectChanges();
+
+    altoService.showRecognizedTextContentOnly();
+    await testHostFixture.whenStable();
+
+    expect(recognizedTextContentModeChanged).toHaveBeenLastCalledWith(
+      comp.recognizedTextMode.ONLY,
+    );
   });
 
   it('should cleanup when manifestUri changes', () => {
@@ -138,7 +163,7 @@ describe('ViewerComponent', () => {
     expect(helpDialogService.destroy).toHaveBeenCalled();
     expect(viewerService.destroy).toHaveBeenCalled();
     expect(resizeService.destroy).toHaveBeenCalled();
-    expect(comp.errorMessage).toBeNull();
+    expect(comp.errorMessage()).toBeNull();
   });
 
   it('should create viewer', () => {
@@ -160,31 +185,26 @@ describe('ViewerComponent', () => {
   it('should initially open in configs intial-mode', () => {
     testHostFixture.detectChanges();
 
-    expect(modeService.mode).toBe(config.initViewerMode);
+    expect(modeService.mode()).toBe(config.initViewerMode);
   });
 
-  it('should change mode to initial-mode when changing manifest', (done) => {
+  it('should change mode to initial-mode when changing manifest', async () => {
     testHostFixture.detectChanges();
+    await testHostFixture.whenStable();
 
-    viewerService.onOsdReadyChange.subscribe((state: boolean) => {
-      if (state) {
-        setTimeout(() => {
-          if (config.initViewerMode === ViewerMode.PAGE) {
-            modeService.mode = ViewerMode.DASHBOARD;
-            expect(modeService.mode).toBe(ViewerMode.DASHBOARD);
-          } else {
-            modeService.mode = ViewerMode.PAGE;
-            expect(modeService.mode).toBe(ViewerMode.PAGE);
-          }
-          testHostComponent.manifestUri = 'dummyURI3';
-          testHostFixture.detectChanges();
-          expect(modeService.mode.valueOf()).toBe(
-            config.initViewerMode.valueOf(),
-          );
-          done();
-        }, osdAnimationTime);
-      }
-    });
+    if (config.initViewerMode === ViewerMode.PAGE) {
+      modeService.setMode(ViewerMode.DASHBOARD);
+      expect(modeService.mode()).toBe(ViewerMode.DASHBOARD);
+    } else {
+      modeService.setMode(ViewerMode.PAGE);
+      expect(modeService.mode()).toBe(ViewerMode.PAGE);
+    }
+
+    testHostComponent.manifestUri = 'dummyURI3';
+    testHostFixture.changeDetectorRef.markForCheck();
+    await testHostFixture.whenStable();
+
+    expect(modeService.mode()).toBe(config.initViewerMode);
   });
 
   it('svgOverlay-plugin should be defined', () => {
@@ -207,40 +227,34 @@ describe('ViewerComponent', () => {
     );
   });
 
-  it('should return to home zoom', (done) => {
+  it('should return to home zoom', async () => {
     testHostFixture.detectChanges();
+    await waitForViewerReady();
+    await new Promise((resolve) => setTimeout(resolve, 600));
 
-    viewerService.onOsdReadyChange.subscribe((state: boolean) => {
-      if (state) {
-        setTimeout(() => {
-          const overlay = viewerService.getOverlays()[0];
-          const viewer = viewerService.getViewer();
+    const overlay = viewerService.getOverlays()[0];
+    const viewer = viewerService.getViewer();
 
-          // Make sure zooming actually works, or else test will always be true
-          const startZoom = viewer.viewport.getZoom(false);
-          viewerService.zoomIn();
-          const newZoom = viewer.viewport.getZoom(false);
-          expect(newZoom).toBeGreaterThan(startZoom);
+    // Make sure zooming actually works, or else test will always be true
+    const startZoom = viewer.viewport.getZoom(false);
+    viewerService.zoomIn();
+    const newZoom = viewer.viewport.getZoom(false);
+    expect(newZoom).toBeGreaterThan(startZoom);
 
-          // Return to home
-          viewerService.home();
+    // Return to home
+    viewerService.home();
 
-          const overlayWidth = getAttributeAsInt(overlay, 'width');
-          const overlayHeight = getAttributeAsInt(overlay, 'height');
-          const viewportHeight = Math.round(viewer.viewport.getBounds().height);
-          const viewportWidth = Math.round(viewer.viewport.getBounds().width);
-          expect(
-            overlayHeight === viewportHeight || overlayWidth === viewportWidth,
-          ).toEqual(true);
-
-          done();
-        }, 600);
-      }
-    });
+    const overlayWidth = getAttributeAsInt(overlay, 'width');
+    const overlayHeight = getAttributeAsInt(overlay, 'height');
+    const viewportHeight = Math.round(viewer.viewport.getBounds().height);
+    const viewportWidth = Math.round(viewer.viewport.getBounds().width);
+    expect(
+      overlayHeight === viewportHeight || overlayWidth === viewportWidth,
+    ).toEqual(true);
   });
 
   // @TODO need to find a way to test this in jest
-  xit('should return to home after resize', (done) => {
+  xit('should return to home after resize', async () => {
     testHostFixture.detectChanges();
 
     const viewer = viewerService.getViewer();
@@ -250,69 +264,59 @@ describe('ViewerComponent', () => {
     );
     const element = openseadragonDE.nativeElement;
     let viewportHeight, viewportWidth;
+    await waitForViewerReady();
+    await new Promise((resolve) => setTimeout(resolve, 600));
 
-    viewerService.onOsdReadyChange.subscribe((state: boolean) => {
-      if (state) {
-        setTimeout(() => {
-          const startMinZoomLevel = viewer.viewport.minZoomLevel;
-          viewportHeight = Math.round(viewer.viewport.getBounds().height);
-          viewportWidth = Math.round(viewer.viewport.getBounds().width);
+    const startMinZoomLevel = viewer.viewport.minZoomLevel;
+    viewportHeight = Math.round(viewer.viewport.getBounds().height);
+    viewportWidth = Math.round(viewer.viewport.getBounds().width);
 
-          const overlayWidth = getAttributeAsInt(overlay, 'width');
-          const overlayHeight = getAttributeAsInt(overlay, 'height');
+    const overlayWidth = getAttributeAsInt(overlay, 'width');
+    const overlayHeight = getAttributeAsInt(overlay, 'height');
 
-          // Starting out at home
-          expect(
-            overlayHeight === viewportHeight || overlayWidth === viewportWidth,
-          ).toEqual(true);
+    // Starting out at home
+    expect(
+      overlayHeight === viewportHeight || overlayWidth === viewportWidth,
+    ).toEqual(true);
 
-          // Resize OSD
-          element.style.display = 'block';
-          element.style.width = '800px';
-          element.style.height = '400px';
-          element.dispatchEvent(new Event('resize'));
-          Object.defineProperty(window, 'innerHeight', {
-            writable: true,
-            configurable: true,
-            value: 150,
-          });
-
-          window.dispatchEvent(new Event('resize'));
-
-          expect(window.innerHeight).toBe(150);
-
-          setTimeout(() => {
-            viewportHeight = Math.round(viewer.viewport.getBounds().height);
-            viewportWidth = Math.round(viewer.viewport.getBounds().width);
-
-            expect(
-              overlayHeight !== viewportHeight &&
-                overlayWidth !== viewportWidth,
-            ).toBe(true);
-
-            // Return to home
-            mimeResizeServiceStub.triggerResize();
-
-            setTimeout(() => {
-              // Confirm that minimum zoom level is updated
-              const endMinZoomLevel = viewer.viewport.minZoomLevel;
-              expect(endMinZoomLevel).toBeGreaterThan(startMinZoomLevel);
-
-              viewportHeight = Math.round(viewer.viewport.getBounds().height);
-              viewportWidth = Math.round(viewer.viewport.getBounds().width);
-
-              // Returned to home
-              expect(
-                overlayHeight === viewportHeight ||
-                  overlayWidth === viewportWidth,
-              ).toBe(true);
-
-              done();
-            }, 600);
-          }, 600);
-        }, 600);
-      }
+    // Resize OSD
+    element.style.display = 'block';
+    element.style.width = '800px';
+    element.style.height = '400px';
+    element.dispatchEvent(new Event('resize'));
+    Object.defineProperty(window, 'innerHeight', {
+      writable: true,
+      configurable: true,
+      value: 150,
     });
+
+    window.dispatchEvent(new Event('resize'));
+
+    expect(window.innerHeight).toBe(150);
+    await new Promise((resolve) => setTimeout(resolve, 600));
+
+    viewportHeight = Math.round(viewer.viewport.getBounds().height);
+    viewportWidth = Math.round(viewer.viewport.getBounds().width);
+
+    expect(
+      overlayHeight !== viewportHeight && overlayWidth !== viewportWidth,
+    ).toBe(true);
+
+    // Return to home
+    mimeResizeServiceStub.triggerResize();
+    await new Promise((resolve) => setTimeout(resolve, 600));
+
+    // Confirm that minimum zoom level is updated
+    const endMinZoomLevel = viewer.viewport.minZoomLevel;
+    expect(endMinZoomLevel).toBeGreaterThan(startMinZoomLevel);
+
+    viewportHeight = Math.round(viewer.viewport.getBounds().height);
+    viewportWidth = Math.round(viewer.viewport.getBounds().width);
+
+    // Returned to home
+    expect(
+      overlayHeight === viewportHeight || overlayWidth === viewportWidth,
+    ).toBe(true);
   });
 
   it('should return overlay-index if target is an overlay', () => {
@@ -402,38 +406,48 @@ describe('ViewerComponent', () => {
   // expect(pageNumber).toBe(10);
   it.todo('should change canvas group when swipeing to left');
 
-  it('should emit when canvas group mode changes', () => {
+  it('should emit when canvas group mode changes', async () => {
     testHostFixture.detectChanges();
     let selectedMode: ViewerMode | undefined;
     comp.viewerModeChanged.subscribe(
       (mode: ViewerMode) => (selectedMode = mode),
     );
 
-    modeService.mode = ViewerMode.DASHBOARD;
+    modeService.setMode(ViewerMode.DASHBOARD);
+    await testHostFixture.whenStable();
+
     expect(selectedMode).toEqual(ViewerMode.DASHBOARD);
   });
 
-  it('should emit when canvas group number changes', (done) => {
+  it('should not restore a saved dialog when another dialog is already open', async () => {
     testHostFixture.detectChanges();
-    let currentCanvasIndex: number;
-    comp.canvasChanged.subscribe(
-      (canvasIndex: number) => (currentCanvasIndex = canvasIndex),
-    );
-    viewerService.onOsdReadyChange.subscribe((state: boolean) => {
-      if (state) {
-        setTimeout(() => {
-          viewerService.goToCanvasGroup(1, false);
-        }, 100);
+    await testHostFixture.whenStable();
+    await setViewerMode(ViewerMode.DASHBOARD);
+    contentSearchDialogService.isOpen.mockReturnValue(true);
 
-        setTimeout(() => {
-          expect(currentCanvasIndex).toEqual(1);
-          done();
-        }, osdAnimationTime);
-      }
-    });
+    await setViewerMode(ViewerMode.PAGE);
+    informationDialogService.isOpen.mockReturnValue(true);
+    contentSearchDialogService.isOpen.mockReturnValue(false);
+
+    await setViewerMode(ViewerMode.DASHBOARD);
+
+    expect(contentSearchDialogService.open).not.toHaveBeenCalled();
   });
 
-  it('should stay on same tile after a ViewerLayout change', (done) => {
+  it('should emit when canvas group number changes', async () => {
+    const canvasChanged = jest.fn();
+    testHostFixture.detectChanges();
+    comp.canvasChanged.subscribe(canvasChanged);
+    await waitForViewerReady();
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    viewerService.goToCanvasGroup(1, false);
+    await new Promise((resolve) => setTimeout(resolve, osdAnimationTime));
+
+    expect(canvasChanged).toHaveBeenLastCalledWith(1);
+  });
+
+  it('should stay on same tile after a ViewerLayout change', async () => {
     // Need to set canvasIndex on input of component to trigger previous occuring bug
     testHostComponent.canvasIndex = 3;
     testHostComponent.config = new MimeViewerConfig({
@@ -441,20 +455,16 @@ describe('ViewerComponent', () => {
     });
 
     testHostFixture.detectChanges();
+    await waitForViewerReady();
 
-    viewerService.onOsdReadyChange.subscribe((state: boolean) => {
-      if (state) {
-        expect(canvasService.currentCanvasIndex).toEqual(3);
+    expect(canvasService.currentCanvasIndex).toEqual(3);
 
-        viewerService.goToCanvas(7, false);
-        expect(canvasService.currentCanvasIndex).toEqual(7);
+    viewerService.goToCanvas(7, false);
+    expect(canvasService.currentCanvasIndex).toEqual(7);
 
-        viewerLayoutService.setLayout(ViewerLayout.TWO_PAGE);
+    viewerLayoutService.setLayout(ViewerLayout.TWO_PAGE);
 
-        expect(canvasService.currentCanvasIndex).toEqual(7);
-        done();
-      }
-    });
+    expect(canvasService.currentCanvasIndex).toEqual(7);
   });
 
   it('should emit when q changes', () => {
@@ -462,7 +472,36 @@ describe('ViewerComponent', () => {
 
     comp.qChanged.subscribe((q: string) => expect(q).toEqual('dummyquery'));
 
-    iiifContentSearchServiceStub._currentQ.next('dummyquery');
+    iiifContentSearchServiceStub.setQuery('dummyquery');
+  });
+
+  it('should search when q input changes', async () => {
+    testHostFixture.detectChanges();
+    iiifManifestServiceStub.setManifest(new Manifest({ id: 'dummyid' }));
+    await testHostFixture.whenStable();
+    const search = jest.spyOn(iiifContentSearchServiceStub, 'search');
+
+    testHostComponent.q = 'dummyquery';
+    testHostFixture.changeDetectorRef.markForCheck();
+    await testHostFixture.whenStable();
+
+    expect(search).toHaveBeenCalledWith(
+      expect.objectContaining({ id: 'dummyid' }),
+      'dummyquery',
+    );
+  });
+
+  it('should update highlights when search result changes', async () => {
+    const searchResult = new SearchResult({});
+    testHostFixture.detectChanges();
+    const setHits = jest.spyOn(altoService, 'setHits');
+    const highlight = jest.spyOn(viewerService, 'highlight');
+
+    iiifContentSearchServiceStub.setSearchResult(searchResult);
+    await testHostFixture.whenStable();
+
+    expect(setHits).toHaveBeenCalledWith(searchResult.hits);
+    expect(highlight).toHaveBeenCalledWith(searchResult);
   });
 
   it('should emit when manifest changes', () => {
@@ -472,27 +511,28 @@ describe('ViewerComponent', () => {
       expect(m.id).toEqual('dummyid'),
     );
 
-    iiifManifestServiceStub._currentManifest.next(
+    iiifManifestServiceStub.setManifest(
       new Manifest({
         id: 'dummyid',
       }),
     );
   });
 
-  it('should open viewer on canvas index if present', (done) => {
+  it('should open on the initial canvas without resetting later navigation', async () => {
     testHostComponent.canvasIndex = 12;
     testHostComponent.config = new MimeViewerConfig({
       initViewerLayout: ViewerLayout.ONE_PAGE,
     });
 
     testHostFixture.detectChanges();
+    await waitForViewerReady();
 
-    viewerService.onOsdReadyChange.subscribe((state: boolean) => {
-      if (state) {
-        expect(canvasService.currentCanvasIndex).toEqual(12);
-        done();
-      }
-    });
+    expect(canvasService.currentCanvasIndex).toEqual(12);
+
+    viewerService.goToCanvasGroup(0, false);
+    testHostFixture.detectChanges();
+
+    expect(canvasService.currentCanvasIndex).toEqual(0);
   });
 
   describe('header', () => {
@@ -503,7 +543,7 @@ describe('ViewerComponent', () => {
       done();
     });
 
-    it('should not be visible when state is changed to hide', (done) => {
+    it('should not be visible when state is changed to hide', async () => {
       testHostComponent.config = new MimeViewerConfig({
         initViewerMode: ViewerMode.DASHBOARD,
       });
@@ -511,19 +551,19 @@ describe('ViewerComponent', () => {
       expectHeaderToBeVisible();
 
       modeService.toggleMode();
+      await testHostFixture.whenStable();
 
       expectHeaderToBeHidden();
-      done();
     });
 
-    it('should be visible when state is changed to show', (done) => {
+    it('should be visible when state is changed to show', async () => {
       testHostFixture.detectChanges();
       expectHeaderToBeHidden();
 
       modeService.toggleMode();
+      await testHostFixture.whenStable();
 
       expectHeaderToBeVisible();
-      done();
     });
 
     it('should create dynamic component to start of header', () => {
@@ -555,7 +595,7 @@ describe('ViewerComponent', () => {
       done();
     });
 
-    it('should not be visible when state is changed to hide', (done) => {
+    it('should not be visible when state is changed to hide', async () => {
       testHostComponent.config = new MimeViewerConfig({
         initViewerMode: ViewerMode.DASHBOARD,
       });
@@ -563,19 +603,19 @@ describe('ViewerComponent', () => {
       expectFooterToBeVisible();
 
       modeService.toggleMode();
+      await testHostFixture.whenStable();
 
       expectFooterToBeHidden();
-      done();
     });
 
-    it('should be visible when state is changed to show', (done) => {
+    it('should be visible when state is changed to show', async () => {
       testHostFixture.detectChanges();
       expectFooterToBeHidden();
 
       modeService.toggleMode();
+      await testHostFixture.whenStable();
 
       expectFooterToBeVisible();
-      done();
     });
 
     it('should create dynamic component to start of footer', () => {
@@ -600,36 +640,32 @@ describe('ViewerComponent', () => {
   });
 
   // By.css() query does not find SVG elements https://github.com/angular/angular/pull/15372
-  xit('should add a mask around the canvas group', (done) => {
-    viewerService.onOsdReadyChange.subscribe((state: boolean) => {
-      if (state) {
-        setTimeout(() => {
-          const leftCanvasGroupMask = testHostFixture.debugElement.query(
-            By.css('[data-testid="mime-left-page-mask"]'),
-          );
-          const rightCanvasGroupMask = testHostFixture.debugElement.query(
-            By.css('[data-testid="mime-right-page-mask"]'),
-          );
-          expect(leftCanvasGroupMask).not.toBeNull();
-          expect(rightCanvasGroupMask).not.toBeNull();
-          done();
-        }, 600);
-      }
-    });
+  xit('should add a mask around the canvas group', async () => {
+    await waitForViewerReady();
+    await new Promise((resolve) => setTimeout(resolve, 600));
+
+    const leftCanvasGroupMask = testHostFixture.debugElement.query(
+      By.css('[data-testid="mime-left-page-mask"]'),
+    );
+    const rightCanvasGroupMask = testHostFixture.debugElement.query(
+      By.css('[data-testid="mime-right-page-mask"]'),
+    );
+    expect(leftCanvasGroupMask).not.toBeNull();
+    expect(rightCanvasGroupMask).not.toBeNull();
   });
 
   describe('Fab button for toggling OSD controls', () => {
-    it("should not be visible when state is changed to 'hide'", (done) => {
+    it("should not be visible when state is changed to 'hide'", async () => {
       testHostFixture.detectChanges();
       expectOsdToolbarToBeVisible();
 
       modeService.toggleMode();
+      await testHostFixture.whenStable();
 
       expectOsdToolbarToBeHidden();
-      done();
     });
 
-    it("should be visible when state is changed to 'show'", (done) => {
+    it("should be visible when state is changed to 'show'", async () => {
       testHostComponent.config = new MimeViewerConfig({
         initViewerMode: ViewerMode.DASHBOARD,
       });
@@ -637,39 +673,39 @@ describe('ViewerComponent', () => {
       expectOsdToolbarToBeHidden();
 
       modeService.toggleMode();
+      await testHostFixture.whenStable();
 
       expectOsdToolbarToBeVisible();
-      done();
     });
   });
 
   const expectHeaderToBeVisible = () => {
-    expect(comp.showHeaderAndFooterState).toBeTruthy();
+    expect(comp.showHeaderAndFooterState()).toBeTruthy();
     expect(getHeader().getAttribute('class')).toContain('show');
   };
 
   const expectHeaderToBeHidden = () => {
-    expect(comp.showHeaderAndFooterState).toBeFalsy();
+    expect(comp.showHeaderAndFooterState()).toBeFalsy();
     expect(getHeader().getAttribute('class')).not.toContain('hide');
   };
 
   const expectFooterToBeVisible = () => {
-    expect(comp.showHeaderAndFooterState).toBeTruthy();
+    expect(comp.showHeaderAndFooterState()).toBeTruthy();
     expect(getFooter().getAttribute('class')).not.toContain('hide');
   };
 
   const expectFooterToBeHidden = () => {
-    expect(comp.showHeaderAndFooterState).toBeFalsy();
+    expect(comp.showHeaderAndFooterState()).toBeFalsy();
     expect(getFooter().getAttribute('class')).not.toContain('hide');
   };
 
   const expectOsdToolbarToBeVisible = () => {
-    expect(comp.osdToolbarState).toBeTruthy();
+    expect(comp.osdToolbarState()).toBeTruthy();
     expect(getOsdToolbar().getAttribute('class')).toBe('show');
   };
 
   const expectOsdToolbarToBeHidden = () => {
-    expect(comp.osdToolbarState).toBeFalsy();
+    expect(comp.osdToolbarState()).toBeFalsy();
     expect(getOsdToolbar().getAttribute('class')).toBeFalsy();
   };
 
@@ -688,46 +724,17 @@ describe('ViewerComponent', () => {
       .nativeElement;
   };
 
-  function pinchOut() {
-    viewerService
-      .getViewer()
-      .raiseEvent('canvas-pinch', { distance: 40, lastDistance: 40 });
-    viewerService
-      .getViewer()
-      .raiseEvent('canvas-pinch', { distance: 50, lastDistance: 40 });
-    viewerService
-      .getViewer()
-      .raiseEvent('canvas-pinch', { distance: 60, lastDistance: 50 });
-    viewerService
-      .getViewer()
-      .raiseEvent('canvas-pinch', { distance: 70, lastDistance: 60 });
-    viewerService
-      .getViewer()
-      .raiseEvent('canvas-pinch', { distance: 80, lastDistance: 70 });
-    viewerService
-      .getViewer()
-      .raiseEvent('canvas-pinch', { distance: 90, lastDistance: 80 });
+  function waitForViewerReady(): Promise<boolean> {
+    return firstValueFrom(
+      toObservable(viewerService.isReady, { injector }).pipe(
+        filter((isReady) => isReady),
+      ),
+    );
   }
 
-  function pinchIn() {
-    viewerService
-      .getViewer()
-      .raiseEvent('canvas-pinch', { distance: 90, lastDistance: 90 });
-    viewerService
-      .getViewer()
-      .raiseEvent('canvas-pinch', { distance: 80, lastDistance: 90 });
-    viewerService
-      .getViewer()
-      .raiseEvent('canvas-pinch', { distance: 70, lastDistance: 80 });
-    viewerService
-      .getViewer()
-      .raiseEvent('canvas-pinch', { distance: 60, lastDistance: 70 });
-    viewerService
-      .getViewer()
-      .raiseEvent('canvas-pinch', { distance: 50, lastDistance: 60 });
-    viewerService
-      .getViewer()
-      .raiseEvent('canvas-pinch', { distance: 40, lastDistance: 50 });
+  async function setViewerMode(mode: ViewerMode): Promise<void> {
+    modeService.setMode(mode);
+    await testHostFixture.whenStable();
   }
 
   function getAttributeAsInt(

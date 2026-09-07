@@ -45,6 +45,7 @@ export class DesktopViewDialogConfigStrategy
     viewContainerRef: ViewContainerRef,
   ): MatDialogConfig {
     const dimensions = this.getPosition(el);
+
     return {
       hasBackdrop: false,
       autoFocus: true,
@@ -61,6 +62,7 @@ export class DesktopViewDialogConfigStrategy
 
   private getPosition(el: ElementRef): Dimensions {
     const dimensions = this.mimeDomHelper.getBoundingClientRect(el);
+
     return new Dimensions({
       top: dimensions.top + 80,
       left:

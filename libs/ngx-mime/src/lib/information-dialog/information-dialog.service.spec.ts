@@ -16,9 +16,6 @@ describe('InformationDialogService', () => {
         provideAutoSpy(HelpDialogService),
       ],
     });
-  });
-
-  beforeEach(() => {
     service = TestBed.inject(InformationDialogService);
   });
 

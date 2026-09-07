@@ -1,11 +1,9 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { provideAutoSpy, Spy } from 'jest-auto-spies';
-import { testManifest } from '../../../test/testManifest';
 import { CanvasService } from '../../canvas-service/canvas-service';
 import { IiifContentSearchService } from '../../iiif-content-search-service/iiif-content-search.service';
-import { IiifManifestService } from '../../iiif-manifest-service/iiif-manifest-service';
 import { Hit } from '../../models/hit';
 import { SearchResult } from '../../models/search-result';
 import { ContentSearchNavigationService } from './content-search-navigation.service';
@@ -14,7 +12,6 @@ describe('ContentSearchNavigationService', () => {
   let contentSearchNavigationService: ContentSearchNavigationService;
   let canvasServiceSpy: Spy<CanvasService>;
   let iiifContentSearchServiceSpy: Spy<IiifContentSearchService>;
-  let iiifManifestServiceSpy: Spy<IiifManifestService>;
   let defaultSearchResult = createSearchResult();
 
   beforeEach(() => {
@@ -25,22 +22,12 @@ describe('ContentSearchNavigationService', () => {
         provideHttpClientTesting(),
         ContentSearchNavigationService,
         provideAutoSpy(CanvasService),
-        provideAutoSpy(IiifManifestService, {
-          observablePropsToSpyOn: ['currentManifest'],
-        }),
         provideAutoSpy(IiifContentSearchService, {
           observablePropsToSpyOn: ['onChange'],
         }),
       ],
     });
-  });
-
-  beforeEach(() => {
     jest.clearAllMocks();
-    iiifManifestServiceSpy = TestBed.inject(
-      IiifManifestService,
-    ) as Spy<IiifManifestService>;
-    iiifManifestServiceSpy.currentManifest.nextWith(testManifest);
     iiifContentSearchServiceSpy = TestBed.inject(
       IiifContentSearchService,
     ) as Spy<IiifContentSearchService>;
@@ -58,44 +45,33 @@ describe('ContentSearchNavigationService', () => {
     expect(contentSearchNavigationService).toBeTruthy();
   });
 
-  it('should return -1 if canvasIndex is before first hit', waitForAsync(() => {
-    contentSearchNavigationService.currentHitCounter.subscribe((hit) => {
-      expect(hit).toBe(-1);
-    });
-
+  it('should return -1 if canvasIndex is before first hit', () => {
     canvasServiceSpy.getCanvasesPerCanvasGroup.mockReturnValue([0]);
     contentSearchNavigationService.update(0);
-  }));
 
-  it('should return 0 if canvasIndex is on first hit', waitForAsync(() => {
+    expect(contentSearchNavigationService.currentHitCounter()).toBe(-1);
+  });
+
+  it('should return 0 if canvasIndex is on first hit', () => {
     canvasServiceSpy.getCanvasesPerCanvasGroup.mockReturnValue([1]);
-
-    contentSearchNavigationService.currentHitCounter.subscribe((hit) => {
-      expect(hit).toBe(0);
-    });
-
     contentSearchNavigationService.update(1);
-  }));
 
-  it('should return 5 if canvasIndex is between 5th and 6th hit', waitForAsync(() => {
+    expect(contentSearchNavigationService.currentHitCounter()).toBe(0);
+  });
+
+  it('should return 5 if canvasIndex is between 5th and 6th hit', () => {
     canvasServiceSpy.getCanvasesPerCanvasGroup.mockReturnValue([6]);
-
-    contentSearchNavigationService.currentHitCounter.subscribe((hit) => {
-      expect(hit).toBe(5);
-    });
-
     contentSearchNavigationService.update(6);
-  }));
 
-  it('should return 6 if canvasIndex is after last', waitForAsync(() => {
+    expect(contentSearchNavigationService.currentHitCounter()).toBe(5);
+  });
+
+  it('should return 6 if canvasIndex is after last', () => {
     canvasServiceSpy.getCanvasesPerCanvasGroup.mockReturnValue([10]);
-
-    contentSearchNavigationService.currentHitCounter.subscribe((hit) => {
-      expect(hit).toBe(6);
-    });
-
     contentSearchNavigationService.update(10);
-  }));
+
+    expect(contentSearchNavigationService.currentHitCounter()).toBe(6);
+  });
 
   it('should call update function when searchresult changes', () => {
     jest.spyOn(contentSearchNavigationService, 'update');

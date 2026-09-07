@@ -1,6 +1,6 @@
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { inject, Injectable } from '@angular/core';
 import { MimeDomHelper } from '../core/mime-dom-helper';
+import { ViewerLayoutService } from '../core/viewer-layout-service/viewer-layout-service';
 import {
   DesktopInformationDialogConfigStrategy,
   InformationDialogConfigStrategy,
@@ -9,16 +9,11 @@ import {
 
 @Injectable()
 export class InformationDialogConfigStrategyFactory {
-  private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly viewerLayoutService = inject(ViewerLayoutService);
   private readonly mimeDomHelper = inject(MimeDomHelper);
 
   public create(): InformationDialogConfigStrategy {
-    const isHandsetOrTabletInPortrait = this.breakpointObserver.isMatched([
-      Breakpoints.Handset,
-      Breakpoints.TabletPortrait,
-    ]);
-
-    return isHandsetOrTabletInPortrait
+    return this.viewerLayoutService.isHandsetOrTabletInPortrait()
       ? new MobileInformationDialogConfigStrategy()
       : new DesktopInformationDialogConfigStrategy(this.mimeDomHelper);
   }

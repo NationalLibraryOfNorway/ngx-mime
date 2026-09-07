@@ -1,60 +1,47 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { provideAutoSpy, Spy } from 'jest-auto-spies';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideAutoSpy } from 'jest-auto-spies';
 import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../core/intl';
 import { Manifest } from '../core/models/manifest';
-import { StyleService } from '../core/style-service/style.service';
-import { AttributionDialogResizeService } from './attribution-dialog-resize.service';
+import { IiifManifestServiceStub } from '../test/iiif-manifest-service-stub';
 import { AttributionDialogComponent } from './attribution-dialog.component';
 
 describe('AttributionDialogComponent', () => {
   let component: AttributionDialogComponent;
   let fixture: ComponentFixture<AttributionDialogComponent>;
-  let iiifManifestServiceSpy: Spy<IiifManifestService>;
+  let iiifManifestService: IiifManifestServiceStub;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [AttributionDialogComponent],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
         MimeViewerIntl,
-        provideAutoSpy(IiifManifestService, {
-          observablePropsToSpyOn: ['currentManifest'],
-        }),
-        provideAutoSpy(AttributionDialogResizeService),
-        provideAutoSpy(StyleService, {
-          observablePropsToSpyOn: ['onChange'],
-        }),
+        { provide: IiifManifestService, useClass: IiifManifestServiceStub },
         provideAutoSpy(AccessKeysService),
       ],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(AttributionDialogComponent);
     component = fixture.componentInstance;
-    iiifManifestServiceSpy = TestBed.inject(
-      IiifManifestService,
-    ) as Spy<IiifManifestService>;
-    fixture.detectChanges();
+    iiifManifestService = TestBed.inject<any>(IiifManifestService);
   });
 
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display attribution', () => {
-    iiifManifestServiceSpy.currentManifest.nextWith(
+  it('should display attribution', async () => {
+    iiifManifestService.setManifest(
       new Manifest({
         attribution: 'This is a test attribution',
       }),
     );
-
-    fixture.detectChanges();
+    await fixture.whenStable();
 
     const attributionEl: HTMLElement =
       fixture.debugElement.nativeElement.querySelector('p');

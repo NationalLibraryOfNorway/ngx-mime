@@ -1,6 +1,5 @@
-import { BreakpointObserver } from '@angular/cdk/layout';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CanvasGroupDialogService } from '../../canvas-group-dialog/canvas-group-dialog.service';
 import { CanvasService } from '../../core/canvas-service/canvas-service';
 import { IiifContentSearchService } from '../../core/iiif-content-search-service/iiif-content-search.service';
@@ -14,18 +13,18 @@ import { ViewerService } from '../../core/viewer-service/viewer.service';
 import { CanvasServiceStub } from '../../test/canvas-service-stub';
 import { IiifContentSearchServiceStub } from '../../test/iiif-content-search-service-stub';
 import { IiifManifestServiceStub } from '../../test/iiif-manifest-service-stub';
-import { MockBreakpointObserver } from '../../test/mock-breakpoint-observer';
+import { ViewerLayoutServiceStub } from '../../test/viewer-layout-service-stub';
 import { ViewerServiceStub } from '../../test/viewer-service-stub';
 import { ViewerFooterComponent } from './viewer-footer.component';
 
 describe('ViewerFooterComponent', () => {
   let cmp: ViewerFooterComponent;
-  let breakpointObserver: MockBreakpointObserver;
+  let viewerLayoutServiceStub: ViewerLayoutServiceStub;
   let iiifContentSearchServiceStub: IiifContentSearchServiceStub;
   let fixture: ComponentFixture<ViewerFooterComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [ViewerFooterComponent],
       providers: [
@@ -42,71 +41,57 @@ describe('ViewerFooterComponent', () => {
           provide: IiifManifestService,
           useClass: IiifManifestServiceStub,
         },
-        ViewerLayoutService,
         CanvasGroupDialogService,
         ContentSearchNavigationService,
         {
           provide: IiifContentSearchService,
           useClass: IiifContentSearchServiceStub,
         },
-        { provide: BreakpointObserver, useClass: MockBreakpointObserver },
+        {
+          provide: ViewerLayoutService,
+          useClass: ViewerLayoutServiceStub,
+        },
       ],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ViewerFooterComponent);
     cmp = fixture.componentInstance;
-    breakpointObserver = TestBed.inject(
-      BreakpointObserver,
-    ) as MockBreakpointObserver;
+    viewerLayoutServiceStub = TestBed.inject<any>(ViewerLayoutService);
     iiifContentSearchServiceStub = TestBed.inject<any>(
       IiifContentSearchService,
     );
-    fixture.detectChanges();
+    await fixture.whenStable();
   });
 
   it('should be created', () => {
     expect(cmp).toBeTruthy();
   });
 
-  it('should always show pageNavigator in desktop size', waitForAsync(() => {
-    cmp.showPageNavigator = false;
+  it('should always show pageNavigator in desktop size', async () => {
+    await fixture.whenStable();
 
-    breakpointObserver.setMatches(false);
+    expect(cmp.showPageNavigator()).toBeTruthy();
+  });
 
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(cmp.showPageNavigator).toBeTruthy();
-    });
-  }));
-
-  it('should show pageNavigator in desktop size and if content search navigator is displayed', waitForAsync(() => {
-    cmp.showPageNavigator = false;
-    cmp.showContentSearchNavigator = false;
-
+  it('should show pageNavigator in desktop size and if content search navigator is displayed', async () => {
     const sr = new SearchResult();
     sr.add(new Hit());
 
-    iiifContentSearchServiceStub._currentSearchResult.next(sr);
+    iiifContentSearchServiceStub.setSearchResult(sr);
+    await fixture.whenStable();
 
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(cmp.showPageNavigator).toBeTruthy();
-      expect(cmp.showContentSearchNavigator).toBeTruthy();
-    });
-  }));
+    expect(cmp.showPageNavigator()).toBeTruthy();
+    expect(cmp.showContentSearchNavigator()).toBeTruthy();
+  });
 
-  it('should hide pageNavigator if mobile size and content search navigator is displayed', waitForAsync(() => {
-    cmp.searchResult = new SearchResult();
-    cmp.searchResult.add(new Hit());
-    fixture.detectChanges();
+  it('should hide pageNavigator if mobile size and content search navigator is displayed', async () => {
+    const sr = new SearchResult();
+    sr.add(new Hit());
 
-    breakpointObserver.setMatches(true);
+    iiifContentSearchServiceStub.setSearchResult(sr);
+    viewerLayoutServiceStub.useMobileViewport();
+    await fixture.whenStable();
 
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(cmp.showPageNavigator).toBeFalsy();
-    });
-  }));
+    expect(cmp.showPageNavigator()).toBeFalsy();
+  });
 });

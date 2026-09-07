@@ -23,6 +23,7 @@ export class PageModeCalculateNextCanvasGroupStrategy
     } else if (isNewCanvasGroupInCenter) {
       nextCanvasGroup = criteria.currentCanvasGroupCenter;
     }
+
     return nextCanvasGroup;
   }
 }

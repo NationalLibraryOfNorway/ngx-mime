@@ -36,9 +36,9 @@ Then(
 Then(
   'the viewer should go to page {word}',
   async function (this: CustomWorld, pageNumber: string) {
-    const currentCanvasGroupString =
-      await this.viewerPage.getCurrentCanvasGroupLabel();
-    expect(currentCanvasGroupString.includes(pageNumber)).toBeTruthy();
+    await expect(this.viewerPage.currentCanvasGroupLabel).toContainText(
+      pageNumber,
+    );
   },
 );
 
