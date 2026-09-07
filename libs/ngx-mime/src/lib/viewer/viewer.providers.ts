@@ -1,4 +1,3 @@
-import { AttributionDialogResizeService } from '../attribution-dialog/attribution-dialog-resize.service';
 import { AttributionDialogService } from '../attribution-dialog/attribution-dialog.service';
 import { CanvasGroupDialogService } from '../canvas-group-dialog/canvas-group-dialog.service';
 import { ContentSearchDialogConfigStrategyFactory } from '../content-search-dialog/content-search-dialog-config-strategy-factory';
@@ -30,7 +29,6 @@ import { ViewDialogService } from '../view-dialog/view-dialog.service';
 export const VIEWER_PROVIDERS = [
   AccessKeysService,
   AltoService,
-  AttributionDialogResizeService,
   AttributionDialogService,
   CanvasGroupDialogService,
   CanvasService,

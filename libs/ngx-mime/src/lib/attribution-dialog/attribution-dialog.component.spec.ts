@@ -7,7 +7,6 @@ import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest
 import { MimeViewerIntl } from '../core/intl';
 import { Manifest } from '../core/models/manifest';
 import { IiifManifestServiceStub } from '../test/iiif-manifest-service-stub';
-import { AttributionDialogResizeService } from './attribution-dialog-resize.service';
 import { AttributionDialogComponent } from './attribution-dialog.component';
 
 describe('AttributionDialogComponent', () => {
@@ -23,7 +22,6 @@ describe('AttributionDialogComponent', () => {
         provideHttpClientTesting(),
         MimeViewerIntl,
         { provide: IiifManifestService, useClass: IiifManifestServiceStub },
-        provideAutoSpy(AttributionDialogResizeService),
         provideAutoSpy(AccessKeysService),
       ],
     }).compileComponents();

@@ -1,11 +1,4 @@
-import {
-  afterRenderEffect,
-  Component,
-  ElementRef,
-  HostListener,
-  inject,
-  viewChild,
-} from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
 import {
   MatDialogClose,
@@ -17,7 +10,6 @@ import { MatTooltip } from '@angular/material/tooltip';
 import { AccessKeysService } from '../core/access-keys-handler-service/access-keys.service';
 import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../core/intl/viewer-intl';
-import { AttributionDialogResizeService } from './attribution-dialog-resize.service';
 
 @Component({
   templateUrl: './attribution-dialog.component.html',
@@ -33,38 +25,13 @@ import { AttributionDialogResizeService } from './attribution-dialog-resize.serv
 })
 export class AttributionDialogComponent {
   private readonly iiifManifestService = inject(IiifManifestService);
-  private readonly attributionDialogResizeService = inject(
-    AttributionDialogResizeService,
-  );
   private readonly accessKeysHandlerService = inject(AccessKeysService);
   readonly intl = inject(MimeViewerIntl).value;
 
-  readonly container = viewChild.required<ElementRef<HTMLElement>>('container');
   readonly manifest = this.iiifManifestService.manifest;
-
-  constructor() {
-    afterRenderEffect(() => {
-      // Manifest content and translations can change the dialog dimensions.
-      this.manifest();
-      this.intl();
-      const container = this.container();
-
-      this.updateDialogSize(container);
-    });
-  }
 
   @HostListener('keydown', ['$event'])
   handleKeys(event: KeyboardEvent) {
     this.accessKeysHandlerService.handleKeyEvents(event);
-  }
-
-  @HostListener('window:resize')
-  onResize(): void {
-    this.attributionDialogResizeService.markForCheck();
-  }
-
-  private updateDialogSize(container: ElementRef<HTMLElement>): void {
-    this.attributionDialogResizeService.el = container;
-    this.attributionDialogResizeService.markForCheck();
   }
 }
