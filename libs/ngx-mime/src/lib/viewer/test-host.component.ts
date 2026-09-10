@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, signal, ViewChild } from '@angular/core';
 import { MimeModule } from '../../index';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { TestDynamicComponent } from './test-dynamic.component';
@@ -7,11 +7,11 @@ import { ViewerComponent } from './viewer.component';
 @Component({
   template: `
     <mime-viewer
-      [manifestUri]="manifestUri"
-      [q]="q"
-      [canvasIndex]="canvasIndex"
-      [config]="config"
-      [tabIndex]="tabIndex"
+      [manifestUri]="manifestUri()"
+      [q]="q()"
+      [canvasIndex]="canvasIndex()"
+      [config]="config()"
+      [tabIndex]="tabIndex()"
     ></mime-viewer>
   `,
   imports: [MimeModule],
@@ -19,13 +19,15 @@ import { ViewerComponent } from './viewer.component';
 export class TestHostComponent {
   @ViewChild(ViewerComponent, { static: true })
   viewerComponent!: ViewerComponent;
-  manifestUri: string | null = null;
-  q?: string;
-  canvasIndex = 0;
-  tabIndex = 0;
-  config = new MimeViewerConfig({
-    attributionDialogHideTimeout: -1,
-  });
+  readonly manifestUri = signal<string | null>(null);
+  readonly q = signal<string | undefined>(undefined);
+  readonly canvasIndex = signal(0);
+  readonly tabIndex = signal(0);
+  readonly config = signal(
+    new MimeViewerConfig({
+      attributionDialogHideTimeout: -1,
+    }),
+  );
 
   addComponentToStartOfHeader() {
     this.viewerComponent.mimeHeaderBeforeRef.createComponent(

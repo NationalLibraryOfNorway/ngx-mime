@@ -14,7 +14,6 @@
     }
   ],
   "compilerOptions": {
-    "baseUrl": ".",
     "target": "es2022",
     "useDefineForClassFields": false,
     "forceConsistentCasingInFileNames": true,
@@ -29,7 +28,8 @@
       ]
     },
     "module": "preserve",
-    "moduleResolution": "bundler"
+    "moduleResolution": "bundler",
+    "esModuleInterop": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

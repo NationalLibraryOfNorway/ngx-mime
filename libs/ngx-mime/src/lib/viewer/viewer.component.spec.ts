@@ -101,7 +101,7 @@ describe('ViewerComponent', () => {
     testHostFixture = TestBed.createComponent(TestHostComponent);
     comp = testHostFixture.componentInstance.viewerComponent;
     testHostComponent = testHostFixture.componentInstance;
-    testHostComponent.manifestUri = 'dummyURI1';
+    testHostComponent.manifestUri.set('dummyURI1');
 
     injector = TestBed.inject(Injector);
     viewerService = TestBed.inject(ViewerService);
@@ -151,7 +151,7 @@ describe('ViewerComponent', () => {
   it('should cleanup when manifestUri changes', () => {
     jest.spyOn(viewerService, 'destroy').mockImplementation();
     jest.spyOn(resizeService, 'destroy').mockImplementation();
-    testHostComponent.manifestUri = 'dummyURI2';
+    testHostComponent.manifestUri.set('dummyURI2');
 
     testHostFixture.detectChanges();
 
@@ -173,7 +173,7 @@ describe('ViewerComponent', () => {
   });
 
   it('should set tabindex', () => {
-    testHostComponent.tabIndex = 1;
+    testHostComponent.tabIndex.set(1);
     testHostFixture.detectChanges();
 
     const viewerDe = testHostFixture.debugElement.query(
@@ -200,8 +200,8 @@ describe('ViewerComponent', () => {
       expect(modeService.mode()).toBe(ViewerMode.PAGE);
     }
 
-    testHostComponent.manifestUri = 'dummyURI3';
-    testHostFixture.changeDetectorRef.markForCheck();
+    testHostComponent.manifestUri.set('dummyURI3');
+    testHostFixture.detectChanges();
     await testHostFixture.whenStable();
 
     expect(modeService.mode()).toBe(config.initViewerMode);
@@ -449,10 +449,12 @@ describe('ViewerComponent', () => {
 
   it('should stay on same tile after a ViewerLayout change', async () => {
     // Need to set canvasIndex on input of component to trigger previous occuring bug
-    testHostComponent.canvasIndex = 3;
-    testHostComponent.config = new MimeViewerConfig({
-      initViewerLayout: ViewerLayout.ONE_PAGE,
-    });
+    testHostComponent.canvasIndex.set(3);
+    testHostComponent.config.set(
+      new MimeViewerConfig({
+        initViewerLayout: ViewerLayout.ONE_PAGE,
+      }),
+    );
 
     testHostFixture.detectChanges();
     await waitForViewerReady();
@@ -481,8 +483,8 @@ describe('ViewerComponent', () => {
     await testHostFixture.whenStable();
     const search = jest.spyOn(iiifContentSearchServiceStub, 'search');
 
-    testHostComponent.q = 'dummyquery';
-    testHostFixture.changeDetectorRef.markForCheck();
+    testHostComponent.q.set('dummyquery');
+    testHostFixture.detectChanges();
     await testHostFixture.whenStable();
 
     expect(search).toHaveBeenCalledWith(
@@ -519,10 +521,12 @@ describe('ViewerComponent', () => {
   });
 
   it('should open on the initial canvas without resetting later navigation', async () => {
-    testHostComponent.canvasIndex = 12;
-    testHostComponent.config = new MimeViewerConfig({
-      initViewerLayout: ViewerLayout.ONE_PAGE,
-    });
+    testHostComponent.canvasIndex.set(12);
+    testHostComponent.config.set(
+      new MimeViewerConfig({
+        initViewerLayout: ViewerLayout.ONE_PAGE,
+      }),
+    );
 
     testHostFixture.detectChanges();
     await waitForViewerReady();
@@ -544,9 +548,11 @@ describe('ViewerComponent', () => {
     });
 
     it('should not be visible when state is changed to hide', async () => {
-      testHostComponent.config = new MimeViewerConfig({
-        initViewerMode: ViewerMode.DASHBOARD,
-      });
+      testHostComponent.config.set(
+        new MimeViewerConfig({
+          initViewerMode: ViewerMode.DASHBOARD,
+        }),
+      );
       testHostFixture.detectChanges();
       expectHeaderToBeVisible();
 
@@ -596,9 +602,11 @@ describe('ViewerComponent', () => {
     });
 
     it('should not be visible when state is changed to hide', async () => {
-      testHostComponent.config = new MimeViewerConfig({
-        initViewerMode: ViewerMode.DASHBOARD,
-      });
+      testHostComponent.config.set(
+        new MimeViewerConfig({
+          initViewerMode: ViewerMode.DASHBOARD,
+        }),
+      );
       testHostFixture.detectChanges();
       expectFooterToBeVisible();
 
@@ -666,9 +674,11 @@ describe('ViewerComponent', () => {
     });
 
     it("should be visible when state is changed to 'show'", async () => {
-      testHostComponent.config = new MimeViewerConfig({
-        initViewerMode: ViewerMode.DASHBOARD,
-      });
+      testHostComponent.config.set(
+        new MimeViewerConfig({
+          initViewerMode: ViewerMode.DASHBOARD,
+        }),
+      );
       testHostFixture.detectChanges();
       expectOsdToolbarToBeHidden();
 

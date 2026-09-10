@@ -3,6 +3,7 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
+import { ApplicationRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { TestManifests } from '../../../testing';
 import { testSearchResult } from '../../test/testSearchResult';
@@ -36,9 +37,11 @@ describe('IiifContentSearchService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return a search result', () => {
+  it('should return a search result', async () => {
     service.search(TestManifests.withContentSearchService(), 'query');
+    TestBed.tick();
     httpTestingController.expectOne(`dummyUrl?q=query`).flush(testSearchResult);
+    await TestBed.inject(ApplicationRef).whenStable();
 
     expect(service.searchResult().size()).toBe(2);
   });
@@ -50,11 +53,13 @@ describe('IiifContentSearchService', () => {
     expect(service.searchResult().size()).toBe(0);
   });
 
-  it('should cleanup on destroy', () => {
+  it('should cleanup on destroy', async () => {
     service.search(TestManifests.withContentSearchService(), 'fakeQuery');
+    TestBed.tick();
     httpTestingController
       .expectOne(`dummyUrl?q=fakeQuery`)
       .flush(testSearchResult);
+    await TestBed.inject(ApplicationRef).whenStable();
 
     service.destroy();
 

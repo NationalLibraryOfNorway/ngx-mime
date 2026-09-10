@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   inject,
@@ -24,7 +23,6 @@ import { ViewDialogService } from '../../view-dialog/view-dialog.service';
   selector: 'mime-viewer-header',
   templateUrl: './viewer-header.component.html',
   styleUrls: ['./viewer-header.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Default,
   imports: [MatToolbar, MatTooltip, MatIconButton, MatIcon],
 })
 export class ViewerHeaderComponent {

@@ -1,6 +1,7 @@
 import { FlatCompat } from '@eslint/eslintrc';
 import js from '@eslint/js';
 import nxEslintPlugin from '@nx/eslint-plugin';
+import angular from 'angular-eslint';
 import eslintPluginTailwindcss from 'eslint-plugin-tailwindcss';
 import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
@@ -44,8 +45,7 @@ export default [
   {
     files: ['**/*.component.ts'],
     rules: {
-      // Angular ESLint 22 provides `inject-at-top`. Until this workspace moves
-      // to Angular 22, allow components to keep injected dependencies first.
+      // Angular ESLint's `inject-at-top` ordering takes precedence for components.
       '@typescript-eslint/member-ordering': 'off',
     },
   },
@@ -68,7 +68,9 @@ export default [
         ],
         '@typescript-eslint/no-empty-function': 'off',
         '@typescript-eslint/no-var-requires': 'off',
-        '@typescript-eslint/ban-types': 'off',
+        '@typescript-eslint/no-empty-object-type': 'off',
+        '@typescript-eslint/no-unsafe-function-type': 'off',
+        '@typescript-eslint/no-wrapper-object-types': 'off',
         '@typescript-eslint/no-this-alias': 'off',
         '@typescript-eslint/no-unused-expressions': [
           'error',
@@ -93,29 +95,25 @@ export default [
         ...config.rules,
       },
     })),
-  ...compat
-    .config({
-      extends: ['plugin:@angular-eslint/template/recommended'],
-    })
-    .map((config) => ({
-      ...config,
-      files: ['**/*.html'],
-      settings: {
-        ...config.settings,
-        tailwindcss: {
-          ...eslintPluginTailwindcss.configs.recommended.settings.tailwindcss,
-          cssConfigPath: resolve(
-            workspaceRoot,
-            'apps/integration/src/tailwind.css',
-          ),
-        },
+  ...angular.configs.templateRecommended.map((config) => ({
+    ...config,
+    files: ['**/*.html'],
+    settings: {
+      ...config.settings,
+      tailwindcss: {
+        ...eslintPluginTailwindcss.configs.recommended.settings.tailwindcss,
+        cssConfigPath: resolve(
+          workspaceRoot,
+          'apps/integration/src/tailwind.css',
+        ),
       },
-      rules: {
-        ...config.rules,
-        ...eslintPluginTailwindcss.configs.recommended.rules,
-        '@angular-eslint/template/prefer-control-flow': 'error',
-        'tailwindcss/no-custom-classname': 'off',
-        'tailwindcss/classnames-order': ['error'],
-      },
-    })),
+    },
+    rules: {
+      ...config.rules,
+      ...eslintPluginTailwindcss.configs.recommended.rules,
+      '@angular-eslint/template/prefer-control-flow': 'error',
+      'tailwindcss/no-custom-classname': 'off',
+      'tailwindcss/classnames-order': ['error'],
+    },
+  })),
 ];

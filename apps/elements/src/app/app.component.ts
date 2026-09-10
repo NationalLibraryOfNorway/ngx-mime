@@ -11,7 +11,8 @@ import {
   imports: [MimeModule],
 })
 export class AppComponent {
-  readonly manifestUri = input.required<string>();
+  // Custom elements can connect before Angular forwards their initial attributes.
+  readonly manifestUri = input<string | null>(null);
   readonly config = input<string>();
   readonly mimeConfig = computed(() => this.getMimeConfig());
 

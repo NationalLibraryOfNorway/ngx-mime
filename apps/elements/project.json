@@ -7,15 +7,16 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@nx/angular:webpack-browser",
+      "executor": "@angular/build:application",
+      "outputs": ["{options.outputPath.base}"],
+      "defaultConfiguration": "production",
       "options": {
-        "customWebpackConfig": {
-          "path": "apps/elements/webpack.config.js"
-        },
         "allowedCommonJsDependencies": ["openseadragon", "xml2js"],
-        "outputPath": "dist/apps/elements",
+        "outputPath": {
+          "base": "dist/apps/elements",
+          "browser": ""
+        },
         "index": "apps/elements/src/index.html",
-        "main": "apps/elements/src/main.ts",
         "tsConfig": "apps/elements/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": ["apps/elements/src/favicon.ico", "apps/elements/src/assets"],
@@ -25,7 +26,8 @@
         ],
         "scripts": [
           "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
-        ]
+        ],
+        "browser": "apps/elements/src/main.ts"
       },
       "configurations": {
         "production": {
@@ -50,33 +52,30 @@
           ]
         },
         "development": {
-          "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
         }
-      },
-      "defaultConfiguration": "production"
+      }
     },
     "serve": {
-      "executor": "@nx/angular:dev-server",
+      "executor": "@angular/build:dev-server",
+      "continuous": true,
       "options": {
         "host": "0.0.0.0",
         "port": 8080,
-        "disableHostCheck": true,
+        "allowedHosts": true,
         "buildTarget": "elements:build"
       },
       "configurations": {
         "production": {
           "buildTarget": "elements:build:production"
         }
-      },
-      "continuous": true
+      }
     },
     "extract-i18n": {
-      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "executor": "@angular/build:extract-i18n",
       "options": {
         "buildTarget": "elements:build"
       }

@@ -7,7 +7,7 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser-esbuild",
+      "executor": "@angular/build:application",
       "dependsOn": [
         "^build",
         {
@@ -15,12 +15,15 @@
           "target": "build"
         }
       ],
+      "outputs": ["{options.outputPath.base}"],
       "options": {
         "allowedCommonJsDependencies": ["openseadragon", "xml2js"],
         "aot": true,
-        "outputPath": "dist/apps/integration",
+        "outputPath": {
+          "base": "dist/apps/integration",
+          "browser": ""
+        },
         "index": "apps/integration/src/index.html",
-        "main": "apps/integration/src/main.ts",
         "tsConfig": "apps/integration/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
@@ -41,7 +44,8 @@
         "scripts": [
           "dist/apps/elements/scripts.js",
           "dist/apps/elements/main.js"
-        ]
+        ],
+        "browser": "apps/integration/src/main.ts"
       },
       "configurations": {
         "production": {
@@ -62,21 +66,19 @@
           "sourceMap": false,
           "namedChunks": false,
           "aot": true,
-          "extractLicenses": true,
-          "vendorChunk": false,
-          "buildOptimizer": true
+          "extractLicenses": true
         }
-      },
-      "outputs": ["{options.outputPath}"]
+      }
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "executor": "@angular/build:dev-server",
       "dependsOn": [
         {
           "projects": ["elements"],
           "target": "build"
         }
       ],
+      "continuous": true,
       "options": {
         "host": "0.0.0.0",
         "port": 8080,
@@ -86,11 +88,10 @@
         "production": {
           "buildTarget": "integration:build:production"
         }
-      },
-      "continuous": true
+      }
     },
     "extract-i18n": {
-      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "executor": "@angular/build:extract-i18n",
       "options": {
         "buildTarget": "integration:build"
       }
