@@ -15,23 +15,12 @@ import { RecognizedTextMode } from '../models';
 import { Hit } from '../models/hit';
 import { Manifest } from '../models/manifest';
 import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
+import {
+  AltoDocumentSource,
+  AltoGroupLoad,
+  AltoLoadResult,
+} from './alto-load.model';
 import { HtmlFormatter } from './html.formatter';
-
-interface AltoSource {
-  index: number;
-  url: string;
-}
-
-interface AltoGroupRequest {
-  id: number;
-  sources: AltoSource[];
-}
-
-interface LoadedAlto {
-  requestId: number;
-  index: number;
-  html: string;
-}
 
 @Injectable()
 export class AltoService {
@@ -62,14 +51,14 @@ export class AltoService {
   >(undefined);
   private readonly textContentRevisionState = signal(0);
   private readonly highlightsRevisionState = signal(0);
-  private readonly activeCanvasGroupState = signal<
-    AltoGroupRequest | undefined
-  >(undefined);
-  private readonly firstAltoResource = httpResource.text<LoadedAlto>(
+  private readonly activeCanvasGroupState = signal<AltoGroupLoad | undefined>(
+    undefined,
+  );
+  private readonly firstAltoResource = httpResource.text<AltoLoadResult>(
     () => this.createAltoRequest(0),
     { parse: (xml) => this.parseAltoResponse(0, xml) },
   );
-  private readonly secondAltoResource = httpResource.text<LoadedAlto>(
+  private readonly secondAltoResource = httpResource.text<AltoLoadResult>(
     () => this.createAltoRequest(1),
     { parse: (xml) => this.parseAltoResponse(1, xml) },
   );
@@ -209,7 +198,7 @@ export class AltoService {
   private getAltoSources(
     manifest: Manifest | null,
     currentCanvasGroupIndex: number,
-  ): AltoSource[] {
+  ): AltoDocumentSource[] {
     const canvasGroup = this.canvasService.getCanvasesPerCanvasGroup(
       currentCanvasGroupIndex,
     );
@@ -225,8 +214,8 @@ export class AltoService {
     });
   }
 
-  private createAltoRequest(slot: number) {
-    const source = this.activeCanvasGroupState()?.sources[slot];
+  private createAltoRequest(resourceIndex: number) {
+    const source = this.activeCanvasGroupState()?.sources[resourceIndex];
 
     return source && !this.isInCache(source.index)
       ? {
@@ -236,9 +225,12 @@ export class AltoService {
       : undefined;
   }
 
-  private parseAltoResponse(slot: number, xml: string): LoadedAlto {
+  private parseAltoResponse(
+    resourceIndex: number,
+    xml: string,
+  ): AltoLoadResult {
     const request = this.activeCanvasGroupState();
-    const source = request?.sources[slot];
+    const source = request?.sources[resourceIndex];
     if (!request || !source) {
       throw new Error('The ALTO request is no longer active');
     }
@@ -276,13 +268,13 @@ export class AltoService {
     }
 
     let hasError = false;
-    const isComplete = request.sources.every((source, slot) => {
+    const isComplete = request.sources.every((source, resourceIndex) => {
       if (this.isInCache(source.index)) {
         return true;
       }
 
       const resource =
-        slot === 0 ? this.firstAltoResource : this.secondAltoResource;
+        resourceIndex === 0 ? this.firstAltoResource : this.secondAltoResource;
       if (resource.hasValue()) {
         const loadedAlto = resource.value();
         if (
