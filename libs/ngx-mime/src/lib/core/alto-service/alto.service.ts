@@ -62,9 +62,6 @@ export class AltoService {
     () => this.createAltoRequest(1),
     { parse: (xml) => this.parseAltoResponse(1, xml) },
   );
-  private readonly canvasGroupCompletionEffect = effect(() =>
-    this.updateCanvasGroup(),
-  );
   private subscriptions = new Subscription();
   private htmlFormatter!: HtmlFormatter;
   private hits: Hit[] | undefined;
@@ -82,6 +79,8 @@ export class AltoService {
       this.currentCanvasGroupHasTextSourceState.asReadonly();
     this.textContentRevision = this.textContentRevisionState.asReadonly();
     this.highlightsRevision = this.highlightsRevisionState.asReadonly();
+
+    effect(() => this.updateCanvasGroup());
   }
 
   initialize() {
