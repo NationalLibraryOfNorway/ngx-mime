@@ -1,7 +1,5 @@
-import { Subject } from 'rxjs';
-import * as i0 from '@angular/core';
-import { EnvironmentProviders, OnInit, OnDestroy, OnChanges, EventEmitter, ViewContainerRef, SimpleChanges } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import * as _angular_core from '@angular/core';
+import { Signal, EnvironmentProviders, OnInit, OnDestroy, ViewContainerRef } from '@angular/core';
 
 declare enum Locales {
     ENGLISH = "en",
@@ -26,7 +24,7 @@ declare class HelpIntl {
 }
 
 declare class MimeViewerIntl {
-    changes: Subject<void>;
+    readonly value: Signal<MimeViewerIntl>;
     help: HelpIntl;
     closeLabel: string;
     attributionLabel: string;
@@ -71,12 +69,15 @@ declare class MimeViewerIntl {
     manifestNotValidLabel: string;
     pageDoesNotExists: string;
     textContentErrorLabel: string;
+    private readonly valueState;
+    constructor();
     recognizedTextContentUpdatedLabel: (pageLabel: string, numberOfPages: number) => string;
     noResultsFoundLabel: (q: string) => string;
     resultsFoundLabel: (numberOfHits: number, q: string) => string;
     currentHitLabel: (currentHit: number, numberOfHits: number) => string;
-    static ɵfac: i0.ɵɵFactoryDeclaration<MimeViewerIntl, never>;
-    static ɵprov: i0.ɵɵInjectableDeclaration<MimeViewerIntl>;
+    notifyChanges(): void;
+    static ɵfac: _angular_core.ɵɵFactoryDeclaration<MimeViewerIntl, never>;
+    static ɵprov: _angular_core.ɵɵInjectableDeclaration<MimeViewerIntl>;
 }
 
 declare class HelpIntlLt extends HelpIntl {
@@ -144,8 +145,8 @@ declare class MimeViewerIntlLt extends MimeViewerIntl {
     noResultsFoundLabel: (q: string) => string;
     resultsFoundLabel: (numberOfHits: number, q: string) => string;
     currentHitLabel: (currentHit: number, numberOfHits: number) => string;
-    static ɵfac: i0.ɵɵFactoryDeclaration<MimeViewerIntlLt, never>;
-    static ɵprov: i0.ɵɵInjectableDeclaration<MimeViewerIntlLt>;
+    static ɵfac: _angular_core.ɵɵFactoryDeclaration<MimeViewerIntlLt, never>;
+    static ɵprov: _angular_core.ɵɵInjectableDeclaration<MimeViewerIntlLt>;
 }
 
 declare class HelpIntlNoNb extends HelpIntl {
@@ -213,8 +214,8 @@ declare class MimeViewerIntlNoNb extends MimeViewerIntl {
     noResultsFoundLabel: (q: string) => string;
     resultsFoundLabel: (numberOfHits: number, q: string) => string;
     currentHitLabel: (currentHit: number, numberOfHits: number) => string;
-    static ɵfac: i0.ɵɵFactoryDeclaration<MimeViewerIntlNoNb, never>;
-    static ɵprov: i0.ɵɵInjectableDeclaration<MimeViewerIntlNoNb>;
+    static ɵfac: _angular_core.ɵɵFactoryDeclaration<MimeViewerIntlNoNb, never>;
+    static ɵprov: _angular_core.ɵɵInjectableDeclaration<MimeViewerIntlNoNb>;
 }
 
 declare const provideMimeViewerIntl: (options?: {
@@ -434,28 +435,7 @@ declare class Structure {
     });
 }
 
-declare class ViewerComponent implements OnInit, OnDestroy, OnChanges {
-    manifestUri: string | null;
-    q: string;
-    canvasIndex: number;
-    config: MimeViewerConfig;
-    tabIndex: number;
-    viewerModeChanged: EventEmitter<ViewerMode>;
-    canvasChanged: EventEmitter<number>;
-    qChanged: EventEmitter<string>;
-    manifestChanged: EventEmitter<Manifest>;
-    recognizedTextContentModeChanged: EventEmitter<RecognizedTextMode>;
-    private readonly header;
-    private readonly footer;
-    snackBar: MatSnackBar;
-    intl: MimeViewerIntl;
-    recognizedTextMode: typeof RecognizedTextMode;
-    id: string;
-    openseadragonId: string;
-    recognizedTextContentMode: RecognizedTextMode;
-    showHeaderAndFooterState: boolean;
-    osdToolbarState: boolean;
-    errorMessage: string | null;
+declare class ViewerComponent implements OnInit, OnDestroy {
     private readonly iiifManifestService;
     private readonly viewDialogService;
     private readonly informationDialogService;
@@ -475,12 +455,34 @@ declare class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     private readonly canvasGroupDialogService;
     private readonly el;
     private readonly viewContainerRef;
-    private readonly zone;
     private readonly platform;
-    private readonly subscriptions;
-    private isCanvasPressed;
+    private readonly snackBar;
+    readonly intl: _angular_core.Signal<MimeViewerIntl>;
+    readonly manifestUri: _angular_core.InputSignal<string | null>;
+    readonly q: _angular_core.InputSignal<string | undefined>;
+    readonly canvasIndex: _angular_core.InputSignal<number>;
+    readonly config: _angular_core.InputSignal<MimeViewerConfig>;
+    readonly tabIndex: _angular_core.InputSignal<number>;
+    readonly viewerModeChanged: _angular_core.OutputEmitterRef<ViewerMode>;
+    readonly canvasChanged: _angular_core.OutputEmitterRef<number>;
+    readonly qChanged: _angular_core.OutputEmitterRef<string>;
+    readonly manifestChanged: _angular_core.OutputEmitterRef<Manifest>;
+    readonly recognizedTextContentModeChanged: _angular_core.OutputEmitterRef<RecognizedTextMode>;
+    readonly recognizedTextMode: typeof RecognizedTextMode;
+    id: string;
+    openseadragonId: string;
+    readonly recognizedTextContentMode: _angular_core.Signal<RecognizedTextMode>;
+    readonly showHeaderAndFooterState: _angular_core.WritableSignal<boolean>;
+    readonly osdToolbarState: _angular_core.WritableSignal<boolean>;
+    readonly errorMessage: _angular_core.WritableSignal<string | null>;
+    private readonly header;
+    private readonly footer;
+    private resizeTimeout?;
+    private readonly isCanvasPressed;
+    private readonly activeManifestUri;
     private currentManifest;
-    private viewerLayout;
+    private pendingStartCanvasId;
+    private readonly viewerLayout;
     private viewerState;
     constructor();
     get mimeHeaderBeforeRef(): ViewContainerRef;
@@ -492,7 +494,6 @@ declare class ViewerComponent implements OnInit, OnDestroy, OnChanges {
     onDragOver(event: any): void;
     onDragLeave(event: any): void;
     ngOnInit(): void;
-    ngOnChanges(changes: SimpleChanges): void;
     ngOnDestroy(): void;
     toggleToolbarsState(mode: ViewerMode): void;
     goToHomeZoom(): void;
@@ -505,20 +506,25 @@ declare class ViewerComponent implements OnInit, OnDestroy, OnChanges {
         'canvas-pressed': boolean;
         'broken-mix-blend-mode': boolean;
     };
+    private goToInitialCanvasWhenReady;
+    private handleModeChange;
     private loadManifest;
     private initialize;
+    private handleManifestChange;
+    private emitRecognizedTextContentMode;
     private cleanup;
+    private goToPendingStartCanvas;
     private resetCurrentManifest;
     private resetErrorMessage;
     private hasMixBlendModeSupport;
-    static ɵfac: i0.ɵɵFactoryDeclaration<ViewerComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<ViewerComponent, "mime-viewer", never, { "manifestUri": { "alias": "manifestUri"; "required": false; }; "q": { "alias": "q"; "required": false; }; "canvasIndex": { "alias": "canvasIndex"; "required": false; }; "config": { "alias": "config"; "required": false; }; "tabIndex": { "alias": "tabIndex"; "required": false; }; }, { "viewerModeChanged": "viewerModeChanged"; "canvasChanged": "canvasChanged"; "qChanged": "qChanged"; "manifestChanged": "manifestChanged"; "recognizedTextContentModeChanged": "recognizedTextContentModeChanged"; }, never, never, true, never>;
+    static ɵfac: _angular_core.ɵɵFactoryDeclaration<ViewerComponent, never>;
+    static ɵcmp: _angular_core.ɵɵComponentDeclaration<ViewerComponent, "mime-viewer", never, { "manifestUri": { "alias": "manifestUri"; "required": false; "isSignal": true; }; "q": { "alias": "q"; "required": false; "isSignal": true; }; "canvasIndex": { "alias": "canvasIndex"; "required": false; "isSignal": true; }; "config": { "alias": "config"; "required": false; "isSignal": true; }; "tabIndex": { "alias": "tabIndex"; "required": false; "isSignal": true; }; }, { "viewerModeChanged": "viewerModeChanged"; "canvasChanged": "canvasChanged"; "qChanged": "qChanged"; "manifestChanged": "manifestChanged"; "recognizedTextContentModeChanged": "recognizedTextContentModeChanged"; }, never, never, true, never>;
 }
 
 declare class MimeModule {
-    static ɵfac: i0.ɵɵFactoryDeclaration<MimeModule, never>;
-    static ɵmod: i0.ɵɵNgModuleDeclaration<MimeModule, never, [typeof ViewerComponent], [typeof ViewerComponent]>;
-    static ɵinj: i0.ɵɵInjectorDeclaration<MimeModule>;
+    static ɵfac: _angular_core.ɵɵFactoryDeclaration<MimeModule, never>;
+    static ɵmod: _angular_core.ɵɵNgModuleDeclaration<MimeModule, never, [typeof ViewerComponent], [typeof ViewerComponent]>;
+    static ɵinj: _angular_core.ɵɵInjectorDeclaration<MimeModule>;
 }
 
 export { Locales, Manifest as MimeManifest, MimeModule, ViewerComponent as MimeViewerComponent, MimeViewerConfig, MimeViewerIntl, MimeViewerIntlLt, MimeViewerIntlNoNb, ViewerMode as MimeViewerMode, RecognizedTextMode, provideMimeViewerIntl };

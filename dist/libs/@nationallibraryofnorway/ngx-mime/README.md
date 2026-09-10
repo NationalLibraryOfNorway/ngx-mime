@@ -6,7 +6,7 @@ An Angular component library for displaying and navigating IIIF manifests.
 
 ## Compatibility
 
-The current major release supports Angular 20. See the package's peer
+The current major release supports Angular 21. See the package's peer
 dependencies for the complete compatibility requirements.
 
 ## Installation
@@ -29,6 +29,30 @@ export const appConfig: ApplicationConfig = {
   providers: [provideHttpClient()],
 };
 ```
+
+### Internationalization
+
+English labels are used by default. To select another bundled locale, add
+`provideMimeViewerIntl` to the application configuration:
+
+```ts
+import { ApplicationConfig } from '@angular/core';
+import { Locales, provideMimeViewerIntl } from '@nationallibraryofnorway/ngx-mime';
+
+export const appConfig: ApplicationConfig = {
+  providers: [provideMimeViewerIntl({ locale: Locales.NORWEGIAN })],
+};
+```
+
+Supported locales:
+
+- English (`Locales.ENGLISH`, default)
+- Norwegian Bokmål (`Locales.NORWEGIAN`)
+- Lithuanian (`Locales.LITHUANIAN`)
+
+The configured locale applies to every viewer in the application, while each
+viewer receives its own `MimeViewerIntl` instance. Runtime label changes in one
+viewer therefore do not affect other viewers.
 
 Add OpenSeadragon to the application's `scripts` build option in
 `angular.json`:
