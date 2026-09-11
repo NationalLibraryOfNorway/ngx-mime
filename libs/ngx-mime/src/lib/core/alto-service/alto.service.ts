@@ -276,9 +276,10 @@ export class AltoService {
     }
 
     let hasError = false;
-    const isComplete = request.sources.every((source, resourceIndex) => {
+    let isComplete = true;
+    request.sources.forEach((source, resourceIndex) => {
       if (this.isInCache(source.canvasIndex)) {
-        return true;
+        return;
       }
 
       const resource =
@@ -294,17 +295,17 @@ export class AltoService {
             [source.canvasIndex]: loadedAlto.html,
           }));
 
-          return true;
+          return;
         }
       }
 
       if (resource.error()) {
         hasError = true;
 
-        return true;
+        return;
       }
 
-      return false;
+      isComplete = false;
     });
 
     if (hasError) {

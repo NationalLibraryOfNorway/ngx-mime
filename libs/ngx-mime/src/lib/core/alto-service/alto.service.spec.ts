@@ -94,6 +94,22 @@ describe('AltoService', () => {
     });
   });
 
+  it('should cache the second ALTO resource if it loads first', () => {
+    service.initialize();
+
+    iiifManifestService.load('fakeUrl').subscribe(() => {
+      waitForDebounce();
+      const coverRequest = coverTestRequest();
+      const insideRequest = insideTestRequest();
+
+      insideRequest.flush(testAlto);
+      expect(service.getHtml(0)).toBeUndefined();
+      expect(service.getHtml(1)).toBeDefined();
+
+      coverRequest.flush(testAlto);
+    });
+  });
+
   it('should report when the current canvas group has no alto source', () => {
     service.initialize();
 
