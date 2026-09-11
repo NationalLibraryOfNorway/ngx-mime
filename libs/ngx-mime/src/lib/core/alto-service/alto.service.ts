@@ -212,6 +212,7 @@ export class AltoService {
 
     return canvasGroup.slice(0, 2).flatMap((index) => {
       const url = canvases[index]?.altoUrl;
+
       return url ? [{ index, url }] : [];
     });
   }
@@ -256,6 +257,7 @@ export class AltoService {
     }
 
     const alto = new AltoBuilder().withAltoXml(result.alto).build();
+
     return {
       requestId: request.id,
       index: source.index,
@@ -287,12 +289,14 @@ export class AltoService {
             ...htmlByCanvas,
             [source.index]: loadedAlto.html,
           }));
+
           return true;
         }
       }
 
       if (resource.error()) {
         hasError = true;
+
         return true;
       }
 
