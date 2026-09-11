@@ -45,7 +45,7 @@ export class RecognizedTextContentComponent {
   readonly error = this.altoService.error;
   readonly currentCanvasGroupHasTextSource =
     this.altoService.currentCanvasGroupHasTextSource;
-  readonly htmlByCanvas = this.altoService.htmlByCanvas;
+  readonly htmlByCanvasIndex = this.altoService.htmlByCanvasIndex;
   readonly hits = this.altoService.hits;
   readonly selectedHit = computed(
     () => this.iiifContentSearchService.selectedHit()?.id,
@@ -66,14 +66,14 @@ export class RecognizedTextContentComponent {
   readonly updatedCanvasGroupPageCount = computed(
     () => this.recognizedTextState().updatedCanvasGroupPageCount,
   );
-  private lastScrolledHtmlByCanvas = this.htmlByCanvas();
+  private lastScrolledHtmlByCanvasIndex = this.htmlByCanvasIndex();
 
   constructor() {
     afterRenderEffect(() => {
-      const htmlByCanvas = this.htmlByCanvas();
+      const htmlByCanvasIndex = this.htmlByCanvasIndex();
       const container = this.recognizedTextContentContainer();
 
-      this.scrollToTopOnTextContentChange(htmlByCanvas, container);
+      this.scrollToTopOnTextContentChange(htmlByCanvasIndex, container);
     });
     afterRenderEffect(() => {
       // Recognized text changes replace the elements that contain highlights.
@@ -86,12 +86,12 @@ export class RecognizedTextContentComponent {
   }
 
   private scrollToTopOnTextContentChange(
-    htmlByCanvas: Readonly<Record<number, string>>,
+    htmlByCanvasIndex: Readonly<Record<number, string>>,
     container: ElementRef<HTMLElement>,
   ): void {
-    if (htmlByCanvas !== this.lastScrolledHtmlByCanvas) {
+    if (htmlByCanvasIndex !== this.lastScrolledHtmlByCanvasIndex) {
       container.nativeElement.scrollTop = 0;
-      this.lastScrolledHtmlByCanvas = htmlByCanvas;
+      this.lastScrolledHtmlByCanvasIndex = htmlByCanvasIndex;
     }
   }
 
@@ -125,7 +125,7 @@ export class RecognizedTextContentComponent {
       manifest: this.manifest(),
       isLoading: this.isLoading(),
       hasTextSource: this.currentCanvasGroupHasTextSource(),
-      htmlByCanvas: this.htmlByCanvas(),
+      htmlByCanvasIndex: this.htmlByCanvasIndex(),
       hits: this.hits(),
     };
   }
@@ -147,7 +147,7 @@ export class RecognizedTextContentComponent {
     }
     if (
       source.isLoading !== previous.source.isLoading ||
-      source.htmlByCanvas !== previous.source.htmlByCanvas
+      source.htmlByCanvasIndex !== previous.source.htmlByCanvasIndex
     ) {
       return this.refreshRecognizedText(true, previous.value);
     }

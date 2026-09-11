@@ -28,7 +28,7 @@ export class AltoService {
   readonly isLoading: Signal<boolean>;
   readonly error: Signal<string | undefined>;
   readonly currentCanvasGroupHasTextSource: Signal<boolean | undefined>;
-  readonly htmlByCanvas: Signal<Readonly<Record<number, string>>>;
+  readonly htmlByCanvasIndex: Signal<Readonly<Record<number, string>>>;
   readonly hits: Signal<readonly Hit[] | undefined>;
   private readonly intl = inject(MimeViewerIntl);
   private readonly iiifManifestService = inject(IiifManifestService);
@@ -48,15 +48,15 @@ export class AltoService {
   private readonly currentCanvasGroupHasTextSourceState = signal<
     boolean | undefined
   >(undefined);
-  private readonly htmlByCanvasState = signal<Readonly<Record<number, string>>>(
-    {},
-  );
+  private readonly htmlByCanvasIndexState = signal<
+    Readonly<Record<number, string>>
+  >({});
   private readonly hitsState = signal<readonly Hit[] | undefined>(undefined, {
     equal: () => false,
   });
-  private readonly activeCanvasGroupState = signal<AltoGroupLoad | undefined>(
-    undefined,
-  );
+  private readonly activeCanvasGroupLoadState = signal<
+    AltoGroupLoad | undefined
+  >(undefined);
   private readonly firstAltoResource = httpResource.text<AltoLoadResult>(
     () => this.createAltoRequest(0),
     { parse: (xml) => this.parseAltoResponse(0, xml) },
@@ -67,9 +67,9 @@ export class AltoService {
   );
   private subscriptions = new Subscription();
   private htmlFormatter!: HtmlFormatter;
-  private manifest: Manifest | null = null;
-  private initialized = false;
-  private requestId = 0;
+  private previousManifest: Manifest | null = null;
+  private isInitialized = false;
+  private requestCounter = 0;
   private completedRequestId: number | undefined;
 
   constructor() {
@@ -79,18 +79,18 @@ export class AltoService {
     this.error = this.errorState.asReadonly();
     this.currentCanvasGroupHasTextSource =
       this.currentCanvasGroupHasTextSourceState.asReadonly();
-    this.htmlByCanvas = this.htmlByCanvasState.asReadonly();
+    this.htmlByCanvasIndex = this.htmlByCanvasIndexState.asReadonly();
     this.hits = this.hitsState.asReadonly();
 
     effect(() => this.updateCanvasGroup());
   }
 
   initialize() {
-    if (this.initialized) {
+    if (this.isInitialized) {
       return;
     }
 
-    this.initialized = true;
+    this.isInitialized = true;
     this.htmlFormatter = new HtmlFormatter();
     this.subscriptions = new Subscription();
 
@@ -102,8 +102,8 @@ export class AltoService {
       ])
         .pipe(
           switchMap(([manifest, currentCanvasGroupIndex]) => {
-            if (manifest !== this.manifest) {
-              this.manifest = manifest;
+            if (manifest !== this.previousManifest) {
+              this.previousManifest = manifest;
               this.clearCache();
             }
             this.prepareCanvasGroupLoad();
@@ -129,15 +129,15 @@ export class AltoService {
     );
 
     this.subscriptions.unsubscribe();
-    this.initialized = false;
-    this.activeCanvasGroupState.set(undefined);
+    this.isInitialized = false;
+    this.activeCanvasGroupLoadState.set(undefined);
     this.firstAltoResource.set(undefined);
     this.secondAltoResource.set(undefined);
     this.isLoadingState.set(false);
     this.errorState.set(undefined);
     this.currentCanvasGroupHasTextSourceState.set(undefined);
     this.completedRequestId = undefined;
-    this.manifest = null;
+    this.previousManifest = null;
     this.clearCache();
   }
 
@@ -157,22 +157,22 @@ export class AltoService {
     this.setRecognizedTextContentMode(RecognizedTextMode.NONE);
   }
 
-  getHtml(index: number): SafeHtml | undefined {
-    const html = this.htmlByCanvasState()[index];
+  getHtml(canvasIndex: number): SafeHtml | undefined {
+    const html = this.htmlByCanvasIndexState()[canvasIndex];
 
     return html !== undefined
       ? this.sanitizer.bypassSecurityTrustHtml(
-          this.highlightService.highlight(html, index, this.hitsState()),
+          this.highlightService.highlight(html, canvasIndex, this.hitsState()),
         )
       : undefined;
   }
 
   private clearCache() {
-    this.htmlByCanvasState.set({});
+    this.htmlByCanvasIndexState.set({});
   }
 
   private prepareCanvasGroupLoad(): void {
-    this.activeCanvasGroupState.set(undefined);
+    this.activeCanvasGroupLoadState.set(undefined);
     this.firstAltoResource.set(undefined);
     this.secondAltoResource.set(undefined);
     this.completedRequestId = undefined;
@@ -191,10 +191,14 @@ export class AltoService {
     this.currentCanvasGroupHasTextSourceState.set(hasTextSource);
     if (!hasTextSource) {
       this.isLoadingState.set(false);
+
       return;
     }
 
-    this.activeCanvasGroupState.set({ id: ++this.requestId, sources });
+    this.activeCanvasGroupLoadState.set({
+      requestId: ++this.requestCounter,
+      sources,
+    });
   }
 
   private getAltoSources(
@@ -210,17 +214,17 @@ export class AltoService {
       return [];
     }
 
-    return canvasGroup.slice(0, 2).flatMap((index) => {
-      const url = canvases[index]?.altoUrl;
+    return canvasGroup.slice(0, 2).flatMap((canvasIndex) => {
+      const url = canvases[canvasIndex]?.altoUrl;
 
-      return url ? [{ index, url }] : [];
+      return url ? [{ canvasIndex, url }] : [];
     });
   }
 
   private createAltoRequest(resourceIndex: number) {
-    const source = this.activeCanvasGroupState()?.sources[resourceIndex];
+    const source = this.activeCanvasGroupLoadState()?.sources[resourceIndex];
 
-    return source && !this.isInCache(source.index)
+    return source && !this.isInCache(source.canvasIndex)
       ? {
           url: source.url,
           headers: { Accept: 'text/xml, application/xml' },
@@ -232,7 +236,7 @@ export class AltoService {
     resourceIndex: number,
     xml: string,
   ): AltoLoadResult {
-    const request = this.activeCanvasGroupState();
+    const request = this.activeCanvasGroupLoadState();
     const source = request?.sources[resourceIndex];
     if (!request || !source) {
       throw new Error('The ALTO request is no longer active');
@@ -259,21 +263,21 @@ export class AltoService {
     const alto = new AltoBuilder().withAltoXml(result.alto).build();
 
     return {
-      requestId: request.id,
-      index: source.index,
+      requestId: request.requestId,
+      canvasIndex: source.canvasIndex,
       html: this.htmlFormatter.altoToHtml(alto),
     };
   }
 
   private updateCanvasGroup(): void {
-    const request = this.activeCanvasGroupState();
-    if (!request || request.id === this.completedRequestId) {
+    const request = this.activeCanvasGroupLoadState();
+    if (!request || request.requestId === this.completedRequestId) {
       return;
     }
 
     let hasError = false;
     const isComplete = request.sources.every((source, resourceIndex) => {
-      if (this.isInCache(source.index)) {
+      if (this.isInCache(source.canvasIndex)) {
         return true;
       }
 
@@ -282,12 +286,12 @@ export class AltoService {
       if (resource.hasValue()) {
         const loadedAlto = resource.value();
         if (
-          loadedAlto.requestId === request.id &&
-          loadedAlto.index === source.index
+          loadedAlto.requestId === request.requestId &&
+          loadedAlto.canvasIndex === source.canvasIndex
         ) {
-          this.htmlByCanvasState.update((htmlByCanvas) => ({
-            ...htmlByCanvas,
-            [source.index]: loadedAlto.html,
+          this.htmlByCanvasIndexState.update((htmlByCanvasIndex) => ({
+            ...htmlByCanvasIndex,
+            [source.canvasIndex]: loadedAlto.html,
           }));
 
           return true;
@@ -307,13 +311,13 @@ export class AltoService {
       this.errorState.set(this.intl.textContentErrorLabel);
     }
     if (isComplete) {
-      this.completedRequestId = request.id;
+      this.completedRequestId = request.requestId;
       this.isLoadingState.set(false);
     }
   }
 
-  private isInCache(index: number) {
-    return this.htmlByCanvasState()[index] !== undefined;
+  private isInCache(canvasIndex: number) {
+    return this.htmlByCanvasIndexState()[canvasIndex] !== undefined;
   }
 
   private setRecognizedTextContentMode(value: RecognizedTextMode): void {

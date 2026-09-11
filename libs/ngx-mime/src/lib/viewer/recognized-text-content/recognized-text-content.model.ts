@@ -6,7 +6,7 @@ export interface RecognizedTextSource {
   manifest: Manifest | null;
   isLoading: boolean;
   hasTextSource: boolean | undefined;
-  htmlByCanvas: Readonly<Record<number, string>>;
+  htmlByCanvasIndex: Readonly<Record<number, string>>;
   hits: readonly Hit[] | undefined;
 }
 

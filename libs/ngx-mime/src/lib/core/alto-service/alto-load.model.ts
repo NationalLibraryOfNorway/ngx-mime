@@ -1,15 +1,15 @@
 export interface AltoDocumentSource {
-  index: number;
+  canvasIndex: number;
   url: string;
 }
 
 export interface AltoGroupLoad {
-  id: number;
+  requestId: number;
   sources: AltoDocumentSource[];
 }
 
 export interface AltoLoadResult {
   requestId: number;
-  index: number;
+  canvasIndex: number;
   html: string;
 }

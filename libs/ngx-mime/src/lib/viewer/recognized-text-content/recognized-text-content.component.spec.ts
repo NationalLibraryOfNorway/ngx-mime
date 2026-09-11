@@ -28,7 +28,7 @@ describe('RecognizedTextContentComponent', () => {
   let isLoadingState: WritableSignal<boolean>;
   let errorState: WritableSignal<string | undefined>;
   let currentCanvasGroupHasTextSourceState: WritableSignal<boolean | undefined>;
-  let htmlByCanvasState: WritableSignal<Readonly<Record<number, string>>>;
+  let htmlByCanvasIndexState: WritableSignal<Readonly<Record<number, string>>>;
   let hitsState: WritableSignal<readonly Hit[] | undefined>;
 
   beforeEach(async () => {
@@ -57,13 +57,13 @@ describe('RecognizedTextContentComponent', () => {
     currentCanvasGroupHasTextSourceState = signal<boolean | undefined>(
       undefined,
     );
-    htmlByCanvasState = signal<Readonly<Record<number, string>>>({});
+    htmlByCanvasIndexState = signal<Readonly<Record<number, string>>>({});
     hitsState = signal<readonly Hit[] | undefined>(undefined);
     altoService.isLoading = isLoadingState.asReadonly();
     altoService.error = errorState.asReadonly();
     altoService.currentCanvasGroupHasTextSource =
       currentCanvasGroupHasTextSourceState.asReadonly();
-    altoService.htmlByCanvas = htmlByCanvasState.asReadonly();
+    altoService.htmlByCanvasIndex = htmlByCanvasIndexState.asReadonly();
     altoService.hits = hitsState.asReadonly();
     canvasService = TestBed.inject(CanvasService);
     highlightService = TestBed.inject(HighlightService);
@@ -106,7 +106,7 @@ describe('RecognizedTextContentComponent', () => {
       .calledWith(1)
       .mockReturnValue(secondCanvasRecognizedTextContent);
 
-    setHtmlByCanvas({
+    setHtmlByCanvasIndex({
       0: firstCanvasRecognizedTextContent,
       1: secondCanvasRecognizedTextContent,
     });
@@ -198,7 +198,7 @@ describe('RecognizedTextContentComponent', () => {
     canvasService.getCanvasesPerCanvasGroup.mockReturnValue([4]);
     altoService.getHtml.calledWith(4).mockReturnValue('updatedTextContent');
 
-    setHtmlByCanvas({ 4: 'updatedTextContent' });
+    setHtmlByCanvasIndex({ 4: 'updatedTextContent' });
     await fixture.whenStable();
 
     const message: HTMLElement = fixture.nativeElement.querySelector(
@@ -214,7 +214,7 @@ describe('RecognizedTextContentComponent', () => {
     canvasService.getCanvasesPerCanvasGroup.mockReturnValue([3, 4]);
     altoService.getHtml.mockReturnValue('updatedTextContent');
 
-    setHtmlByCanvas({ 3: 'updatedTextContent', 4: 'updatedTextContent' });
+    setHtmlByCanvasIndex({ 3: 'updatedTextContent', 4: 'updatedTextContent' });
     await fixture.whenStable();
 
     const message: HTMLElement = fixture.nativeElement.querySelector(
@@ -231,7 +231,7 @@ describe('RecognizedTextContentComponent', () => {
     altoService.getHtml.calledWith(3).mockReturnValue(undefined);
     altoService.getHtml.calledWith(4).mockReturnValue('updatedTextContent');
 
-    setHtmlByCanvas({ 4: 'updatedTextContent' });
+    setHtmlByCanvasIndex({ 4: 'updatedTextContent' });
     await fixture.whenStable();
 
     const message: HTMLElement = fixture.nativeElement.querySelector(
@@ -268,7 +268,7 @@ describe('RecognizedTextContentComponent', () => {
   it('should clear stale recognized text when loading starts', async () => {
     canvasService.getCanvasesPerCanvasGroup.mockReturnValue([0]);
     altoService.getHtml.calledWith(0).mockReturnValue('previousTextContent');
-    setHtmlByCanvas({ 0: 'previousTextContent' });
+    setHtmlByCanvasIndex({ 0: 'previousTextContent' });
     await fixture.whenStable();
 
     isLoadingState.set(true);
@@ -284,7 +284,7 @@ describe('RecognizedTextContentComponent', () => {
     altoService.getHtml.calledWith(0).mockReturnValue('previousFirstPage');
     altoService.getHtml.calledWith(1).mockReturnValue('previousSecondPage');
     currentCanvasGroupHasTextSourceState.set(true);
-    setHtmlByCanvas({
+    setHtmlByCanvasIndex({
       0: 'previousFirstPage',
       1: 'previousSecondPage',
     });
@@ -330,7 +330,7 @@ describe('RecognizedTextContentComponent', () => {
     canvasService.getCanvasesPerCanvasGroup.mockReturnValue([0]);
     altoService.getHtml.calledWith(0).mockReturnValue('fakeTextContent');
 
-    setHtmlByCanvas({ 0: 'fakeTextContent' });
+    setHtmlByCanvasIndex({ 0: 'fakeTextContent' });
     await fixture.whenStable();
 
     expect(highlightService.highlightSelectedHit).toHaveBeenCalledWith(
@@ -351,10 +351,10 @@ describe('RecognizedTextContentComponent', () => {
     };
   }
 
-  function setHtmlByCanvas(
-    htmlByCanvas: Readonly<Record<number, string>>,
+  function setHtmlByCanvasIndex(
+    htmlByCanvasIndex: Readonly<Record<number, string>>,
   ): void {
-    htmlByCanvasState.set(htmlByCanvas);
+    htmlByCanvasIndexState.set(htmlByCanvasIndex);
   }
 
   function updateHits(): void {
