@@ -1,12 +1,13 @@
 import { SafeHtml } from '@angular/platform-browser';
+import { Hit } from '../../core/models/hit';
 import { Manifest } from '../../core/models/manifest';
 
 export interface RecognizedTextSource {
   manifest: Manifest | null;
   isLoading: boolean;
   hasTextSource: boolean | undefined;
-  textContentRevision: number;
-  highlightsRevision: number;
+  htmlByCanvas: Readonly<Record<number, string>>;
+  hits: readonly Hit[] | undefined;
 }
 
 export interface RecognizedTextState {

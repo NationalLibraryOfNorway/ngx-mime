@@ -24,13 +24,13 @@ import { HtmlFormatter } from './html.formatter';
 
 @Injectable()
 export class AltoService {
-  readonly intl = inject(MimeViewerIntl);
   readonly recognizedTextContentMode: Signal<RecognizedTextMode>;
   readonly isLoading: Signal<boolean>;
   readonly error: Signal<string | undefined>;
   readonly currentCanvasGroupHasTextSource: Signal<boolean | undefined>;
-  readonly textContentRevision: Signal<number>;
-  readonly highlightsRevision: Signal<number>;
+  readonly htmlByCanvas: Signal<Readonly<Record<number, string>>>;
+  readonly hits: Signal<readonly Hit[] | undefined>;
+  private readonly intl = inject(MimeViewerIntl);
   private readonly iiifManifestService = inject(IiifManifestService);
   private readonly highlightService = inject(HighlightService);
   private readonly canvasService = inject(CanvasService);
@@ -40,7 +40,6 @@ export class AltoService {
     this.iiifManifestService.manifest,
   );
   private config!: MimeViewerConfig;
-  private altos: string[] = [];
   private readonly recognizedTextContentModeState = signal(
     RecognizedTextMode.NONE,
   );
@@ -49,8 +48,12 @@ export class AltoService {
   private readonly currentCanvasGroupHasTextSourceState = signal<
     boolean | undefined
   >(undefined);
-  private readonly textContentRevisionState = signal(0);
-  private readonly highlightsRevisionState = signal(0);
+  private readonly htmlByCanvasState = signal<Readonly<Record<number, string>>>(
+    {},
+  );
+  private readonly hitsState = signal<readonly Hit[] | undefined>(undefined, {
+    equal: () => false,
+  });
   private readonly activeCanvasGroupState = signal<AltoGroupLoad | undefined>(
     undefined,
   );
@@ -64,7 +67,6 @@ export class AltoService {
   );
   private subscriptions = new Subscription();
   private htmlFormatter!: HtmlFormatter;
-  private hits: Hit[] | undefined;
   private manifest: Manifest | null = null;
   private initialized = false;
   private requestId = 0;
@@ -77,8 +79,8 @@ export class AltoService {
     this.error = this.errorState.asReadonly();
     this.currentCanvasGroupHasTextSource =
       this.currentCanvasGroupHasTextSourceState.asReadonly();
-    this.textContentRevision = this.textContentRevisionState.asReadonly();
-    this.highlightsRevision = this.highlightsRevisionState.asReadonly();
+    this.htmlByCanvas = this.htmlByCanvasState.asReadonly();
+    this.hits = this.hitsState.asReadonly();
 
     effect(() => this.updateCanvasGroup());
   }
@@ -118,8 +120,7 @@ export class AltoService {
   }
 
   setHits(hits?: Hit[]) {
-    this.hits = hits;
-    this.highlightsRevisionState.update((revision) => revision + 1);
+    this.hitsState.set(hits);
   }
 
   destroy() {
@@ -157,15 +158,17 @@ export class AltoService {
   }
 
   getHtml(index: number): SafeHtml | undefined {
-    return this.isInCache(index)
+    const html = this.htmlByCanvasState()[index];
+
+    return html !== undefined
       ? this.sanitizer.bypassSecurityTrustHtml(
-          this.highlightService.highlight(this.altos[index], index, this.hits),
+          this.highlightService.highlight(html, index, this.hitsState()),
         )
       : undefined;
   }
 
-  clearCache() {
-    this.altos = [];
+  private clearCache() {
+    this.htmlByCanvasState.set({});
   }
 
   private prepareCanvasGroupLoad(): void {
@@ -280,7 +283,10 @@ export class AltoService {
           loadedAlto.requestId === request.id &&
           loadedAlto.index === source.index
         ) {
-          this.altos[source.index] = loadedAlto.html;
+          this.htmlByCanvasState.update((htmlByCanvas) => ({
+            ...htmlByCanvas,
+            [source.index]: loadedAlto.html,
+          }));
           return true;
         }
       }
@@ -299,12 +305,11 @@ export class AltoService {
     if (isComplete) {
       this.completedRequestId = request.id;
       this.isLoadingState.set(false);
-      this.textContentRevisionState.update((revision) => revision + 1);
     }
   }
 
   private isInCache(index: number) {
-    return this.altos[index] !== undefined;
+    return this.htmlByCanvasState()[index] !== undefined;
   }
 
   private setRecognizedTextContentMode(value: RecognizedTextMode): void {

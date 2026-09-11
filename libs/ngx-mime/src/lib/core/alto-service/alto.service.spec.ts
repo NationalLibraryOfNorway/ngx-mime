@@ -14,6 +14,7 @@ import { HighlightService } from '../highlight-service/highlight.service';
 import { IiifManifestService } from '../iiif-manifest-service/iiif-manifest-service';
 import { MimeViewerIntl } from '../intl';
 import { RecognizedTextMode } from '../models';
+import { Hit } from '../models/hit';
 import { ViewerLayout } from '../models/viewer-layout';
 import { ViewerLayoutService } from '../viewer-layout-service/viewer-layout-service';
 import { AltoService } from './alto.service';
@@ -63,10 +64,11 @@ describe('AltoService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should increment the highlights revision when hits change', () => {
-    service.setHits([]);
+  it('should update hits when they change', () => {
+    const hits: Hit[] = [];
+    service.setHits(hits);
 
-    expect(service.highlightsRevision()).toBe(1);
+    expect(service.hits()).toBe(hits);
   });
 
   it('should load alto on load', () => {
@@ -79,16 +81,16 @@ describe('AltoService', () => {
     });
   });
 
-  it('should increment the text content revision once per canvas group', () => {
+  it('should update cached text as each ALTO resource loads', () => {
     service.initialize();
 
     iiifManifestService.load('fakeUrl').subscribe(() => {
       waitForDebounce();
       coverTestRequest().flush(testAlto);
-      expect(service.textContentRevision()).toBe(0);
+      expect(service.getHtml(0)).toBeDefined();
 
       insideTestRequest().flush(testAlto);
-      expect(service.textContentRevision()).toBe(1);
+      expect(service.getHtml(1)).toBeDefined();
     });
   });
 
@@ -152,7 +154,6 @@ describe('AltoService', () => {
 
       waitForDebounce();
       mockSecondCanvasGroupRequest();
-      expect(service.textContentRevision()).toBe(1);
     });
   });
 
@@ -176,7 +177,6 @@ describe('AltoService', () => {
     iiifManifestService.load('fakeUrl').subscribe(() => {
       waitForDebounce();
       coverTestRequest().flush(testAlto);
-      expect(service.textContentRevision()).toBe(1);
 
       canvasService.getCanvasesPerCanvasGroup.mockReturnValue([0, 1]);
       viewerLayoutService.onChange.nextWith(ViewerLayout.TWO_PAGE);
@@ -185,7 +185,6 @@ describe('AltoService', () => {
 
       expect(canvasService.currentCanvasGroupIndex).toBe(0);
       expect(service.getHtml(1)).toBeDefined();
-      expect(service.textContentRevision()).toBe(2);
     });
   });
 
@@ -265,7 +264,6 @@ describe('AltoService', () => {
       insideRequest.flush(testAlto);
       expect(service.getHtml(0)).toBeUndefined();
       expect(service.getHtml(1)).toBeDefined();
-      expect(service.textContentRevision()).toBe(1);
     });
   });
 
