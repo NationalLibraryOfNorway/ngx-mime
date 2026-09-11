@@ -11,7 +11,7 @@ import {
   imports: [MimeModule],
 })
 export class AppComponent {
-  readonly manifestUri = input.required<string>();
+  readonly manifestUri = input<string | null>(null);
   readonly config = input<string>();
   readonly mimeConfig = computed(() => this.getMimeConfig());
 

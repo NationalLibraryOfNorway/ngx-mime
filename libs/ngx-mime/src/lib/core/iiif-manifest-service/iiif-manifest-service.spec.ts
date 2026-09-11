@@ -37,7 +37,8 @@ describe('IiifManifestService', () => {
   });
 
   it('should return a Manifest', () => {
-    svc.load('dummyUrl').subscribe();
+    svc.load('dummyUrl');
+    TestBed.tick();
 
     const request = httpTestingController.expectOne(`dummyUrl`);
     request.flush(new ManifestBuilder(testManifest).build());
@@ -51,7 +52,7 @@ describe('IiifManifestService', () => {
   });
 
   it('should return error message if manifest url is missing', () => {
-    svc.load('').subscribe();
+    svc.load('');
 
     httpTestingController.expectNone('');
     const error = svc.error();
@@ -63,7 +64,8 @@ describe('IiifManifestService', () => {
   });
 
   it('should return error message if IiifManifestService could not load manifest', () => {
-    svc.load('wrongManifestUrl').subscribe();
+    svc.load('wrongManifestUrl');
+    TestBed.tick();
 
     httpTestingController
       .expectOne('wrongManifestUrl')
@@ -85,7 +87,8 @@ describe('IiifManifestService', () => {
     const invalidManifest = new ManifestBuilder(testManifest).build();
     invalidManifest.sequences = [];
 
-    svc.load('invalidManifest').subscribe();
+    svc.load('invalidManifest');
+    TestBed.tick();
 
     const req = httpTestingController.expectOne(`invalidManifest`);
     req.flush(invalidManifest);

@@ -7,13 +7,16 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser-esbuild",
-      "outputs": ["{options.outputPath}"],
+      "executor": "@angular/build:application",
+      "outputs": ["{options.outputPath.base}"],
+      "defaultConfiguration": "production",
       "options": {
         "allowedCommonJsDependencies": ["openseadragon", "xml2js"],
-        "outputPath": "dist/apps/demo",
+        "outputPath": {
+          "base": "dist/apps/demo",
+          "browser": ""
+        },
         "index": "apps/demo/src/index.html",
-        "main": "apps/demo/src/main.ts",
         "tsConfig": "apps/demo/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": ["apps/demo/src/favicon.ico", "apps/demo/src/assets"],
@@ -38,7 +41,8 @@
         ],
         "scripts": [
           "./node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
-        ]
+        ],
+        "browser": "apps/demo/src/main.ts"
       },
       "configurations": {
         "production": {
@@ -46,7 +50,7 @@
             {
               "type": "initial",
               "maximumWarning": "1mb",
-              "maximumError": "2mb"
+              "maximumError": "3mb"
             },
             {
               "type": "anyComponentStyle",
@@ -63,19 +67,19 @@
           "outputHashing": "all"
         },
         "development": {
-          "buildOptimizer": false,
           "optimization": false,
           "extractLicenses": false,
           "sourceMap": true
         }
-      },
-      "defaultConfiguration": "production"
+      }
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "executor": "@angular/build:dev-server",
+      "defaultConfiguration": "development",
+      "continuous": true,
       "options": {
         "host": "0.0.0.0",
-        "disableHostCheck": true,
+        "allowedHosts": true,
         "buildTarget": "demo:build"
       },
       "configurations": {
@@ -85,12 +89,10 @@
         "development": {
           "buildTarget": "demo:build:development"
         }
-      },
-      "defaultConfiguration": "development",
-      "continuous": true
+      }
     },
     "extract-i18n": {
-      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "executor": "@angular/build:extract-i18n",
       "options": {
         "buildTarget": "demo:build"
       }

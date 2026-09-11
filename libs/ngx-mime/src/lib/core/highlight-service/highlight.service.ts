@@ -17,7 +17,7 @@ export class HighlightService {
   highlight(
     html: string,
     currentIndex: number,
-    hits?: Hit[] | undefined,
+    hits?: readonly Hit[] | undefined,
   ): string {
     if (hits && hits.length > 0) {
       for (const hit of hits) {

@@ -1,60 +1,41 @@
-import { FlatCompat } from '@eslint/eslintrc';
-import js from '@eslint/js';
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
+import angular from 'angular-eslint';
 import baseConfig from '../../eslint.config.mjs';
-
-const compat = new FlatCompat({
-  baseDirectory: dirname(fileURLToPath(import.meta.url)),
-  recommendedConfig: js.configs.recommended,
-});
 
 export default [
   {
     ignores: ['**/dist'],
   },
   ...baseConfig,
-  ...compat
-    .config({
-      extends: [
-        'plugin:@nx/angular',
-        'plugin:@angular-eslint/template/process-inline-templates',
+  ...angular.configs.tsRecommended.map((config) => ({
+    ...config,
+    files: ['**/*.ts'],
+  })),
+  {
+    files: ['**/*.ts'],
+    processor: angular.processInlineTemplates,
+    rules: {
+      '@angular-eslint/directive-selector': [
+        'error',
+        {
+          type: 'attribute',
+          prefix: 'mime',
+          style: 'camelCase',
+        },
       ],
-    })
-    .map((config) => ({
-      ...config,
-      files: ['**/*.ts'],
-      rules: {
-        ...config.rules,
-        '@angular-eslint/directive-selector': [
-          'error',
-          {
-            type: 'attribute',
-            prefix: 'mime',
-            style: 'camelCase',
-          },
-        ],
-        '@angular-eslint/component-selector': [
-          'error',
-          {
-            type: 'element',
-            prefix: 'mime',
-            style: 'kebab-case',
-          },
-        ],
-      },
-    })),
-  ...compat
-    .config({
-      extends: ['plugin:@nx/angular-template'],
-    })
-    .map((config) => ({
-      ...config,
-      files: ['**/*.html'],
-      rules: {
-        ...config.rules,
-      },
-    })),
+      '@angular-eslint/component-selector': [
+        'error',
+        {
+          type: 'element',
+          prefix: 'mime',
+          style: 'kebab-case',
+        },
+      ],
+    },
+  },
+  ...angular.configs.templateRecommended.map((config) => ({
+    ...config,
+    files: ['**/*.html'],
+  })),
   {
     files: ['{package,project}.json'],
     rules: {

@@ -20,7 +20,6 @@ import {
 } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { take } from 'rxjs/operators';
 import { AttributionDialogService } from '../attribution-dialog/attribution-dialog.service';
 import { CanvasGroupDialogService } from '../canvas-group-dialog/canvas-group-dialog.service';
 import { ContentSearchDialogService } from '../content-search-dialog/content-search-dialog.service';
@@ -422,10 +421,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   private loadManifest(): void {
-    this.iiifManifestService
-      .load(this.activeManifestUri())
-      .pipe(take(1))
-      .subscribe();
+    this.iiifManifestService.load(this.activeManifestUri());
   }
 
   private initialize() {

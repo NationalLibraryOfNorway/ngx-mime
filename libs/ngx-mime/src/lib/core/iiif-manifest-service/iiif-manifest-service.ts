@@ -1,81 +1,98 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { inject, Injectable, signal, Signal } from '@angular/core';
-import { Observable } from 'rxjs';
-import { finalize, take } from 'rxjs/operators';
+import { HttpErrorResponse, httpResource } from '@angular/common/http';
+import {
+  computed,
+  effect,
+  inject,
+  Injectable,
+  signal,
+  Signal,
+} from '@angular/core';
 import { ManifestBuilder as IiifV2ManifestBuilder } from '../builders/iiif/v2/manifest.builder';
 import { ManifestBuilder as IiifV3ManifestBuilder } from '../builders/iiif/v3/manifest.builder';
 import { MimeViewerIntl } from '../intl';
 import { Manifest } from '../models/manifest';
 import { SpinnerService } from '../spinner-service/spinner.service';
 
+class InvalidManifestError extends Error {}
+
 @Injectable()
 export class IiifManifestService {
-  intl = inject(MimeViewerIntl);
   readonly manifest: Signal<Manifest | null>;
   readonly error: Signal<string | null>;
-  private readonly http = inject(HttpClient);
+  private readonly intl = inject(MimeViewerIntl);
   private readonly spinnerService = inject(SpinnerService);
-  private readonly manifestState = signal<Manifest | null>(null);
-  private readonly errorState = signal<string | null>(null, {
+  private readonly manifestUri = signal<string | undefined>(undefined);
+  private readonly missingManifestUri = signal(false, {
     equal: () => false,
   });
+  private readonly manifestResource = httpResource<Manifest>(
+    () => this.manifestUri(),
+    {
+      parse: (response) => {
+        const manifest = this.extractData(response);
+        if (!this.isManifestValid(manifest)) {
+          throw new InvalidManifestError();
+        }
+        return manifest;
+      },
+    },
+  );
 
   constructor() {
-    this.manifest = this.manifestState.asReadonly();
-    this.error = this.errorState.asReadonly();
-  }
+    this.manifest = computed(() =>
+      this.manifestResource.hasValue() ? this.manifestResource.value() : null,
+    );
+    this.error = computed(() => {
+      if (this.missingManifestUri()) {
+        return this.intl.manifestUriMissingLabel;
+      }
 
-  load(manifestUri: string | null): Observable<boolean> {
-    return new Observable((observer) => {
-      if (!manifestUri || manifestUri.length === 0) {
-        this.errorState.set(this.intl.manifestUriMissingLabel);
-        observer.next(false);
-      } else {
+      const error = this.manifestResource.error();
+      if (error instanceof InvalidManifestError) {
+        return this.intl.manifestNotValidLabel;
+      }
+
+      return error ? this.handleError(error) : null;
+    });
+
+    effect(() => {
+      if (this.manifestResource.isLoading()) {
         this.spinnerService.show();
-        this.http
-          .get<Response>(manifestUri)
-          .pipe(
-            finalize(() => this.spinnerService.hide()),
-            take(1),
-          )
-          .subscribe(
-            (response: Response) => {
-              const manifest = this.extractData(response);
-              if (this.isManifestValid(manifest)) {
-                this.manifestState.set(manifest);
-                observer.next(true);
-              } else {
-                this.errorState.set(this.intl.manifestNotValidLabel);
-                observer.next(false);
-              }
-            },
-            (err: HttpErrorResponse) => {
-              this.errorState.set(this.handleError(err));
-              observer.next(false);
-            },
-          );
+      } else {
+        this.spinnerService.hide();
       }
     });
   }
 
-  destroy() {
-    this.resetCurrentManifest();
-    this.resetErrorMessage();
-  }
+  load(manifestUri: string | null): void {
+    this.manifestResource.set(undefined);
 
-  private resetCurrentManifest() {
-    this.manifestState.set(null);
-  }
+    if (!manifestUri || manifestUri.length === 0) {
+      this.manifestUri.set(undefined);
+      this.missingManifestUri.set(true);
+      return;
+    }
 
-  private resetErrorMessage() {
-    this.errorState.set(null);
-  }
-
-  private extractData(response: any) {
-    if (response.type === 'Manifest') {
-      return new IiifV3ManifestBuilder(response).build();
+    this.missingManifestUri.set(false);
+    if (manifestUri === this.manifestUri()) {
+      this.manifestResource.reload();
     } else {
-      return new IiifV2ManifestBuilder(response).build();
+      this.manifestUri.set(manifestUri);
+    }
+  }
+
+  destroy(): void {
+    this.manifestUri.set(undefined);
+    this.manifestResource.set(undefined);
+    this.missingManifestUri.set(false);
+  }
+
+  private extractData(response: unknown): Manifest {
+    const manifestResponse = response as Record<string, unknown>;
+    if (manifestResponse['type'] === 'Manifest') {
+      return new IiifV3ManifestBuilder(manifestResponse).build();
+    } else {
+      return new IiifV2ManifestBuilder(manifestResponse).build();
     }
   }
 
@@ -87,14 +104,11 @@ export class IiifManifestService {
     );
   }
 
-  private handleError(err: HttpErrorResponse): string {
-    let errMsg: string;
-    if (err.error instanceof Object) {
-      errMsg = err.message;
-    } else {
-      errMsg = err.error;
+  private handleError(error: unknown): string {
+    if (!(error instanceof HttpErrorResponse)) {
+      return error instanceof Error ? error.message : String(error);
     }
 
-    return errMsg;
+    return error.error instanceof Object ? error.message : String(error.error);
   }
 }
