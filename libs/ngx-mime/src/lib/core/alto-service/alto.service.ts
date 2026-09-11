@@ -24,7 +24,7 @@ import { HtmlFormatter } from './html.formatter';
 
 @Injectable()
 export class AltoService {
-  intl = inject(MimeViewerIntl);
+  readonly intl = inject(MimeViewerIntl);
   readonly recognizedTextContentMode: Signal<RecognizedTextMode>;
   readonly isLoading: Signal<boolean>;
   readonly error: Signal<string | undefined>;
