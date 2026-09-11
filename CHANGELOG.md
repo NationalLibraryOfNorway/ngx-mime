@@ -1,3 +1,57 @@
+# 22.0.0 (2026-09-11)
+
+### 🚀 Features
+
+- ⚠️  require Angular 22 ([#522](https://github.com/NationalLibraryOfNorway/ngx-mime/pull/522))
+
+### ⚠️  Breaking Changes
+
+- require Angular 22  ([#522](https://github.com/NationalLibraryOfNorway/ngx-mime/pull/522))
+  This release requires Angular 22."
+  M	apps/demo/eslint.config.mjs
+  M	apps/demo/project.json
+  M	apps/demo/tsconfig.app.json
+  M	apps/demo/tsconfig.json
+  M	apps/elements/eslint.config.mjs
+  M	apps/elements/project.json
+  M	apps/elements/src/app/app.component.ts
+  M	apps/elements/tsconfig.app.json
+  M	apps/elements/tsconfig.json
+  D	apps/elements/webpack.config.js
+  M	apps/integration/eslint.config.mjs
+  M	apps/integration/project.json
+  M	apps/integration/tsconfig.app.json
+  M	apps/integration/tsconfig.json
+  M	eslint.config.mjs
+  M	libs/ngx-mime/README.md
+  M	libs/ngx-mime/eslint.config.mjs
+  M	libs/ngx-mime/package.json
+  A	libs/ngx-mime/src/lib/core/alto-service/alto-load.model.ts
+  M	libs/ngx-mime/src/lib/core/alto-service/alto.service.spec.ts
+  M	libs/ngx-mime/src/lib/core/alto-service/alto.service.ts
+  M	libs/ngx-mime/src/lib/core/highlight-service/highlight.service.ts
+  M	libs/ngx-mime/src/lib/core/iiif-content-search-service/iiif-content-search.service.spec.ts
+  M	libs/ngx-mime/src/lib/core/iiif-content-search-service/iiif-content-search.service.ts
+  M	libs/ngx-mime/src/lib/core/iiif-manifest-service/iiif-manifest-service.spec.ts
+  M	libs/ngx-mime/src/lib/core/iiif-manifest-service/iiif-manifest-service.ts
+  M	libs/ngx-mime/src/lib/test/mock-breakpoint-observer.ts
+  M	libs/ngx-mime/src/lib/viewer/recognized-text-content/recognized-text-content.component.spec.ts
+  M	libs/ngx-mime/src/lib/viewer/recognized-text-content/recognized-text-content.component.ts
+  M	libs/ngx-mime/src/lib/viewer/recognized-text-content/recognized-text-content.model.ts
+  M	libs/ngx-mime/src/lib/viewer/test-host.component.ts
+  M	libs/ngx-mime/src/lib/viewer/viewer-header/viewer-header.component.ts
+  M	libs/ngx-mime/src/lib/viewer/viewer.component.spec.ts
+  M	libs/ngx-mime/src/lib/viewer/viewer.component.ts
+  M	libs/ngx-mime/tsconfig.lib.json
+  M	libs/ngx-mime/tsconfig.lib.prod.json
+  M	package.json
+  M	tsconfig.base.json
+  M	yarn.lock
+
+### ❤️ Thank You
+
+- Ronny Mikalsen @ronnymikalsen
+
 # 21.0.0 (2026-09-10)
 
 ### 🚀 Features

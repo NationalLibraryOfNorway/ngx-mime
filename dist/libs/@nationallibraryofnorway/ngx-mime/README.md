@@ -6,7 +6,7 @@ An Angular component library for displaying and navigating IIIF manifests.
 
 ## Compatibility
 
-The current major release supports Angular 21. See the package's peer
+The current major release supports Angular 22. See the package's peer
 dependencies for the complete compatibility requirements.
 
 ## Installation

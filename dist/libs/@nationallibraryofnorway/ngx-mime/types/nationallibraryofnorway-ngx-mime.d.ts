@@ -77,7 +77,7 @@ declare class MimeViewerIntl {
     currentHitLabel: (currentHit: number, numberOfHits: number) => string;
     notifyChanges(): void;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<MimeViewerIntl, never>;
-    static ɵprov: _angular_core.ɵɵInjectableDeclaration<MimeViewerIntl>;
+    static ɵprov: _angular_core.ɵɵInjectableDeclaration<any>;
 }
 
 declare class HelpIntlLt extends HelpIntl {
@@ -146,7 +146,7 @@ declare class MimeViewerIntlLt extends MimeViewerIntl {
     resultsFoundLabel: (numberOfHits: number, q: string) => string;
     currentHitLabel: (currentHit: number, numberOfHits: number) => string;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<MimeViewerIntlLt, never>;
-    static ɵprov: _angular_core.ɵɵInjectableDeclaration<MimeViewerIntlLt>;
+    static ɵprov: _angular_core.ɵɵInjectableDeclaration<any>;
 }
 
 declare class HelpIntlNoNb extends HelpIntl {
@@ -215,7 +215,7 @@ declare class MimeViewerIntlNoNb extends MimeViewerIntl {
     resultsFoundLabel: (numberOfHits: number, q: string) => string;
     currentHitLabel: (currentHit: number, numberOfHits: number) => string;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<MimeViewerIntlNoNb, never>;
-    static ɵprov: _angular_core.ɵɵInjectableDeclaration<MimeViewerIntlNoNb>;
+    static ɵprov: _angular_core.ɵɵInjectableDeclaration<any>;
 }
 
 declare const provideMimeViewerIntl: (options?: {
