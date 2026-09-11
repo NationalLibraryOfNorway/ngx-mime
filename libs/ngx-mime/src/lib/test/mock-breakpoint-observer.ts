@@ -10,7 +10,7 @@ export class MockBreakpointObserver extends BreakpointObserver {
   });
 
   constructor() {
-    super(null as any, null as any);
+    super();
   }
 
   setMatches(matches: boolean): void {
