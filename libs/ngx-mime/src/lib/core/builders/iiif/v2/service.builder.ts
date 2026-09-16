@@ -12,6 +12,7 @@ export class ServiceBuilder {
     } else {
       return new Service({
         id: BuilderUtils.extractId(this.service),
+        type: BuilderUtils.extracType(this.service),
         context: BuilderUtils.extractContext(this.service),
         protocol: this.service.protocol,
         width: this.service.width,
