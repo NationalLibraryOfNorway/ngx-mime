@@ -419,17 +419,16 @@ describe('ViewerComponent', () => {
     expect(selectedMode).toEqual(ViewerMode.DASHBOARD);
   });
 
-  it('should not restore a saved dialog when another dialog is already open', async () => {
+  it('should not restore a saved dialog when another dialog is already open', () => {
     testHostFixture.detectChanges();
-    await testHostFixture.whenStable();
-    await setViewerMode(ViewerMode.DASHBOARD);
+    setViewerMode(ViewerMode.DASHBOARD);
     contentSearchDialogService.isOpen.mockReturnValue(true);
 
-    await setViewerMode(ViewerMode.PAGE);
+    setViewerMode(ViewerMode.PAGE);
     informationDialogService.isOpen.mockReturnValue(true);
     contentSearchDialogService.isOpen.mockReturnValue(false);
 
-    await setViewerMode(ViewerMode.DASHBOARD);
+    setViewerMode(ViewerMode.DASHBOARD);
 
     expect(contentSearchDialogService.open).not.toHaveBeenCalled();
   });
@@ -742,9 +741,9 @@ describe('ViewerComponent', () => {
     );
   }
 
-  async function setViewerMode(mode: ViewerMode): Promise<void> {
+  function setViewerMode(mode: ViewerMode): void {
     modeService.setMode(mode);
-    await testHostFixture.whenStable();
+    testHostFixture.detectChanges();
   }
 
   function getAttributeAsInt(
