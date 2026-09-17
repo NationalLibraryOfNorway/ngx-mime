@@ -172,6 +172,7 @@ export class Resource {
 export class Service {
   public context?: string;
   public id?: string;
+  public type?: string;
   public protocol?: string;
   public width = 0;
   public height = 0;
@@ -185,6 +186,7 @@ export class Service {
   constructor(fields?: {
     context?: string;
     id?: string;
+    type?: string;
     protocol?: string;
     width?: number;
     height?: number;
@@ -198,6 +200,7 @@ export class Service {
     if (fields) {
       this.context = fields.context || this.context;
       this.id = fields.id || this.id;
+      this.type = fields.type || this.type;
       this.protocol = fields.protocol || this.protocol;
       this.width = fields.width || this.width;
       this.height = fields.height || this.height;

@@ -14,6 +14,7 @@ export class ServiceBuilder {
 
       return new Service({
         id: BuilderUtils.extractId(service),
+        type: BuilderUtils.extracType(service),
         context: BuilderUtils.extractContext(service),
         protocol: service.protocol,
         width: service.width,
