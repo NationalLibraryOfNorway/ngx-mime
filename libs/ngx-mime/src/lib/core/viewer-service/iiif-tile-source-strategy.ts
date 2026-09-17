@@ -1,12 +1,12 @@
-import { TileSourceBuilder } from '../builders/iiif/tile-source.builder';
+import { ImageSourceBuilder } from '../builders/iiif/image-source.builder';
 import { Resource } from '../models/manifest';
 import { TileSourceStrategy } from './tile-source-strategy';
 
 export class IiifTileSourceStrategy implements TileSourceStrategy {
   public getTileSource(resource: Resource): any {
-    const inlineTileSource = new TileSourceBuilder(resource).build();
-    if (inlineTileSource) {
-      return inlineTileSource;
+    const inlineImageSource = new ImageSourceBuilder(resource).build();
+    if (inlineImageSource) {
+      return inlineImageSource;
     }
 
     let tileSource: any;

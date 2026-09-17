@@ -1,6 +1,6 @@
 import { Resource, Service } from '../../models/manifest';
 
-export class TileSourceBuilder {
+export class ImageSourceBuilder {
   constructor(private resource: Resource) {}
 
   build(): object | null {
