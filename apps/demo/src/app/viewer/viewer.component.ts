@@ -35,7 +35,7 @@ export class ViewerComponent {
     isDropEnabled: true,
     initViewerMode: MimeViewerMode.PAGE,
     initRecognizedTextContentMode: RecognizedTextMode.NONE,
-    screenReaderRecognizedTextEnabled: true,
+    screenReaderRecognizedTextContentEnabled: true,
   });
 
   constructor() {

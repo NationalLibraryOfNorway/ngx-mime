@@ -36,7 +36,7 @@
     </mat-drawer>
     <mat-drawer-content>
       <div [id]="openseadragonId" class="openseadragon"></div>
-      @if (config().screenReaderRecognizedTextEnabled) {
+      @if (config().screenReaderRecognizedTextContentEnabled) {
         <mime-recognized-text-content
           class="cdk-visually-hidden"
           [viewerId]="id"

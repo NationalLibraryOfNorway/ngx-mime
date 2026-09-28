@@ -165,7 +165,7 @@ describe('ViewerComponent', () => {
       it('when recognized text content for screen readers is enabled', () => {
         testHostComponent.config.set(
           new MimeViewerConfig({
-            screenReaderRecognizedTextEnabled: true,
+            screenReaderRecognizedTextContentEnabled: true,
           }),
         );
         testHostFixture.detectChanges();
@@ -201,13 +201,15 @@ describe('ViewerComponent', () => {
     it('should be disabled as default', () => {
       testHostFixture.detectChanges();
 
-      expect(comp.config().screenReaderRecognizedTextEnabled).toBeFalsy();
+      expect(
+        comp.config().screenReaderRecognizedTextContentEnabled,
+      ).toBeFalsy();
     });
 
     it('should add recognized text content to DOM when enabled', () => {
       testHostComponent.config.set(
         new MimeViewerConfig({
-          screenReaderRecognizedTextEnabled: true,
+          screenReaderRecognizedTextContentEnabled: true,
         }),
       );
       testHostFixture.detectChanges();

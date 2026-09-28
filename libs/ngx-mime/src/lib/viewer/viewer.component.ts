@@ -516,7 +516,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   private shouldInitializeAltoService(): boolean {
     return (
       this.recognizedTextContentMode() !== RecognizedTextMode.NONE ||
-      this.config().screenReaderRecognizedTextEnabled
+      this.config().screenReaderRecognizedTextContentEnabled
     );
   }
 }
