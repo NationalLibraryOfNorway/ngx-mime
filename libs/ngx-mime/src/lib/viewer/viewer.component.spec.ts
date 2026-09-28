@@ -17,7 +17,7 @@ import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { ModeService } from '../core/mode-service/mode.service';
-import { ViewerMode } from '../core/models';
+import { RecognizedTextMode, ViewerMode } from '../core/models';
 import { Manifest } from '../core/models/manifest';
 import { SearchResult } from '../core/models/search-result';
 import { ViewerLayout } from '../core/models/viewer-layout';
@@ -133,7 +133,71 @@ describe('ViewerComponent', () => {
     expect(comp).toBeDefined();
   });
 
-  describe('Recognized Text Content', () => {
+  fdescribe('Recognized Text Content', () => {
+    beforeEach(() => {
+      jest.spyOn(altoService, 'initialize');
+      jest.spyOn(altoService, 'destroy');
+    });
+
+    describe('should initialize AltoService', () => {
+      it('when recognized text content mode is SPLIT', () => {
+        testHostComponent.config.set(
+          new MimeViewerConfig({
+            initRecognizedTextContentMode: RecognizedTextMode.SPLIT,
+          }),
+        );
+        testHostFixture.detectChanges();
+
+        expect(altoService.initialize).toHaveBeenCalled();
+      });
+
+      it('when recognized text content mode is ONLY', () => {
+        testHostComponent.config.set(
+          new MimeViewerConfig({
+            initRecognizedTextContentMode: RecognizedTextMode.ONLY,
+          }),
+        );
+        testHostFixture.detectChanges();
+
+        expect(altoService.initialize).toHaveBeenCalled();
+      });
+
+      it('when recognized text content for screen readers is enabled', () => {
+        testHostComponent.config.set(
+          new MimeViewerConfig({
+            screenReaderRecognizedTextEnabled: true,
+          }),
+        );
+        testHostFixture.detectChanges();
+
+        expect(altoService.initialize).toHaveBeenCalled();
+      });
+    });
+
+    describe('should not initialize AltoService', () => {
+      it('when recognized text content mode is NONE', () => {
+        testHostFixture.detectChanges();
+
+        expect(altoService.initialize).not.toHaveBeenCalled();
+      });
+
+      it('when recognized text content for screen readers is disabled', () => {
+        testHostFixture.detectChanges();
+
+        expect(altoService.initialize).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('should destroy AltoService', () => {
+      it('when recognizeTextContentMode changes to NONE', () => {
+        altoService.closeRecognizedTextContent();
+
+        testHostFixture.detectChanges();
+
+        expect(altoService.destroy).toHaveBeenCalled();
+      });
+    });
+
     it('should be disabled as default', () => {
       testHostFixture.detectChanges();
 
