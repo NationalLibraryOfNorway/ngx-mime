@@ -133,7 +133,7 @@ describe('ViewerComponent', () => {
     expect(comp).toBeDefined();
   });
 
-  fdescribe('Recognized Text Content', () => {
+  describe('Recognized Text Content', () => {
     beforeEach(() => {
       jest.spyOn(altoService, 'initialize');
       jest.spyOn(altoService, 'destroy');
