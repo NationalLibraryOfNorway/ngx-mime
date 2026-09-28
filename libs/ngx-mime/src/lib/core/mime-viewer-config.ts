@@ -20,6 +20,7 @@ export class MimeViewerConfig {
   public isDropEnabled = false;
   public initRecognizedTextContentMode = RecognizedTextMode.NONE;
   public ignorePhysicalScale = false;
+  public screenReaderRecognizedTextEnabled = false;
 
   constructor(fields?: {
     attributionDialogEnabled?: boolean;
@@ -36,6 +37,7 @@ export class MimeViewerConfig {
     isDropEnabled?: boolean;
     initRecognizedTextContentMode?: RecognizedTextMode;
     ignorePhysicalScale?: boolean;
+    screenReaderRecognizedTextEnabled?: boolean;
   }) {
     if (fields) {
       this.attributionDialogEnabled =
@@ -107,6 +109,11 @@ export class MimeViewerConfig {
         fields.ignorePhysicalScale !== undefined
           ? fields.ignorePhysicalScale
           : this.ignorePhysicalScale;
+
+      this.screenReaderRecognizedTextEnabled =
+        fields.screenReaderRecognizedTextEnabled !== undefined
+          ? fields.screenReaderRecognizedTextEnabled
+          : this.screenReaderRecognizedTextEnabled;
     }
   }
 }
