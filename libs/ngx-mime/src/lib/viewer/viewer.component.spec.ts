@@ -1,6 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { CUSTOM_ELEMENTS_SCHEMA, Injector } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, Injector } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -133,19 +133,44 @@ describe('ViewerComponent', () => {
     expect(comp).toBeDefined();
   });
 
-  it('should emit the latest recognized-text mode', async () => {
-    const recognizedTextContentModeChanged = jest.fn();
-    comp.recognizedTextContentModeChanged.subscribe(
-      recognizedTextContentModeChanged,
-    );
-    testHostFixture.detectChanges();
+  describe('Recognized Text Content', () => {
+    it('should be disabled as default', () => {
+      testHostFixture.detectChanges();
 
-    altoService.showRecognizedTextContentOnly();
-    await testHostFixture.whenStable();
+      expect(comp.config().screenReaderRecognizedTextEnabled).toBeFalsy();
+    });
 
-    expect(recognizedTextContentModeChanged).toHaveBeenLastCalledWith(
-      comp.recognizedTextMode.ONLY,
-    );
+    it('should add recognized text content to DOM when enabled', () => {
+      testHostComponent.config.set(
+        new MimeViewerConfig({
+          screenReaderRecognizedTextEnabled: true,
+        }),
+      );
+      testHostFixture.detectChanges();
+
+      expect(getRecognizedTextContent()).not.toBeNull();
+    });
+
+    it('should not add recognized text content to DOM when disabled', () => {
+      testHostFixture.detectChanges();
+
+      expect(getRecognizedTextContent()).toBeNull();
+    });
+
+    it('should emit the latest recognized-text mode', async () => {
+      const recognizedTextContentModeChanged = jest.fn();
+      comp.recognizedTextContentModeChanged.subscribe(
+        recognizedTextContentModeChanged,
+      );
+      testHostFixture.detectChanges();
+
+      altoService.showRecognizedTextContentOnly();
+      await testHostFixture.whenStable();
+
+      expect(recognizedTextContentModeChanged).toHaveBeenLastCalledWith(
+        comp.recognizedTextMode.ONLY,
+      );
+    });
   });
 
   it('should cleanup when manifestUri changes', () => {
@@ -731,6 +756,12 @@ describe('ViewerComponent', () => {
   const getOsdToolbar = () => {
     return testHostFixture.debugElement.query(By.css('mime-osd-toolbar'))
       .nativeElement;
+  };
+
+  const getRecognizedTextContent = (): DebugElement => {
+    return testHostFixture.debugElement.query(
+      By.css('mime-recognized-text-content.cdk-visually-hidden'),
+    );
   };
 
   function waitForViewerReady(): Promise<boolean> {
