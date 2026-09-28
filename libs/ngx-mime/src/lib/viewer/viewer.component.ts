@@ -212,7 +212,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     effect(() => {
       const mode = this.recognizedTextContentMode();
 
-      this.emitRecognizedTextContentMode(mode);
+      this.handleRecognizedTextContentModeChange(mode);
     });
     effect(() => {
       const isReady = this.viewerService.isReady();
@@ -458,7 +458,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
     }
   }
 
-  private emitRecognizedTextContentMode(mode: RecognizedTextMode): void {
+  private handleRecognizedTextContentModeChange(
+    mode: RecognizedTextMode,
+  ): void {
     this.recognizedTextContentModeChanged.emit(mode);
     if (this.shouldInitializeAltoService()) {
       this.altoService.initialize();
