@@ -635,12 +635,13 @@ describe('ViewerComponent', () => {
     expect(highlight).toHaveBeenCalledWith(searchResult);
   });
 
-  it('should emit when manifest changes', () => {
+  it('should emit when manifest changes', (done) => {
     testHostFixture.detectChanges();
 
-    comp.manifestChanged.subscribe((m: Manifest) =>
-      expect(m.id).toEqual('dummyid'),
-    );
+    comp.manifestChanged.subscribe((m: Manifest) => {
+      expect(m.id).toEqual('dummyid');
+      done();
+    });
 
     iiifManifestServiceStub.setManifest(
       new Manifest({
