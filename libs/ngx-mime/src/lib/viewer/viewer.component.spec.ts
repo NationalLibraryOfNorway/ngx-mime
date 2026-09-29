@@ -255,6 +255,27 @@ describe('ViewerComponent', () => {
         expect(comp.recognizedTextContentMode()).toBe(RecognizedTextMode.NONE);
       },
     );
+
+    it('should keep selected recognized text mode when changing manifest', (done) => {
+      testHostComponent.config.set(
+        new MimeViewerConfig({
+          initRecognizedTextContentMode: RecognizedTextMode.ONLY,
+        }),
+      );
+      testHostFixture.detectChanges();
+      altoService.showRecognizedTextContentInSplitView();
+
+      comp.manifestChanged.subscribe(() => {
+        expect(comp.recognizedTextContentMode()).toBe(RecognizedTextMode.SPLIT);
+        done();
+      });
+
+      iiifManifestServiceStub.setManifest(
+        new Manifest({
+          id: 'dummyid',
+        }),
+      );
+    });
   });
 
   it('should cleanup when manifestUri changes', () => {
