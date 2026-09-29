@@ -6,4 +6,6 @@ export class AltoServiceStub extends AltoService {
   override initialize() {}
 
   override destroy() {}
+
+  override stop() {}
 }

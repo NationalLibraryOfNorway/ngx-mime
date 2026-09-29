@@ -127,7 +127,10 @@ export class AltoService {
     this.setRecognizedTextContentMode(
       this.config?.initRecognizedTextContentMode ?? RecognizedTextMode.NONE,
     );
+    this.stop();
+  }
 
+  stop() {
     this.subscriptions.unsubscribe();
     this.isInitialized = false;
     this.activeCanvasGroupLoadState.set(undefined);

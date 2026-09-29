@@ -133,13 +133,13 @@ describe('ViewerComponent', () => {
     expect(comp).toBeDefined();
   });
 
-  describe('Recognized Text Content', () => {
+  describe('Recognized Text', () => {
     beforeEach(() => {
       jest.spyOn(altoService, 'initialize');
-      jest.spyOn(altoService, 'destroy');
+      jest.spyOn(altoService, 'stop');
     });
 
-    describe('should initialize AltoService', () => {
+    describe('should call AltoService initialize', () => {
       it('when recognized text content mode is SPLIT', () => {
         testHostComponent.config.set(
           new MimeViewerConfig({
@@ -174,7 +174,7 @@ describe('ViewerComponent', () => {
       });
     });
 
-    describe('should not initialize AltoService', () => {
+    describe('should not call AltoService initialize', () => {
       it('when recognized text content mode is NONE', () => {
         testHostFixture.detectChanges();
 
@@ -188,13 +188,13 @@ describe('ViewerComponent', () => {
       });
     });
 
-    describe('should destroy AltoService', () => {
+    describe('should call AltoService stop', () => {
       it('when recognizeTextContentMode changes to NONE', () => {
         altoService.closeRecognizedTextContent();
 
         testHostFixture.detectChanges();
 
-        expect(altoService.destroy).toHaveBeenCalled();
+        expect(altoService.stop).toHaveBeenCalled();
       });
     });
 
@@ -237,6 +237,24 @@ describe('ViewerComponent', () => {
         comp.recognizedTextMode.ONLY,
       );
     });
+
+    it.each([RecognizedTextMode.SPLIT, RecognizedTextMode.ONLY])(
+      'should set recognized text mode to NONE when closed from %s',
+      async (initialMode) => {
+        testHostComponent.config.set(
+          new MimeViewerConfig({
+            initRecognizedTextContentMode: initialMode,
+          }),
+        );
+        testHostFixture.detectChanges();
+        expect(comp.recognizedTextContentMode()).toBe(initialMode);
+
+        altoService.closeRecognizedTextContent();
+        testHostFixture.detectChanges();
+
+        expect(comp.recognizedTextContentMode()).toBe(RecognizedTextMode.NONE);
+      },
+    );
   });
 
   it('should cleanup when manifestUri changes', () => {

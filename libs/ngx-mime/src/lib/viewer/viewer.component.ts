@@ -465,7 +465,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     if (this.shouldInitializeAltoService()) {
       this.altoService.initialize();
     } else {
-      this.altoService.destroy();
+      this.altoService.stop();
     }
   }
 
