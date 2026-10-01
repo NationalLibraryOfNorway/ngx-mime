@@ -254,6 +254,7 @@ declare class MimeViewerConfig {
     startOnTopOnCanvasGroupChange: boolean;
     isDropEnabled: boolean;
     initRecognizedTextContentMode: RecognizedTextMode;
+    screenReaderRecognizedTextContentEnabled: boolean;
     ignorePhysicalScale: boolean;
     constructor(fields?: {
         attributionDialogEnabled?: boolean;
@@ -269,6 +270,7 @@ declare class MimeViewerConfig {
         startOnTopOnCanvasGroupChange?: boolean;
         isDropEnabled?: boolean;
         initRecognizedTextContentMode?: RecognizedTextMode;
+        screenReaderRecognizedTextContentEnabled?: boolean;
         ignorePhysicalScale?: boolean;
     });
 }
@@ -384,6 +386,7 @@ declare class Resource {
 declare class Service {
     context?: string;
     id?: string;
+    type?: string;
     protocol?: string;
     width: number;
     height: number;
@@ -396,6 +399,7 @@ declare class Service {
     constructor(fields?: {
         context?: string;
         id?: string;
+        type?: string;
         protocol?: string;
         width?: number;
         height?: number;
@@ -511,12 +515,13 @@ declare class ViewerComponent implements OnInit, OnDestroy {
     private loadManifest;
     private initialize;
     private handleManifestChange;
-    private emitRecognizedTextContentMode;
+    private handleRecognizedTextContentModeChange;
     private cleanup;
     private goToPendingStartCanvas;
     private resetCurrentManifest;
     private resetErrorMessage;
     private hasMixBlendModeSupport;
+    private shouldInitializeAltoService;
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<ViewerComponent, never>;
     static ɵcmp: _angular_core.ɵɵComponentDeclaration<ViewerComponent, "mime-viewer", never, { "manifestUri": { "alias": "manifestUri"; "required": false; "isSignal": true; }; "q": { "alias": "q"; "required": false; "isSignal": true; }; "canvasIndex": { "alias": "canvasIndex"; "required": false; "isSignal": true; }; "config": { "alias": "config"; "required": false; "isSignal": true; }; "tabIndex": { "alias": "tabIndex"; "required": false; "isSignal": true; }; }, { "viewerModeChanged": "viewerModeChanged"; "canvasChanged": "canvasChanged"; "qChanged": "qChanged"; "manifestChanged": "manifestChanged"; "recognizedTextContentModeChanged": "recognizedTextContentModeChanged"; }, never, never, true, never>;
 }

@@ -1,3 +1,15 @@
+## 22.1.0 (2026-10-01)
+
+### 🩹 Fixes
+
+- avoid Image API metadata requests for embedded IIIF v3 services #523 ([#523](https://github.com/NationalLibraryOfNorway/ngx-mime/pull/523))
+- config attribute to enable recognized text content for screenreaders ([#524](https://github.com/NationalLibraryOfNorway/ngx-mime/pull/524))
+
+### ❤️ Thank You
+
+- Raymond Karstensen @raymondkarstensen
+- Ronny Mikalsen @ronnymikalsen
+
 # 22.0.0 (2026-09-11)
 
 ### 🚀 Features

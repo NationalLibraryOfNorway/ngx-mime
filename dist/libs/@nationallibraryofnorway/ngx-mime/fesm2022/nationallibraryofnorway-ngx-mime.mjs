@@ -373,6 +373,7 @@ class MimeViewerConfig {
         this.startOnTopOnCanvasGroupChange = false;
         this.isDropEnabled = false;
         this.initRecognizedTextContentMode = RecognizedTextMode.NONE;
+        this.screenReaderRecognizedTextContentEnabled = false;
         this.ignorePhysicalScale = false;
         if (fields) {
             this.attributionDialogEnabled =
@@ -431,6 +432,10 @@ class MimeViewerConfig {
                 fields.ignorePhysicalScale !== undefined
                     ? fields.ignorePhysicalScale
                     : this.ignorePhysicalScale;
+            this.screenReaderRecognizedTextContentEnabled =
+                fields.screenReaderRecognizedTextContentEnabled !== undefined
+                    ? fields.screenReaderRecognizedTextContentEnabled
+                    : this.screenReaderRecognizedTextContentEnabled;
         }
     }
 }
@@ -529,6 +534,7 @@ class Service {
         if (fields) {
             this.context = fields.context || this.context;
             this.id = fields.id || this.id;
+            this.type = fields.type || this.type;
             this.protocol = fields.protocol || this.protocol;
             this.width = fields.width || this.width;
             this.height = fields.height || this.height;
@@ -933,8 +939,40 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "22.1.6", ngImpor
             type: Injectable
         }], ctorParameters: () => [] });
 
+class ImageSourceBuilder {
+    constructor(resource) {
+        this.resource = resource;
+    }
+    build() {
+        const service = this.resource.service;
+        if (!this.hasImageDimensions(service)) {
+            return null;
+        }
+        return {
+            '@context': service.context ||
+                (service.type === 'ImageService3'
+                    ? 'http://iiif.io/api/image/3/context.json'
+                    : 'http://iiif.io/api/image/2/context.json'),
+            id: service.id,
+            protocol: service.protocol || 'http://iiif.io/api/image',
+            width: service.width,
+            height: service.height,
+            sizes: service.sizes,
+            tiles: service.tiles,
+            profile: service.profile,
+        };
+    }
+    hasImageDimensions(service) {
+        return Boolean(service?.id && service.width && service.height);
+    }
+}
+
 class IiifTileSourceStrategy {
     getTileSource(resource) {
+        const inlineImageSource = new ImageSourceBuilder(resource).build();
+        if (inlineImageSource) {
+            return inlineImageSource;
+        }
         let tileSource;
         if (resource?.service?.service) {
             tileSource = resource.service;
@@ -959,7 +997,7 @@ class IiifTileSourceStrategy {
 
 class IiifV3TileSourceStrategy {
     getTileSource(resource) {
-        return resource.service.id;
+        return new ImageSourceBuilder(resource).build() || resource.service?.id;
     }
 }
 
@@ -1688,6 +1726,7 @@ let ServiceBuilder$1 = class ServiceBuilder {
         else {
             return new Service({
                 id: BuilderUtils$1.extractId(this.service),
+                type: BuilderUtils$1.extracType(this.service),
                 context: BuilderUtils$1.extractContext(this.service),
                 protocol: this.service.protocol,
                 width: this.service.width,
@@ -1989,6 +2028,7 @@ class ServiceBuilder {
             const service = this.service[0];
             return new Service({
                 id: BuilderUtils.extractId(service),
+                type: BuilderUtils.extracType(service),
                 context: BuilderUtils.extractContext(service),
                 protocol: service.protocol,
                 width: service.width,
@@ -2396,6 +2436,9 @@ class AltoService {
     }
     destroy() {
         this.setRecognizedTextContentMode(this.config?.initRecognizedTextContentMode ?? RecognizedTextMode.NONE);
+        this.stop();
+    }
+    stop() {
         this.subscriptions.unsubscribe();
         this.isInitialized = false;
         this.activeCanvasGroupLoadState.set(undefined);
@@ -6894,7 +6937,7 @@ class ViewerComponent {
         });
         effect(() => {
             const mode = this.recognizedTextContentMode();
-            this.emitRecognizedTextContentMode(mode);
+            this.handleRecognizedTextContentModeChange(mode);
         });
         effect(() => {
             const isReady = this.viewerService.isReady();
@@ -7084,7 +7127,9 @@ class ViewerComponent {
         this.changeDetectorRef.detectChanges();
         const config = this.config();
         this.viewerService.setUpViewer(manifest, config);
-        this.altoService.initialize();
+        if (this.shouldInitializeAltoService()) {
+            this.altoService.initialize();
+        }
         if (config.attributionDialogEnabled && manifest.attribution) {
             this.attributionDialogService.open(config.attributionDialogHideTimeout);
         }
@@ -7093,8 +7138,14 @@ class ViewerComponent {
             this.iiifContentSearchService.search(manifest, q);
         }
     }
-    emitRecognizedTextContentMode(mode) {
+    handleRecognizedTextContentModeChange(mode) {
         this.recognizedTextContentModeChanged.emit(mode);
+        if (this.shouldInitializeAltoService()) {
+            this.altoService.initialize();
+        }
+        else {
+            this.altoService.stop();
+        }
     }
     cleanup() {
         this.viewerState = new ViewerState();
@@ -7131,8 +7182,12 @@ class ViewerComponent {
     hasMixBlendModeSupport() {
         return !(this.platform.FIREFOX || this.platform.SAFARI);
     }
+    shouldInitializeAltoService() {
+        return (this.recognizedTextContentMode() !== RecognizedTextMode.NONE ||
+            this.config().screenReaderRecognizedTextContentEnabled);
+    }
     static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "22.1.6", ngImport: i0, type: ViewerComponent, deps: [], target: i0.ɵɵFactoryTarget.Component }); }
-    static { this.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "17.0.0", version: "22.1.6", type: ViewerComponent, isStandalone: true, selector: "mime-viewer", inputs: { manifestUri: { classPropertyName: "manifestUri", publicName: "manifestUri", isSignal: true, isRequired: false, transformFunction: null }, q: { classPropertyName: "q", publicName: "q", isSignal: true, isRequired: false, transformFunction: null }, canvasIndex: { classPropertyName: "canvasIndex", publicName: "canvasIndex", isSignal: true, isRequired: false, transformFunction: null }, config: { classPropertyName: "config", publicName: "config", isSignal: true, isRequired: false, transformFunction: null }, tabIndex: { classPropertyName: "tabIndex", publicName: "tabIndex", isSignal: true, isRequired: false, transformFunction: null } }, outputs: { viewerModeChanged: "viewerModeChanged", canvasChanged: "canvasChanged", qChanged: "qChanged", manifestChanged: "manifestChanged", recognizedTextContentModeChanged: "recognizedTextContentModeChanged" }, host: { listeners: { "keydown": "handleKeys($event)", "drop": "onDrop($event)", "dragover": "onDragOver($event)", "dragleave": "onDragLeave($event)" } }, providers: VIEWER_PROVIDERS, viewQueries: [{ propertyName: "header", first: true, predicate: ["mimeHeader"], descendants: true, isSignal: true }, { propertyName: "footer", first: true, predicate: ["mimeFooter"], descendants: true, isSignal: true }], ngImport: i0, template: "<div\n  [id]=\"id\"\n  class=\"viewer-container\"\n  [ngClass]=\"setClasses()\"\n  [hidden]=\"errorMessage() !== null\"\n  [tabIndex]=\"tabIndex()\"\n>\n  <mime-spinner></mime-spinner>\n  <mime-viewer-header\n    class=\"navbar navbar-header\"\n    #mimeHeader\n    [class.show]=\"showHeaderAndFooterState()\"\n  ></mime-viewer-header>\n  @if (config().navigationControlEnabled) {\n    <mime-osd-toolbar [class.show]=\"osdToolbarState()\"></mime-osd-toolbar>\n  }\n\n  <mat-drawer-container class=\"viewer-drawer-container\" autosize>\n    <mat-drawer\n      data-testid=\"ngx-mime-recognized-text-content-container\"\n      mode=\"side\"\n      position=\"end\"\n      (openedChange)=\"goToHomeZoom()\"\n      [opened]=\"recognizedTextContentMode() !== recognizedTextMode.NONE\"\n      [ngClass]=\"{\n        only: recognizedTextContentMode() === recognizedTextMode.ONLY,\n        split: recognizedTextContentMode() === recognizedTextMode.SPLIT,\n        open: showHeaderAndFooterState(),\n      }\"\n    >\n      @if (recognizedTextContentMode() !== recognizedTextMode.NONE) {\n        <mime-recognized-text-content\n          [viewerId]=\"id\"\n        ></mime-recognized-text-content>\n      }\n    </mat-drawer>\n    <mat-drawer-content>\n      <div [id]=\"openseadragonId\" class=\"openseadragon\"></div>\n      <mime-recognized-text-content\n        class=\"cdk-visually-hidden\"\n        [viewerId]=\"id\"\n        [attr.aria-hidden]=\"\n          recognizedTextContentMode() !== recognizedTextMode.NONE\n            ? 'true'\n            : null\n        \"\n      ></mime-recognized-text-content>\n    </mat-drawer-content>\n  </mat-drawer-container>\n\n  <mime-viewer-footer\n    class=\"navbar navbar-footer\"\n    #mimeFooter\n    [class.show]=\"showHeaderAndFooterState()\"\n  ></mime-viewer-footer>\n</div>\n\n@if (errorMessage()) {\n  <div class=\"error-container flex items-center justify-center\">\n    {{ intl().somethingHasGoneWrongLabel }}\n  </div>\n}\n", styles: [".viewer-container{overflow:hidden;box-sizing:border-box;position:relative;width:100%;height:100%;display:flex;flex-direction:column}.viewer-container mime-viewer-header{transform:translateY(-100%);transition:transform .5s ease-out}.viewer-container mime-viewer-header.show{transform:translate(0);transition:transform .4s ease-in}.viewer-container mime-osd-toolbar{transform:translate(-100%);transition:transform .5s ease-in}.viewer-container mime-osd-toolbar.show{transform:translate(0);transition:transform .4s ease-out}.viewer-container mime-viewer-footer{transform:translateY(100%);transition:transform .5s ease-out}.viewer-container mime-viewer-footer.show{transform:translate(0);transition:transform .4s ease-in}.viewer-container .openseadragon{-webkit-user-select:none;user-select:none}.viewer-container.mode-page-zoomed::ng-deep .tile:hover{cursor:-webkit-grab}.viewer-container.canvas-pressed,.viewer-container.canvas-pressed::ng-deep .tile:hover{cursor:grabbing;cursor:-webkit-grabbing}.viewer-container.mode-dashboard.layout-one-page::ng-deep .tile,.viewer-container.mode-dashboard.layout-two-page::ng-deep .page-group .tile{stroke:#00000026;stroke-width:8;transition:.25s ease stroke}.viewer-container.mode-dashboard.layout-one-page::ng-deep .tile:hover,.viewer-container.mode-dashboard.layout-two-page::ng-deep .page-group:hover .tile{stroke:#00000073}.viewer-container.broken-mix-blend-mode ::ng-deep .hit{mix-blend-mode:unset!important;fill:#ff09}.viewer-container.broken-mix-blend-mode ::ng-deep .selected{fill:#ff890099}.viewer-container ::ng-deep .openseadragon-container{flex-grow:1}.viewer-container ::ng-deep .openseadragon-canvas:focus{outline:none}.viewer-container ::ng-deep .tile{cursor:pointer;fill-opacity:0}.viewer-container ::ng-deep .hit{mix-blend-mode:multiply;fill:#ff0}.viewer-container ::ng-deep .selected{fill:#ff8900;stroke:#613400;stroke-width:4px}.viewer-container .viewer-drawer-container{width:100%;height:100%}.openseadragon{display:flex;flex-grow:1;flex-direction:column;opacity:0;width:100%;height:100%}.navbar{position:absolute;width:100%;overflow:hidden;z-index:2}.navbar-header{top:0}.navbar-footer{bottom:0}.error-container{width:100%;height:100%}[hidden]{display:none}mat-drawer.split{width:25%}@media only screen and (max-width:599px){mat-drawer.split{width:33%}}mat-drawer.only{width:100%}mat-drawer.only ::ng-deep mime-recognized-text-content .content{max-width:980px}.open{height:calc(100% - 128px)!important;top:64px}@media only screen and (max-width:599px){.open{height:calc(100% - 112px)!important;top:56px}}\n"], dependencies: [{ kind: "directive", type: NgClass, selector: "[ngClass]", inputs: ["class", "ngClass"] }, { kind: "ngmodule", type: MatSidenavModule }, { kind: "component", type: i1.MatDrawer, selector: "mat-drawer", inputs: ["position", "mode", "disableClose", "autoFocus", "opened"], outputs: ["openedChange", "opened", "openedStart", "closed", "closedStart", "positionChanged"], exportAs: ["matDrawer"] }, { kind: "component", type: i1.MatDrawerContainer, selector: "mat-drawer-container", inputs: ["autosize", "hasBackdrop"], outputs: ["backdropClick"], exportAs: ["matDrawerContainer"] }, { kind: "component", type: i1.MatDrawerContent, selector: "mat-drawer-content" }, { kind: "component", type: ViewerSpinnerComponent, selector: "mime-spinner" }, { kind: "component", type: ViewerHeaderComponent, selector: "mime-viewer-header" }, { kind: "component", type: OsdToolbarComponent, selector: "mime-osd-toolbar" }, { kind: "component", type: RecognizedTextContentComponent, selector: "mime-recognized-text-content", inputs: ["viewerId"] }, { kind: "component", type: ViewerFooterComponent, selector: "mime-viewer-footer" }], changeDetection: i0.ChangeDetectionStrategy.OnPush }); }
+    static { this.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "17.0.0", version: "22.1.6", type: ViewerComponent, isStandalone: true, selector: "mime-viewer", inputs: { manifestUri: { classPropertyName: "manifestUri", publicName: "manifestUri", isSignal: true, isRequired: false, transformFunction: null }, q: { classPropertyName: "q", publicName: "q", isSignal: true, isRequired: false, transformFunction: null }, canvasIndex: { classPropertyName: "canvasIndex", publicName: "canvasIndex", isSignal: true, isRequired: false, transformFunction: null }, config: { classPropertyName: "config", publicName: "config", isSignal: true, isRequired: false, transformFunction: null }, tabIndex: { classPropertyName: "tabIndex", publicName: "tabIndex", isSignal: true, isRequired: false, transformFunction: null } }, outputs: { viewerModeChanged: "viewerModeChanged", canvasChanged: "canvasChanged", qChanged: "qChanged", manifestChanged: "manifestChanged", recognizedTextContentModeChanged: "recognizedTextContentModeChanged" }, host: { listeners: { "keydown": "handleKeys($event)", "drop": "onDrop($event)", "dragover": "onDragOver($event)", "dragleave": "onDragLeave($event)" } }, providers: VIEWER_PROVIDERS, viewQueries: [{ propertyName: "header", first: true, predicate: ["mimeHeader"], descendants: true, isSignal: true }, { propertyName: "footer", first: true, predicate: ["mimeFooter"], descendants: true, isSignal: true }], ngImport: i0, template: "<div\n  [id]=\"id\"\n  class=\"viewer-container\"\n  [ngClass]=\"setClasses()\"\n  [hidden]=\"errorMessage() !== null\"\n  [tabIndex]=\"tabIndex()\"\n>\n  <mime-spinner></mime-spinner>\n  <mime-viewer-header\n    class=\"navbar navbar-header\"\n    #mimeHeader\n    [class.show]=\"showHeaderAndFooterState()\"\n  ></mime-viewer-header>\n  @if (config().navigationControlEnabled) {\n    <mime-osd-toolbar [class.show]=\"osdToolbarState()\"></mime-osd-toolbar>\n  }\n\n  <mat-drawer-container class=\"viewer-drawer-container\" autosize>\n    <mat-drawer\n      data-testid=\"ngx-mime-recognized-text-content-container\"\n      mode=\"side\"\n      position=\"end\"\n      (openedChange)=\"goToHomeZoom()\"\n      [opened]=\"recognizedTextContentMode() !== recognizedTextMode.NONE\"\n      [ngClass]=\"{\n        only: recognizedTextContentMode() === recognizedTextMode.ONLY,\n        split: recognizedTextContentMode() === recognizedTextMode.SPLIT,\n        open: showHeaderAndFooterState(),\n      }\"\n    >\n      @if (recognizedTextContentMode() !== recognizedTextMode.NONE) {\n        <mime-recognized-text-content\n          [viewerId]=\"id\"\n        ></mime-recognized-text-content>\n      }\n    </mat-drawer>\n    <mat-drawer-content>\n      <div [id]=\"openseadragonId\" class=\"openseadragon\"></div>\n      @if (config().screenReaderRecognizedTextContentEnabled) {\n        <mime-recognized-text-content\n          class=\"cdk-visually-hidden\"\n          [viewerId]=\"id\"\n          [attr.aria-hidden]=\"\n            recognizedTextContentMode() !== recognizedTextMode.NONE\n              ? 'true'\n              : null\n          \"\n        ></mime-recognized-text-content>\n      }\n    </mat-drawer-content>\n  </mat-drawer-container>\n\n  <mime-viewer-footer\n    class=\"navbar navbar-footer\"\n    #mimeFooter\n    [class.show]=\"showHeaderAndFooterState()\"\n  ></mime-viewer-footer>\n</div>\n\n@if (errorMessage()) {\n  <div class=\"error-container flex items-center justify-center\">\n    {{ intl().somethingHasGoneWrongLabel }}\n  </div>\n}\n", styles: [".viewer-container{overflow:hidden;box-sizing:border-box;position:relative;width:100%;height:100%;display:flex;flex-direction:column}.viewer-container mime-viewer-header{transform:translateY(-100%);transition:transform .5s ease-out}.viewer-container mime-viewer-header.show{transform:translate(0);transition:transform .4s ease-in}.viewer-container mime-osd-toolbar{transform:translate(-100%);transition:transform .5s ease-in}.viewer-container mime-osd-toolbar.show{transform:translate(0);transition:transform .4s ease-out}.viewer-container mime-viewer-footer{transform:translateY(100%);transition:transform .5s ease-out}.viewer-container mime-viewer-footer.show{transform:translate(0);transition:transform .4s ease-in}.viewer-container .openseadragon{-webkit-user-select:none;user-select:none}.viewer-container.mode-page-zoomed::ng-deep .tile:hover{cursor:-webkit-grab}.viewer-container.canvas-pressed,.viewer-container.canvas-pressed::ng-deep .tile:hover{cursor:grabbing;cursor:-webkit-grabbing}.viewer-container.mode-dashboard.layout-one-page::ng-deep .tile,.viewer-container.mode-dashboard.layout-two-page::ng-deep .page-group .tile{stroke:#00000026;stroke-width:8;transition:.25s ease stroke}.viewer-container.mode-dashboard.layout-one-page::ng-deep .tile:hover,.viewer-container.mode-dashboard.layout-two-page::ng-deep .page-group:hover .tile{stroke:#00000073}.viewer-container.broken-mix-blend-mode ::ng-deep .hit{mix-blend-mode:unset!important;fill:#ff09}.viewer-container.broken-mix-blend-mode ::ng-deep .selected{fill:#ff890099}.viewer-container ::ng-deep .openseadragon-container{flex-grow:1}.viewer-container ::ng-deep .openseadragon-canvas:focus{outline:none}.viewer-container ::ng-deep .tile{cursor:pointer;fill-opacity:0}.viewer-container ::ng-deep .hit{mix-blend-mode:multiply;fill:#ff0}.viewer-container ::ng-deep .selected{fill:#ff8900;stroke:#613400;stroke-width:4px}.viewer-container .viewer-drawer-container{width:100%;height:100%}.openseadragon{display:flex;flex-grow:1;flex-direction:column;opacity:0;width:100%;height:100%}.navbar{position:absolute;width:100%;overflow:hidden;z-index:2}.navbar-header{top:0}.navbar-footer{bottom:0}.error-container{width:100%;height:100%}[hidden]{display:none}mat-drawer.split{width:25%}@media only screen and (max-width:599px){mat-drawer.split{width:33%}}mat-drawer.only{width:100%}mat-drawer.only ::ng-deep mime-recognized-text-content .content{max-width:980px}.open{height:calc(100% - 128px)!important;top:64px}@media only screen and (max-width:599px){.open{height:calc(100% - 112px)!important;top:56px}}\n"], dependencies: [{ kind: "directive", type: NgClass, selector: "[ngClass]", inputs: ["class", "ngClass"] }, { kind: "ngmodule", type: MatSidenavModule }, { kind: "component", type: i1.MatDrawer, selector: "mat-drawer", inputs: ["position", "mode", "disableClose", "autoFocus", "opened"], outputs: ["openedChange", "opened", "openedStart", "closed", "closedStart", "positionChanged"], exportAs: ["matDrawer"] }, { kind: "component", type: i1.MatDrawerContainer, selector: "mat-drawer-container", inputs: ["autosize", "hasBackdrop"], outputs: ["backdropClick"], exportAs: ["matDrawerContainer"] }, { kind: "component", type: i1.MatDrawerContent, selector: "mat-drawer-content" }, { kind: "component", type: ViewerSpinnerComponent, selector: "mime-spinner" }, { kind: "component", type: ViewerHeaderComponent, selector: "mime-viewer-header" }, { kind: "component", type: OsdToolbarComponent, selector: "mime-osd-toolbar" }, { kind: "component", type: RecognizedTextContentComponent, selector: "mime-recognized-text-content", inputs: ["viewerId"] }, { kind: "component", type: ViewerFooterComponent, selector: "mime-viewer-footer" }], changeDetection: i0.ChangeDetectionStrategy.OnPush }); }
 }
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "22.1.6", ngImport: i0, type: ViewerComponent, decorators: [{
             type: Component,
@@ -7144,7 +7199,7 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "22.1.6", ngImpor
                         OsdToolbarComponent,
                         RecognizedTextContentComponent,
                         ViewerFooterComponent,
-                    ], providers: VIEWER_PROVIDERS, template: "<div\n  [id]=\"id\"\n  class=\"viewer-container\"\n  [ngClass]=\"setClasses()\"\n  [hidden]=\"errorMessage() !== null\"\n  [tabIndex]=\"tabIndex()\"\n>\n  <mime-spinner></mime-spinner>\n  <mime-viewer-header\n    class=\"navbar navbar-header\"\n    #mimeHeader\n    [class.show]=\"showHeaderAndFooterState()\"\n  ></mime-viewer-header>\n  @if (config().navigationControlEnabled) {\n    <mime-osd-toolbar [class.show]=\"osdToolbarState()\"></mime-osd-toolbar>\n  }\n\n  <mat-drawer-container class=\"viewer-drawer-container\" autosize>\n    <mat-drawer\n      data-testid=\"ngx-mime-recognized-text-content-container\"\n      mode=\"side\"\n      position=\"end\"\n      (openedChange)=\"goToHomeZoom()\"\n      [opened]=\"recognizedTextContentMode() !== recognizedTextMode.NONE\"\n      [ngClass]=\"{\n        only: recognizedTextContentMode() === recognizedTextMode.ONLY,\n        split: recognizedTextContentMode() === recognizedTextMode.SPLIT,\n        open: showHeaderAndFooterState(),\n      }\"\n    >\n      @if (recognizedTextContentMode() !== recognizedTextMode.NONE) {\n        <mime-recognized-text-content\n          [viewerId]=\"id\"\n        ></mime-recognized-text-content>\n      }\n    </mat-drawer>\n    <mat-drawer-content>\n      <div [id]=\"openseadragonId\" class=\"openseadragon\"></div>\n      <mime-recognized-text-content\n        class=\"cdk-visually-hidden\"\n        [viewerId]=\"id\"\n        [attr.aria-hidden]=\"\n          recognizedTextContentMode() !== recognizedTextMode.NONE\n            ? 'true'\n            : null\n        \"\n      ></mime-recognized-text-content>\n    </mat-drawer-content>\n  </mat-drawer-container>\n\n  <mime-viewer-footer\n    class=\"navbar navbar-footer\"\n    #mimeFooter\n    [class.show]=\"showHeaderAndFooterState()\"\n  ></mime-viewer-footer>\n</div>\n\n@if (errorMessage()) {\n  <div class=\"error-container flex items-center justify-center\">\n    {{ intl().somethingHasGoneWrongLabel }}\n  </div>\n}\n", styles: [".viewer-container{overflow:hidden;box-sizing:border-box;position:relative;width:100%;height:100%;display:flex;flex-direction:column}.viewer-container mime-viewer-header{transform:translateY(-100%);transition:transform .5s ease-out}.viewer-container mime-viewer-header.show{transform:translate(0);transition:transform .4s ease-in}.viewer-container mime-osd-toolbar{transform:translate(-100%);transition:transform .5s ease-in}.viewer-container mime-osd-toolbar.show{transform:translate(0);transition:transform .4s ease-out}.viewer-container mime-viewer-footer{transform:translateY(100%);transition:transform .5s ease-out}.viewer-container mime-viewer-footer.show{transform:translate(0);transition:transform .4s ease-in}.viewer-container .openseadragon{-webkit-user-select:none;user-select:none}.viewer-container.mode-page-zoomed::ng-deep .tile:hover{cursor:-webkit-grab}.viewer-container.canvas-pressed,.viewer-container.canvas-pressed::ng-deep .tile:hover{cursor:grabbing;cursor:-webkit-grabbing}.viewer-container.mode-dashboard.layout-one-page::ng-deep .tile,.viewer-container.mode-dashboard.layout-two-page::ng-deep .page-group .tile{stroke:#00000026;stroke-width:8;transition:.25s ease stroke}.viewer-container.mode-dashboard.layout-one-page::ng-deep .tile:hover,.viewer-container.mode-dashboard.layout-two-page::ng-deep .page-group:hover .tile{stroke:#00000073}.viewer-container.broken-mix-blend-mode ::ng-deep .hit{mix-blend-mode:unset!important;fill:#ff09}.viewer-container.broken-mix-blend-mode ::ng-deep .selected{fill:#ff890099}.viewer-container ::ng-deep .openseadragon-container{flex-grow:1}.viewer-container ::ng-deep .openseadragon-canvas:focus{outline:none}.viewer-container ::ng-deep .tile{cursor:pointer;fill-opacity:0}.viewer-container ::ng-deep .hit{mix-blend-mode:multiply;fill:#ff0}.viewer-container ::ng-deep .selected{fill:#ff8900;stroke:#613400;stroke-width:4px}.viewer-container .viewer-drawer-container{width:100%;height:100%}.openseadragon{display:flex;flex-grow:1;flex-direction:column;opacity:0;width:100%;height:100%}.navbar{position:absolute;width:100%;overflow:hidden;z-index:2}.navbar-header{top:0}.navbar-footer{bottom:0}.error-container{width:100%;height:100%}[hidden]{display:none}mat-drawer.split{width:25%}@media only screen and (max-width:599px){mat-drawer.split{width:33%}}mat-drawer.only{width:100%}mat-drawer.only ::ng-deep mime-recognized-text-content .content{max-width:980px}.open{height:calc(100% - 128px)!important;top:64px}@media only screen and (max-width:599px){.open{height:calc(100% - 112px)!important;top:56px}}\n"] }]
+                    ], providers: VIEWER_PROVIDERS, template: "<div\n  [id]=\"id\"\n  class=\"viewer-container\"\n  [ngClass]=\"setClasses()\"\n  [hidden]=\"errorMessage() !== null\"\n  [tabIndex]=\"tabIndex()\"\n>\n  <mime-spinner></mime-spinner>\n  <mime-viewer-header\n    class=\"navbar navbar-header\"\n    #mimeHeader\n    [class.show]=\"showHeaderAndFooterState()\"\n  ></mime-viewer-header>\n  @if (config().navigationControlEnabled) {\n    <mime-osd-toolbar [class.show]=\"osdToolbarState()\"></mime-osd-toolbar>\n  }\n\n  <mat-drawer-container class=\"viewer-drawer-container\" autosize>\n    <mat-drawer\n      data-testid=\"ngx-mime-recognized-text-content-container\"\n      mode=\"side\"\n      position=\"end\"\n      (openedChange)=\"goToHomeZoom()\"\n      [opened]=\"recognizedTextContentMode() !== recognizedTextMode.NONE\"\n      [ngClass]=\"{\n        only: recognizedTextContentMode() === recognizedTextMode.ONLY,\n        split: recognizedTextContentMode() === recognizedTextMode.SPLIT,\n        open: showHeaderAndFooterState(),\n      }\"\n    >\n      @if (recognizedTextContentMode() !== recognizedTextMode.NONE) {\n        <mime-recognized-text-content\n          [viewerId]=\"id\"\n        ></mime-recognized-text-content>\n      }\n    </mat-drawer>\n    <mat-drawer-content>\n      <div [id]=\"openseadragonId\" class=\"openseadragon\"></div>\n      @if (config().screenReaderRecognizedTextContentEnabled) {\n        <mime-recognized-text-content\n          class=\"cdk-visually-hidden\"\n          [viewerId]=\"id\"\n          [attr.aria-hidden]=\"\n            recognizedTextContentMode() !== recognizedTextMode.NONE\n              ? 'true'\n              : null\n          \"\n        ></mime-recognized-text-content>\n      }\n    </mat-drawer-content>\n  </mat-drawer-container>\n\n  <mime-viewer-footer\n    class=\"navbar navbar-footer\"\n    #mimeFooter\n    [class.show]=\"showHeaderAndFooterState()\"\n  ></mime-viewer-footer>\n</div>\n\n@if (errorMessage()) {\n  <div class=\"error-container flex items-center justify-center\">\n    {{ intl().somethingHasGoneWrongLabel }}\n  </div>\n}\n", styles: [".viewer-container{overflow:hidden;box-sizing:border-box;position:relative;width:100%;height:100%;display:flex;flex-direction:column}.viewer-container mime-viewer-header{transform:translateY(-100%);transition:transform .5s ease-out}.viewer-container mime-viewer-header.show{transform:translate(0);transition:transform .4s ease-in}.viewer-container mime-osd-toolbar{transform:translate(-100%);transition:transform .5s ease-in}.viewer-container mime-osd-toolbar.show{transform:translate(0);transition:transform .4s ease-out}.viewer-container mime-viewer-footer{transform:translateY(100%);transition:transform .5s ease-out}.viewer-container mime-viewer-footer.show{transform:translate(0);transition:transform .4s ease-in}.viewer-container .openseadragon{-webkit-user-select:none;user-select:none}.viewer-container.mode-page-zoomed::ng-deep .tile:hover{cursor:-webkit-grab}.viewer-container.canvas-pressed,.viewer-container.canvas-pressed::ng-deep .tile:hover{cursor:grabbing;cursor:-webkit-grabbing}.viewer-container.mode-dashboard.layout-one-page::ng-deep .tile,.viewer-container.mode-dashboard.layout-two-page::ng-deep .page-group .tile{stroke:#00000026;stroke-width:8;transition:.25s ease stroke}.viewer-container.mode-dashboard.layout-one-page::ng-deep .tile:hover,.viewer-container.mode-dashboard.layout-two-page::ng-deep .page-group:hover .tile{stroke:#00000073}.viewer-container.broken-mix-blend-mode ::ng-deep .hit{mix-blend-mode:unset!important;fill:#ff09}.viewer-container.broken-mix-blend-mode ::ng-deep .selected{fill:#ff890099}.viewer-container ::ng-deep .openseadragon-container{flex-grow:1}.viewer-container ::ng-deep .openseadragon-canvas:focus{outline:none}.viewer-container ::ng-deep .tile{cursor:pointer;fill-opacity:0}.viewer-container ::ng-deep .hit{mix-blend-mode:multiply;fill:#ff0}.viewer-container ::ng-deep .selected{fill:#ff8900;stroke:#613400;stroke-width:4px}.viewer-container .viewer-drawer-container{width:100%;height:100%}.openseadragon{display:flex;flex-grow:1;flex-direction:column;opacity:0;width:100%;height:100%}.navbar{position:absolute;width:100%;overflow:hidden;z-index:2}.navbar-header{top:0}.navbar-footer{bottom:0}.error-container{width:100%;height:100%}[hidden]{display:none}mat-drawer.split{width:25%}@media only screen and (max-width:599px){mat-drawer.split{width:33%}}mat-drawer.only{width:100%}mat-drawer.only ::ng-deep mime-recognized-text-content .content{max-width:980px}.open{height:calc(100% - 128px)!important;top:64px}@media only screen and (max-width:599px){.open{height:calc(100% - 112px)!important;top:56px}}\n"] }]
         }], ctorParameters: () => [], propDecorators: { manifestUri: [{ type: i0.Input, args: [{ isSignal: true, alias: "manifestUri", required: false }] }], q: [{ type: i0.Input, args: [{ isSignal: true, alias: "q", required: false }] }], canvasIndex: [{ type: i0.Input, args: [{ isSignal: true, alias: "canvasIndex", required: false }] }], config: [{ type: i0.Input, args: [{ isSignal: true, alias: "config", required: false }] }], tabIndex: [{ type: i0.Input, args: [{ isSignal: true, alias: "tabIndex", required: false }] }], viewerModeChanged: [{ type: i0.Output, args: ["viewerModeChanged"] }], canvasChanged: [{ type: i0.Output, args: ["canvasChanged"] }], qChanged: [{ type: i0.Output, args: ["qChanged"] }], manifestChanged: [{ type: i0.Output, args: ["manifestChanged"] }], recognizedTextContentModeChanged: [{ type: i0.Output, args: ["recognizedTextContentModeChanged"] }], header: [{ type: i0.ViewChild, args: ['mimeHeader', { isSignal: true }] }], footer: [{ type: i0.ViewChild, args: ['mimeFooter', { isSignal: true }] }], handleKeys: [{
                 type: HostListener,
                 args: ['keydown', ['$event']]
