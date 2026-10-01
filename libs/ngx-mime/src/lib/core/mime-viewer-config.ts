@@ -19,6 +19,7 @@ export class MimeViewerConfig {
   public startOnTopOnCanvasGroupChange = false;
   public isDropEnabled = false;
   public initRecognizedTextContentMode = RecognizedTextMode.NONE;
+  public screenReaderRecognizedTextContentEnabled = false;
   public ignorePhysicalScale = false;
 
   constructor(fields?: {
@@ -35,6 +36,7 @@ export class MimeViewerConfig {
     startOnTopOnCanvasGroupChange?: boolean;
     isDropEnabled?: boolean;
     initRecognizedTextContentMode?: RecognizedTextMode;
+    screenReaderRecognizedTextContentEnabled?: boolean;
     ignorePhysicalScale?: boolean;
   }) {
     if (fields) {
@@ -107,6 +109,11 @@ export class MimeViewerConfig {
         fields.ignorePhysicalScale !== undefined
           ? fields.ignorePhysicalScale
           : this.ignorePhysicalScale;
+
+      this.screenReaderRecognizedTextContentEnabled =
+        fields.screenReaderRecognizedTextContentEnabled !== undefined
+          ? fields.screenReaderRecognizedTextContentEnabled
+          : this.screenReaderRecognizedTextContentEnabled;
     }
   }
 }

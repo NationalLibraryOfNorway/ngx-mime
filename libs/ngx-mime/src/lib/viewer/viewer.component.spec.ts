@@ -1,6 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { CUSTOM_ELEMENTS_SCHEMA, Injector } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, Injector } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -17,7 +17,7 @@ import { IiifManifestService } from '../core/iiif-manifest-service/iiif-manifest
 import { MimeResizeService } from '../core/mime-resize-service/mime-resize.service';
 import { MimeViewerConfig } from '../core/mime-viewer-config';
 import { ModeService } from '../core/mode-service/mode.service';
-import { ViewerMode } from '../core/models';
+import { RecognizedTextMode, ViewerMode } from '../core/models';
 import { Manifest } from '../core/models/manifest';
 import { SearchResult } from '../core/models/search-result';
 import { ViewerLayout } from '../core/models/viewer-layout';
@@ -133,19 +133,149 @@ describe('ViewerComponent', () => {
     expect(comp).toBeDefined();
   });
 
-  it('should emit the latest recognized-text mode', async () => {
-    const recognizedTextContentModeChanged = jest.fn();
-    comp.recognizedTextContentModeChanged.subscribe(
-      recognizedTextContentModeChanged,
-    );
-    testHostFixture.detectChanges();
+  describe('Recognized Text', () => {
+    beforeEach(() => {
+      jest.spyOn(altoService, 'initialize');
+      jest.spyOn(altoService, 'stop');
+    });
 
-    altoService.showRecognizedTextContentOnly();
-    await testHostFixture.whenStable();
+    describe('should call AltoService initialize', () => {
+      it('when recognized text content mode is SPLIT', () => {
+        testHostComponent.config.set(
+          new MimeViewerConfig({
+            initRecognizedTextContentMode: RecognizedTextMode.SPLIT,
+          }),
+        );
+        testHostFixture.detectChanges();
 
-    expect(recognizedTextContentModeChanged).toHaveBeenLastCalledWith(
-      comp.recognizedTextMode.ONLY,
+        expect(altoService.initialize).toHaveBeenCalled();
+      });
+
+      it('when recognized text content mode is ONLY', () => {
+        testHostComponent.config.set(
+          new MimeViewerConfig({
+            initRecognizedTextContentMode: RecognizedTextMode.ONLY,
+          }),
+        );
+        testHostFixture.detectChanges();
+
+        expect(altoService.initialize).toHaveBeenCalled();
+      });
+
+      it('when recognized text content for screen readers is enabled', () => {
+        testHostComponent.config.set(
+          new MimeViewerConfig({
+            screenReaderRecognizedTextContentEnabled: true,
+          }),
+        );
+        testHostFixture.detectChanges();
+
+        expect(altoService.initialize).toHaveBeenCalled();
+      });
+    });
+
+    describe('should not call AltoService initialize', () => {
+      it('when recognized text content mode is NONE', () => {
+        testHostFixture.detectChanges();
+
+        expect(altoService.initialize).not.toHaveBeenCalled();
+      });
+
+      it('when recognized text content for screen readers is disabled', () => {
+        testHostFixture.detectChanges();
+
+        expect(altoService.initialize).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('should call AltoService stop', () => {
+      it('when recognizeTextContentMode changes to NONE', () => {
+        altoService.closeRecognizedTextContent();
+
+        testHostFixture.detectChanges();
+
+        expect(altoService.stop).toHaveBeenCalled();
+      });
+    });
+
+    it('should be disabled as default', () => {
+      testHostFixture.detectChanges();
+
+      expect(
+        comp.config().screenReaderRecognizedTextContentEnabled,
+      ).toBeFalsy();
+    });
+
+    it('should add recognized text content to DOM when enabled', () => {
+      testHostComponent.config.set(
+        new MimeViewerConfig({
+          screenReaderRecognizedTextContentEnabled: true,
+        }),
+      );
+      testHostFixture.detectChanges();
+
+      expect(getRecognizedTextContent()).not.toBeNull();
+    });
+
+    it('should not add recognized text content to DOM when disabled', () => {
+      testHostFixture.detectChanges();
+
+      expect(getRecognizedTextContent()).toBeNull();
+    });
+
+    it('should emit the latest recognized-text mode', async () => {
+      const recognizedTextContentModeChanged = jest.fn();
+      comp.recognizedTextContentModeChanged.subscribe(
+        recognizedTextContentModeChanged,
+      );
+      testHostFixture.detectChanges();
+
+      altoService.showRecognizedTextContentOnly();
+      await testHostFixture.whenStable();
+
+      expect(recognizedTextContentModeChanged).toHaveBeenLastCalledWith(
+        comp.recognizedTextMode.ONLY,
+      );
+    });
+
+    it.each([RecognizedTextMode.SPLIT, RecognizedTextMode.ONLY])(
+      'should set recognized text mode to NONE when closed from %s',
+      async (initialMode) => {
+        testHostComponent.config.set(
+          new MimeViewerConfig({
+            initRecognizedTextContentMode: initialMode,
+          }),
+        );
+        testHostFixture.detectChanges();
+        expect(comp.recognizedTextContentMode()).toBe(initialMode);
+
+        altoService.closeRecognizedTextContent();
+        testHostFixture.detectChanges();
+
+        expect(comp.recognizedTextContentMode()).toBe(RecognizedTextMode.NONE);
+      },
     );
+
+    it('should keep selected recognized text mode when changing manifest', (done) => {
+      testHostComponent.config.set(
+        new MimeViewerConfig({
+          initRecognizedTextContentMode: RecognizedTextMode.ONLY,
+        }),
+      );
+      testHostFixture.detectChanges();
+      altoService.showRecognizedTextContentInSplitView();
+
+      comp.manifestChanged.subscribe(() => {
+        expect(comp.recognizedTextContentMode()).toBe(RecognizedTextMode.SPLIT);
+        done();
+      });
+
+      iiifManifestServiceStub.setManifest(
+        new Manifest({
+          id: 'dummyid',
+        }),
+      );
+    });
   });
 
   it('should cleanup when manifestUri changes', () => {
@@ -505,12 +635,13 @@ describe('ViewerComponent', () => {
     expect(highlight).toHaveBeenCalledWith(searchResult);
   });
 
-  it('should emit when manifest changes', () => {
+  it('should emit when manifest changes', (done) => {
     testHostFixture.detectChanges();
 
-    comp.manifestChanged.subscribe((m: Manifest) =>
-      expect(m.id).toEqual('dummyid'),
-    );
+    comp.manifestChanged.subscribe((m: Manifest) => {
+      expect(m.id).toEqual('dummyid');
+      done();
+    });
 
     iiifManifestServiceStub.setManifest(
       new Manifest({
@@ -731,6 +862,12 @@ describe('ViewerComponent', () => {
   const getOsdToolbar = () => {
     return testHostFixture.debugElement.query(By.css('mime-osd-toolbar'))
       .nativeElement;
+  };
+
+  const getRecognizedTextContent = (): DebugElement => {
+    return testHostFixture.debugElement.query(
+      By.css('mime-recognized-text-content.cdk-visually-hidden'),
+    );
   };
 
   function waitForViewerReady(): Promise<boolean> {

@@ -4,8 +4,8 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
   effect,
+  ElementRef,
   HostListener,
   inject,
   input,
@@ -212,7 +212,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     effect(() => {
       const mode = this.recognizedTextContentMode();
 
-      this.emitRecognizedTextContentMode(mode);
+      this.handleRecognizedTextContentModeChange(mode);
     });
     effect(() => {
       const isReady = this.viewerService.isReady();
@@ -445,7 +445,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.changeDetectorRef.detectChanges();
     const config = this.config();
     this.viewerService.setUpViewer(manifest, config);
-    this.altoService.initialize();
+    if (this.shouldInitializeAltoService()) {
+      this.altoService.initialize();
+    }
     if (config.attributionDialogEnabled && manifest.attribution) {
       this.attributionDialogService.open(config.attributionDialogHideTimeout);
     }
@@ -456,8 +458,15 @@ export class ViewerComponent implements OnInit, OnDestroy {
     }
   }
 
-  private emitRecognizedTextContentMode(mode: RecognizedTextMode): void {
+  private handleRecognizedTextContentModeChange(
+    mode: RecognizedTextMode,
+  ): void {
     this.recognizedTextContentModeChanged.emit(mode);
+    if (this.shouldInitializeAltoService()) {
+      this.altoService.initialize();
+    } else {
+      this.altoService.stop();
+    }
   }
 
   private cleanup() {
@@ -502,5 +511,12 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   private hasMixBlendModeSupport(): boolean {
     return !(this.platform.FIREFOX || this.platform.SAFARI);
+  }
+
+  private shouldInitializeAltoService(): boolean {
+    return (
+      this.recognizedTextContentMode() !== RecognizedTextMode.NONE ||
+      this.config().screenReaderRecognizedTextContentEnabled
+    );
   }
 }
