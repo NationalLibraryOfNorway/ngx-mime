@@ -93,21 +93,6 @@ describe('ViewerService', () => {
       expect(viewerService.config).toBe(updatedConfig);
     });
 
-    it('should pass AJAX configuration during viewer initialization', () => {
-      const initialHeaders = { Authorization: 'Bearer initial-token' };
-
-      viewerService.setUpViewer(
-        new ManifestBuilder(testManifest).build(),
-        new MimeViewerConfig({
-          loadTilesWithAjax: true,
-          ajaxHeaders: initialHeaders,
-        }),
-      );
-
-      expect(viewerService.getViewer().loadTilesWithAjax).toBe(true);
-      expect(viewerService.getViewer().ajaxHeaders).toEqual(initialHeaders);
-    });
-
     it('should propagate updated AJAX headers after initialization', () => {
       viewerService.setUpViewer(
         new ManifestBuilder(testManifest).build(),
@@ -119,7 +104,6 @@ describe('ViewerService', () => {
 
       viewerService.setConfig(
         new MimeViewerConfig({
-          loadTilesWithAjax: true,
           ajaxHeaders: updatedHeaders,
         }),
       );
@@ -131,16 +115,13 @@ describe('ViewerService', () => {
       viewerService.setUpViewer(
         new ManifestBuilder(testManifest).build(),
         new MimeViewerConfig({
-          loadTilesWithAjax: true,
           ajaxHeaders: { Authorization: 'Bearer initial-token' },
         }),
       );
       const viewer = viewerService.getViewer();
       const setAjaxHeaders = jest.spyOn(viewer, 'setAjaxHeaders');
 
-      viewerService.setConfig(
-        new MimeViewerConfig({ loadTilesWithAjax: true, ajaxHeaders: null }),
-      );
+      viewerService.setConfig(new MimeViewerConfig({ ajaxHeaders: null }));
 
       expect(setAjaxHeaders).toHaveBeenCalledWith({}, true);
       expect(viewer.ajaxHeaders).toEqual({});
