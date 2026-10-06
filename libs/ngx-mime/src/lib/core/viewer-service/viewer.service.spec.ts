@@ -83,6 +83,70 @@ describe('ViewerService', () => {
     expect(viewerService).toBeTruthy();
   });
 
+  describe('configuration', () => {
+    it('should accept configuration before the viewer is initialized', () => {
+      const updatedConfig = new MimeViewerConfig({
+        ajaxHeaders: { Authorization: 'Bearer initial-token' },
+      });
+
+      expect(() => viewerService.setConfig(updatedConfig)).not.toThrow();
+      expect(viewerService.config).toBe(updatedConfig);
+    });
+
+    it('should pass AJAX configuration during viewer initialization', () => {
+      const initialHeaders = { Authorization: 'Bearer initial-token' };
+
+      viewerService.setUpViewer(
+        new ManifestBuilder(testManifest).build(),
+        new MimeViewerConfig({
+          loadTilesWithAjax: true,
+          ajaxHeaders: initialHeaders,
+        }),
+      );
+
+      expect(viewerService.getViewer().loadTilesWithAjax).toBe(true);
+      expect(viewerService.getViewer().ajaxHeaders).toEqual(initialHeaders);
+    });
+
+    it('should propagate updated AJAX headers after initialization', () => {
+      viewerService.setUpViewer(
+        new ManifestBuilder(testManifest).build(),
+        config,
+      );
+      const viewer = viewerService.getViewer();
+      const setAjaxHeaders = jest.spyOn(viewer, 'setAjaxHeaders');
+      const updatedHeaders = { Authorization: 'Bearer refreshed-token' };
+
+      viewerService.setConfig(
+        new MimeViewerConfig({
+          loadTilesWithAjax: true,
+          ajaxHeaders: updatedHeaders,
+        }),
+      );
+
+      expect(setAjaxHeaders).toHaveBeenCalledWith(updatedHeaders, true);
+    });
+
+    it('should clear propagated AJAX headers when they are removed', () => {
+      viewerService.setUpViewer(
+        new ManifestBuilder(testManifest).build(),
+        new MimeViewerConfig({
+          loadTilesWithAjax: true,
+          ajaxHeaders: { Authorization: 'Bearer initial-token' },
+        }),
+      );
+      const viewer = viewerService.getViewer();
+      const setAjaxHeaders = jest.spyOn(viewer, 'setAjaxHeaders');
+
+      viewerService.setConfig(
+        new MimeViewerConfig({ loadTilesWithAjax: true, ajaxHeaders: null }),
+      );
+
+      expect(setAjaxHeaders).toHaveBeenCalledWith({}, true);
+      expect(viewer.ajaxHeaders).toEqual({});
+    });
+  });
+
   it('should keep state of currentSearch on destroy when layoutSwitch = true', () => {
     viewerService.currentSearch = new SearchResult({
       q: 'Donald Duck',
