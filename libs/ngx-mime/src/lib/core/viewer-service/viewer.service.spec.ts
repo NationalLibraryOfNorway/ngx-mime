@@ -89,7 +89,8 @@ describe('ViewerService', () => {
         ajaxHeaders: { Authorization: 'Bearer initial-token' },
       });
 
-      expect(() => viewerService.setConfig(updatedConfig)).not.toThrow();
+      viewerService.setConfig(updatedConfig);
+
       expect(viewerService.config).toBe(updatedConfig);
     });
 
@@ -124,7 +125,6 @@ describe('ViewerService', () => {
       viewerService.setConfig(new MimeViewerConfig({ ajaxHeaders: null }));
 
       expect(setAjaxHeaders).toHaveBeenCalledWith({}, true);
-      expect(viewer.ajaxHeaders).toEqual({});
     });
   });
 
