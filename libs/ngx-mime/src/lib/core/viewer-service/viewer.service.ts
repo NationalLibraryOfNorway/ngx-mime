@@ -110,6 +110,7 @@ export class ViewerService {
 
   setConfig(config: MimeViewerConfig) {
     this.config = config;
+    this.viewer?.setAjaxHeaders(config.ajaxHeaders ?? {}, true);
   }
 
   public getViewer(): any {

@@ -139,6 +139,29 @@ Common outputs:
 | `qChanged`                         | Emits when the search query changes         |
 | `recognizedTextContentModeChanged` | Emits when the recognized-text view changes |
 
+## Authenticated tile requests
+
+Enable OpenSeadragon's AJAX tile loading and pass authorization headers through
+`MimeViewerConfig`. Supply a new config when the access token changes; ngx-mime
+propagates the new headers to existing tiled images and queued tile requests.
+
+```ts
+this.mimeViewerConfig = new MimeViewerConfig({
+  ...this.mimeViewerConfig,
+  loadTilesWithAjax: true,
+  ajaxHeaders: {
+    Authorization: `Bearer ${accessToken}`,
+  },
+});
+```
+
+ngx-mime is authentication-library agnostic. If an authentication library must
+transform the header or add a request-specific proof, do that in the
+application's request layer rather than storing the proof in `ajaxHeaders`.
+
+OpenSeadragon sends viewer-level `ajaxHeaders` to every configured tile source.
+Only use authorization headers with manifests and tile origins that you trust.
+
 ## More documentation
 
 - [Getting Started Guide](https://github.com/NationalLibraryOfNorway/ngx-mime/wiki/Getting-Started)
