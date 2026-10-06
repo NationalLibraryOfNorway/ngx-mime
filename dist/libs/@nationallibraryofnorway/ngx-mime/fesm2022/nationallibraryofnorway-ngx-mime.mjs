@@ -3928,6 +3928,7 @@ class ViewerService {
     }
     setConfig(config) {
         this.config = config;
+        this.viewer?.setAjaxHeaders(config.ajaxHeaders ?? {}, true);
     }
     getViewer() {
         return this.viewer;

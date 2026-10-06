@@ -1,3 +1,13 @@
+## 22.1.1 (2026-10-06)
+
+### 🩹 Fixes
+
+- **ngx-mime:** propagate updated AJAX headers to OpenSeadragon ([#525](https://github.com/NationalLibraryOfNorway/ngx-mime/pull/525))
+
+### ❤️ Thank You
+
+- Ronny Mikalsen
+
 ## 22.1.0 (2026-10-01)
 
 ### 🩹 Fixes
