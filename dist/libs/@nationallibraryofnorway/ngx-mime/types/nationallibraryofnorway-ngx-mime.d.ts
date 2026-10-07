@@ -499,6 +499,7 @@ declare class ViewerComponent implements OnInit, OnDestroy {
     onDragLeave(event: any): void;
     ngOnInit(): void;
     ngOnDestroy(): void;
+    setAjaxHeaders(ajaxHeaders: Record<string, string> | null): void;
     toggleToolbarsState(mode: ViewerMode): void;
     goToHomeZoom(): void;
     setClasses(): {

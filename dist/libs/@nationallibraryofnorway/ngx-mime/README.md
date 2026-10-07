@@ -142,18 +142,27 @@ Common outputs:
 ## Authenticated tile requests
 
 Enable OpenSeadragon's AJAX tile loading and pass authorization headers through
-`MimeViewerConfig`. Supply a new config when the access token changes; ngx-mime
-propagates the new headers to existing tiled images and queued tile requests.
+`MimeViewerConfig`. Use the viewer's `setAjaxHeaders` method when the access
+token changes; ngx-mime propagates the new headers to existing tiled images and
+queued tile requests without resetting viewer state.
 
 ```ts
-this.mimeViewerConfig = new MimeViewerConfig({
-  ...this.mimeViewerConfig,
+readonly mimeViewer = viewChild.required(MimeViewerComponent);
+readonly mimeViewerConfig = new MimeViewerConfig({
   loadTilesWithAjax: true,
   ajaxHeaders: {
-    Authorization: `Bearer ${accessToken}`,
+    Authorization: `Bearer ${initialAccessToken}`,
   },
 });
+
+refreshAccessToken(accessToken: string): void {
+  this.mimeViewer().setAjaxHeaders({
+    Authorization: `Bearer ${accessToken}`,
+  });
+}
 ```
+
+Web-component consumers can call the same method on `app-mime-viewer`.
 
 ngx-mime is authentication-library agnostic. If an authentication library must
 transform the header or add a request-specific proof, do that in the

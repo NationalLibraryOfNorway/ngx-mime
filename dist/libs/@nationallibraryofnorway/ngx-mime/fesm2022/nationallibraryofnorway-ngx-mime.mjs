@@ -2968,6 +2968,7 @@ class ModeService {
         }, /* @ts-ignore */
         ...(ngDevMode ? [{ debugName: "modeChangeState" }] : /* istanbul ignore next */ []));
         this.modeChangesSubject = new Subject();
+        this.initialized = false;
         this.modeChange = this.modeChangeState.asReadonly();
         this.mode = computed(() => this.modeChange().currentValue ?? this.config.initViewerMode, /* @ts-ignore */
         ...(ngDevMode ? [{ debugName: "mode" }] : /* istanbul ignore next */ []));
@@ -2975,14 +2976,20 @@ class ModeService {
         ...(ngDevMode ? [{ debugName: "isPageZoomed" }] : /* istanbul ignore next */ []));
         this.onChange = this.modeChangesSubject.asObservable();
     }
-    initialize() {
-        this.setMode(this.config.initViewerMode);
+    initialize(config) {
+        this.config = config;
+        this.setMode(config.initViewerMode);
+        this.initialized = true;
     }
     destroy() {
         this.setMode(this.config.initViewerMode);
     }
     setConfig(config) {
+        const initViewerModeChanged = config.initViewerMode !== this.config.initViewerMode;
         this.config = config;
+        if (this.initialized && initViewerModeChanged) {
+            this.setMode(config.initViewerMode);
+        }
     }
     setMode(mode) {
         const modeChange = {
@@ -3928,7 +3935,10 @@ class ViewerService {
     }
     setConfig(config) {
         this.config = config;
-        this.viewer?.setAjaxHeaders(config.ajaxHeaders ?? {}, true);
+    }
+    setAjaxHeaders(ajaxHeaders) {
+        this.runtimeAjaxHeaders = ajaxHeaders ?? {};
+        this.viewer?.setAjaxHeaders(this.runtimeAjaxHeaders, true);
     }
     getViewer() {
         return this.viewer;
@@ -4043,7 +4053,11 @@ class ViewerService {
             this.tileSources = manifest.tileSource;
             this.canvasService.addTileSources(this.tileSources);
             this.manifest = manifest;
-            this.viewer = new OpenSeadragon.Viewer(OptionsFactory.create(this.openseadragonId, this.config));
+            const options = OptionsFactory.create(this.openseadragonId, this.config);
+            if (this.runtimeAjaxHeaders !== undefined) {
+                options.ajaxHeaders = this.runtimeAjaxHeaders;
+            }
+            this.viewer = new OpenSeadragon.Viewer(options);
             createSvgOverlay();
             this.zoomStrategy = new DefaultZoomStrategy(this.viewer, this.canvasService, this.modeService, this.viewerLayoutService);
             this.goToCanvasGroupStrategy = new DefaultGoToCanvasGroupStrategy(this.viewer, this.zoomStrategy, this.canvasService, this.modeService, this.config, this.manifest.viewingDirection);
@@ -6881,7 +6895,6 @@ class ViewerComponent {
                 this.iiifContentSearchService.setConfig(config);
                 this.altoService.setConfig(config);
                 this.modeService.setConfig(config);
-                this.modeService.initialize();
             });
         });
         effect(() => {
@@ -7006,6 +7019,7 @@ class ViewerComponent {
         event.stopPropagation();
     }
     ngOnInit() {
+        this.modeService.initialize(this.config());
         this.styleService.initialize();
     }
     ngOnDestroy() {
@@ -7014,6 +7028,9 @@ class ViewerComponent {
         this.iiifManifestService.destroy();
         this.iiifContentSearchService.destroy();
         this.styleService.destroy();
+    }
+    setAjaxHeaders(ajaxHeaders) {
+        this.viewerService.setAjaxHeaders(ajaxHeaders);
     }
     toggleToolbarsState(mode) {
         if (this.header() && this.footer()) {
