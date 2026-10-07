@@ -1,3 +1,14 @@
+## 22.1.2 (2026-10-07)
+
+### 🩹 Fixes
+
+- **ngx-mime:** propagate updated AJAX headers to OpenSeadragon ([#525](https://github.com/NationalLibraryOfNorway/ngx-mime/pull/525))
+- **ngx-mime:** update AJAX headers without resetting viewer state ([#526](https://github.com/NationalLibraryOfNorway/ngx-mime/pull/526))
+
+### ❤️ Thank You
+
+- Ronny Mikalsen @ronnymikalsen
+
 ## 22.1.1 (2026-10-06)
 
 ### 🩹 Fixes
