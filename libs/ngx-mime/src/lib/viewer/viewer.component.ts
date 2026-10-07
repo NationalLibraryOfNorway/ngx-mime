@@ -146,7 +146,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
         this.iiifContentSearchService.setConfig(config);
         this.altoService.setConfig(config);
         this.modeService.setConfig(config);
-        this.modeService.initialize();
       });
     });
     effect(() => {
@@ -303,6 +302,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.modeService.initialize(this.config());
     this.styleService.initialize();
   }
 
@@ -312,6 +312,10 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.iiifManifestService.destroy();
     this.iiifContentSearchService.destroy();
     this.styleService.destroy();
+  }
+
+  setAjaxHeaders(ajaxHeaders: Record<string, string> | null): void {
+    this.viewerService.setAjaxHeaders(ajaxHeaders);
   }
 
   toggleToolbarsState(mode: ViewerMode): void {

@@ -318,6 +318,57 @@ describe('ViewerComponent', () => {
     expect(modeService.mode()).toBe(config.initViewerMode);
   });
 
+  it('should change mode when initViewerMode changes after initialization', async () => {
+    testHostFixture.detectChanges();
+    await testHostFixture.whenStable();
+
+    testHostComponent.config.set(
+      new MimeViewerConfig({ initViewerMode: ViewerMode.DASHBOARD }),
+    );
+    testHostFixture.detectChanges();
+    await testHostFixture.whenStable();
+
+    expect(modeService.mode()).toBe(ViewerMode.DASHBOARD);
+  });
+
+  it.each([ViewerMode.PAGE, ViewerMode.PAGE_ZOOMED])(
+    'should update AJAX headers without resetting viewer state in %s mode',
+    async (activeMode) => {
+      testHostComponent.config.set(
+        new MimeViewerConfig({
+          ajaxHeaders: { Authorization: 'Bearer initial-token' },
+        }),
+      );
+      testHostFixture.detectChanges();
+      await waitForViewerReady();
+
+      const viewer = viewerService.getViewer();
+      const setAjaxHeaders = jest.spyOn(viewer, 'setAjaxHeaders');
+      viewerService.goToCanvasGroup(2, true);
+      modeService.setMode(activeMode);
+      viewer.viewport.zoomTo(2, undefined, true);
+      viewer.viewport.panTo({ x: 1.25, y: 0.75 }, true);
+
+      const expectedCanvasIndex = canvasService.currentCanvasIndex;
+      const expectedZoom = viewer.viewport.getZoom(true);
+      const expectedCenter = viewer.viewport.getCenter(true);
+      const refreshedHeaders = {
+        Authorization: 'Bearer refreshed-token',
+      };
+
+      expect(modeService.mode()).toBe(activeMode);
+
+      testHostComponent.viewerComponent.setAjaxHeaders(refreshedHeaders);
+
+      expect(setAjaxHeaders).toHaveBeenCalledWith(refreshedHeaders, true);
+      expect(modeService.mode()).toBe(activeMode);
+      expect(canvasService.currentCanvasIndex).toBe(expectedCanvasIndex);
+      expect(viewer.viewport.getZoom(true)).toBeCloseTo(expectedZoom);
+      expect(viewer.viewport.getCenter(true).x).toBeCloseTo(expectedCenter.x);
+      expect(viewer.viewport.getCenter(true).y).toBeCloseTo(expectedCenter.y);
+    },
+  );
+
   it('should change mode to initial-mode when changing manifest', async () => {
     testHostFixture.detectChanges();
     await testHostFixture.whenStable();
