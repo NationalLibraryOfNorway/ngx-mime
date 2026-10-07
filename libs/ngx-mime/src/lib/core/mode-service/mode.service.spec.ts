@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { MimeViewerConfig } from '../mime-viewer-config';
 import { ModeChanges } from '../models';
 import { ViewerMode } from '../models/viewer-mode';
 import { ModeService } from './mode.service';
@@ -38,6 +39,43 @@ describe('ModeService', () => {
       currentValue: ViewerMode.DASHBOARD,
       previousValue: initialMode,
     });
+    expect(service.mode()).toBe(ViewerMode.DASHBOARD);
+  });
+
+  it('should initialize the configured mode explicitly', () => {
+    service.initialize(
+      new MimeViewerConfig({ initViewerMode: ViewerMode.DASHBOARD }),
+    );
+
+    expect(service.mode()).toBe(ViewerMode.DASHBOARD);
+  });
+
+  it('should keep the active mode when config changes without changing initViewerMode', () => {
+    service.initialize(
+      new MimeViewerConfig({ initViewerMode: ViewerMode.PAGE }),
+    );
+    service.setMode(ViewerMode.PAGE_ZOOMED);
+
+    service.setConfig(
+      new MimeViewerConfig({
+        initViewerMode: ViewerMode.PAGE,
+        ajaxHeaders: { Authorization: 'Bearer refreshed-token' },
+      }),
+    );
+
+    expect(service.mode()).toBe(ViewerMode.PAGE_ZOOMED);
+  });
+
+  it('should update the active mode when initViewerMode changes', () => {
+    service.initialize(
+      new MimeViewerConfig({ initViewerMode: ViewerMode.PAGE }),
+    );
+    service.setMode(ViewerMode.PAGE_ZOOMED);
+
+    service.setConfig(
+      new MimeViewerConfig({ initViewerMode: ViewerMode.DASHBOARD }),
+    );
+
     expect(service.mode()).toBe(ViewerMode.DASHBOARD);
   });
 

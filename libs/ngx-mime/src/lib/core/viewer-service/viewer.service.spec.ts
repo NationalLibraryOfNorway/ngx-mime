@@ -103,13 +103,21 @@ describe('ViewerService', () => {
       const setAjaxHeaders = jest.spyOn(viewer, 'setAjaxHeaders');
       const updatedHeaders = { Authorization: 'Bearer refreshed-token' };
 
-      viewerService.setConfig(
-        new MimeViewerConfig({
-          ajaxHeaders: updatedHeaders,
-        }),
-      );
+      viewerService.setAjaxHeaders(updatedHeaders);
 
       expect(setAjaxHeaders).toHaveBeenCalledWith(updatedHeaders, true);
+    });
+
+    it('should use updated AJAX headers when set before initialization', () => {
+      const updatedHeaders = { Authorization: 'Bearer refreshed-token' };
+
+      viewerService.setAjaxHeaders(updatedHeaders);
+      viewerService.setUpViewer(
+        new ManifestBuilder(testManifest).build(),
+        config,
+      );
+
+      expect(viewerService.getViewer().ajaxHeaders).toEqual(updatedHeaders);
     });
 
     it('should clear propagated AJAX headers when they are removed', () => {
@@ -122,7 +130,7 @@ describe('ViewerService', () => {
       const viewer = viewerService.getViewer();
       const setAjaxHeaders = jest.spyOn(viewer, 'setAjaxHeaders');
 
-      viewerService.setConfig(new MimeViewerConfig({ ajaxHeaders: null }));
+      viewerService.setAjaxHeaders(null);
 
       expect(setAjaxHeaders).toHaveBeenCalledWith({}, true);
     });

@@ -81,6 +81,7 @@ export class ViewerService {
   private defaultKeyDownHandler: any;
   private zoomStrategy!: ZoomStrategy;
   private goToCanvasGroupStrategy!: GoToCanvasGroupStrategy;
+  private runtimeAjaxHeaders?: Record<string, string>;
   private readonly rotationState = signal(0);
   private dragStatus = false;
 
@@ -110,7 +111,11 @@ export class ViewerService {
 
   setConfig(config: MimeViewerConfig) {
     this.config = config;
-    this.viewer?.setAjaxHeaders(config.ajaxHeaders ?? {}, true);
+  }
+
+  setAjaxHeaders(ajaxHeaders: Record<string, string> | null): void {
+    this.runtimeAjaxHeaders = ajaxHeaders ?? {};
+    this.viewer?.setAjaxHeaders(this.runtimeAjaxHeaders, true);
   }
 
   public getViewer(): any {
@@ -257,9 +262,11 @@ export class ViewerService {
       this.canvasService.addTileSources(this.tileSources);
 
       this.manifest = manifest;
-      this.viewer = new OpenSeadragon.Viewer(
-        OptionsFactory.create(this.openseadragonId, this.config),
-      );
+      const options = OptionsFactory.create(this.openseadragonId, this.config);
+      if (this.runtimeAjaxHeaders !== undefined) {
+        options.ajaxHeaders = this.runtimeAjaxHeaders;
+      }
+      this.viewer = new OpenSeadragon.Viewer(options);
 
       createSvgOverlay();
       this.zoomStrategy = new DefaultZoomStrategy(

@@ -15,6 +15,7 @@ export class ModeService {
     previousValue: undefined,
   });
   private readonly modeChangesSubject = new Subject<ModeChanges>();
+  private initialized = false;
 
   constructor() {
     this.modeChange = this.modeChangeState.asReadonly();
@@ -25,8 +26,10 @@ export class ModeService {
     this.onChange = this.modeChangesSubject.asObservable();
   }
 
-  initialize(): void {
-    this.setMode(this.config.initViewerMode);
+  initialize(config: MimeViewerConfig): void {
+    this.config = config;
+    this.setMode(config.initViewerMode);
+    this.initialized = true;
   }
 
   destroy() {
@@ -34,7 +37,13 @@ export class ModeService {
   }
 
   setConfig(config: MimeViewerConfig) {
+    const initViewerModeChanged =
+      config.initViewerMode !== this.config.initViewerMode;
     this.config = config;
+
+    if (this.initialized && initViewerModeChanged) {
+      this.setMode(config.initViewerMode);
+    }
   }
 
   setMode(mode: ViewerMode): void {

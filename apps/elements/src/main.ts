@@ -7,7 +7,7 @@ import { enableProdMode } from '@angular/core';
 import { createCustomElement } from '@angular/elements';
 import { createApplication } from '@angular/platform-browser';
 import { provideMimeViewerIntl } from '@nationallibraryofnorway/ngx-mime';
-import { AppComponent } from './app/app.component';
+import { AppComponent, SET_AJAX_HEADERS_EVENT } from './app/app.component';
 import { environment } from './environments/environment';
 
 if (environment.production) {
@@ -24,9 +24,18 @@ if (environment.production) {
     ],
   });
   if (!customElements.get(name)) {
-    const customElement = createCustomElement(AppComponent, {
+    const AngularElement = createCustomElement(AppComponent, {
       injector: applicationRef.injector,
     });
-    customElements.define(name, customElement);
+    class MimeViewerElement extends (AngularElement as CustomElementConstructor) {
+      setAjaxHeaders(ajaxHeaders: Record<string, string> | null): void {
+        this.dispatchEvent(
+          new CustomEvent(SET_AJAX_HEADERS_EVENT, {
+            detail: ajaxHeaders,
+          }),
+        );
+      }
+    }
+    customElements.define(name, MimeViewerElement);
   }
 })();

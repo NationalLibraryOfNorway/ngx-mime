@@ -3,7 +3,8 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { AppComponent } from './app.component';
+import { MimeViewerComponent } from '@nationallibraryofnorway/ngx-mime';
+import { AppComponent, SET_AJAX_HEADERS_EVENT } from './app.component';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -40,5 +41,18 @@ describe('AppComponent', () => {
     await fixture.whenStable();
 
     expect(component.mimeConfig().navigationControlEnabled).toBe(false);
+  });
+
+  it('should forward AJAX header updates to the viewer', () => {
+    const viewer = fixture.debugElement.query(By.directive(MimeViewerComponent))
+      .componentInstance as MimeViewerComponent;
+    const setAjaxHeaders = jest.spyOn(viewer, 'setAjaxHeaders');
+    const headers = { Authorization: 'Bearer refreshed-token' };
+
+    fixture.nativeElement.dispatchEvent(
+      new CustomEvent(SET_AJAX_HEADERS_EVENT, { detail: headers }),
+    );
+
+    expect(setAjaxHeaders).toHaveBeenCalledWith(headers);
   });
 });

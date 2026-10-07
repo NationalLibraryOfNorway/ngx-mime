@@ -39,7 +39,6 @@ import { VIEWER_PROVIDERS } from './viewer.providers';
 
 describe('ViewerComponent', () => {
   const config: MimeViewerConfig = new MimeViewerConfig();
-  const osdAnimationTime = 4000;
   let comp: ViewerComponent;
   let injector: Injector;
   let testHostComponent: TestHostComponent;
@@ -318,6 +317,65 @@ describe('ViewerComponent', () => {
     expect(modeService.mode()).toBe(config.initViewerMode);
   });
 
+  it('should change mode when initViewerMode changes after initialization', async () => {
+    testHostFixture.detectChanges();
+    await testHostFixture.whenStable();
+
+    testHostComponent.config.set(
+      new MimeViewerConfig({ initViewerMode: ViewerMode.DASHBOARD }),
+    );
+    testHostFixture.detectChanges();
+    await testHostFixture.whenStable();
+
+    expect(modeService.mode()).toBe(ViewerMode.DASHBOARD);
+  });
+
+  it.each([ViewerMode.PAGE, ViewerMode.PAGE_ZOOMED])(
+    'should preserve viewer state when refreshing AJAX headers in %s mode',
+    async (activeMode) => {
+      testHostComponent.config.set(
+        new MimeViewerConfig({
+          ajaxHeaders: { Authorization: 'Bearer initial-token' },
+        }),
+      );
+      testHostFixture.detectChanges();
+      await waitForViewerReady();
+
+      const viewer = viewerService.getViewer();
+      const setAjaxHeaders = jest.spyOn(viewer, 'setAjaxHeaders');
+      viewerService.goToCanvasGroup(2, true);
+      modeService.setMode(activeMode);
+      viewer.viewport.zoomTo(2, undefined, true);
+      viewer.viewport.panTo({ x: 1.25, y: 0.75 }, true);
+
+      const expectedViewerState = {
+        canvasIndex: canvasService.currentCanvasIndex,
+        zoom: viewer.viewport.getZoom(true),
+        center: viewer.viewport.getCenter(true),
+      };
+      const refreshedHeaders = {
+        Authorization: 'Bearer refreshed-token',
+      };
+
+      testHostComponent.viewerComponent.setAjaxHeaders(refreshedHeaders);
+
+      expect(setAjaxHeaders).toHaveBeenCalledWith(refreshedHeaders, true);
+      expect(modeService.mode()).toBe(activeMode);
+      expect(canvasService.currentCanvasIndex).toBe(
+        expectedViewerState.canvasIndex,
+      );
+      expect(viewer.viewport.getZoom(true)).toBeCloseTo(
+        expectedViewerState.zoom,
+      );
+      expect(viewer.viewport.getCenter(true).x).toBeCloseTo(
+        expectedViewerState.center.x,
+      );
+      expect(viewer.viewport.getCenter(true).y).toBeCloseTo(
+        expectedViewerState.center.y,
+      );
+    },
+  );
+
   it('should change mode to initial-mode when changing manifest', async () => {
     testHostFixture.detectChanges();
     await testHostFixture.whenStable();
@@ -568,10 +626,9 @@ describe('ViewerComponent', () => {
     testHostFixture.detectChanges();
     comp.canvasChanged.subscribe(canvasChanged);
     await waitForViewerReady();
-    await new Promise((resolve) => setTimeout(resolve, 100));
 
-    viewerService.goToCanvasGroup(1, false);
-    await new Promise((resolve) => setTimeout(resolve, osdAnimationTime));
+    viewerService.goToCanvasGroup(1, true);
+    await testHostFixture.whenStable();
 
     expect(canvasChanged).toHaveBeenLastCalledWith(1);
   });
