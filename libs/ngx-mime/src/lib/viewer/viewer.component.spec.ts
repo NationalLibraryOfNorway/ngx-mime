@@ -39,7 +39,6 @@ import { VIEWER_PROVIDERS } from './viewer.providers';
 
 describe('ViewerComponent', () => {
   const config: MimeViewerConfig = new MimeViewerConfig();
-  const osdAnimationTime = 4000;
   let comp: ViewerComponent;
   let injector: Injector;
   let testHostComponent: TestHostComponent;
@@ -619,10 +618,9 @@ describe('ViewerComponent', () => {
     testHostFixture.detectChanges();
     comp.canvasChanged.subscribe(canvasChanged);
     await waitForViewerReady();
-    await new Promise((resolve) => setTimeout(resolve, 100));
 
-    viewerService.goToCanvasGroup(1, false);
-    await new Promise((resolve) => setTimeout(resolve, osdAnimationTime));
+    viewerService.goToCanvasGroup(1, true);
+    await testHostFixture.whenStable();
 
     expect(canvasChanged).toHaveBeenLastCalledWith(1);
   });
