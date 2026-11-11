@@ -62,7 +62,7 @@ declare class MimeViewerIntl {
     currentPageLabel: string;
     enterPageNumber: string;
     dropDisabled: string;
-    loading: string;
+    loadingLabel: string;
     rotationIsNotSupported: string;
     somethingHasGoneWrongLabel: string;
     manifestUriMissingLabel: string;
@@ -134,7 +134,7 @@ declare class MimeViewerIntlLt extends MimeViewerIntl {
     currentPageLabel: string;
     enterPageNumber: string;
     dropDisabled: string;
-    loading: string;
+    loadingLabel: string;
     rotationIsNotSupported: string;
     somethingHasGoneWrongLabel: string;
     manifestUriMissingLabel: string;
@@ -203,7 +203,7 @@ declare class MimeViewerIntlNoNb extends MimeViewerIntl {
     currentPageLabel: string;
     enterPageNumber: string;
     dropDisabled: string;
-    loading: string;
+    loadingLabel: string;
     rotationIsNotSupported: string;
     somethingHasGoneWrongLabel: string;
     manifestUriMissingLabel: string;

@@ -1,3 +1,13 @@
+## 22.1.3 (2026-11-11)
+
+### 🩹 Fixes
+
+- **ngx-mime:** add a localized accessible label to the spinner ([#527](https://github.com/NationalLibraryOfNorway/ngx-mime/pull/527))
+
+### ❤️ Thank You
+
+- Ronny Mikalsen @ronnymikalsen
+
 ## 22.1.2 (2026-10-07)
 
 ### 🩹 Fixes

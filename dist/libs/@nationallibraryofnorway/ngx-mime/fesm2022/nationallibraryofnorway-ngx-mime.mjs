@@ -94,7 +94,7 @@ class MimeViewerIntl {
         this.currentPageLabel = 'Current page';
         this.enterPageNumber = 'Enter page number';
         this.dropDisabled = 'Sorry, but drag and drop is disabled';
-        this.loading = 'Loading ...';
+        this.loadingLabel = 'Loading content';
         this.rotationIsNotSupported = 'Rotation is not supported by your device';
         // ERRORS
         this.somethingHasGoneWrongLabel = 'Oh dear, something has gone terribly wrong...';
@@ -184,7 +184,7 @@ class MimeViewerIntlLt extends MimeViewerIntl {
         this.currentPageLabel = 'Dabartinis puslapis';
         this.enterPageNumber = 'Įveskite puslapio numerį';
         this.dropDisabled = 'Atleiskite, bet veiksmas negalimas';
-        this.loading = 'Pakrovimas ...';
+        this.loadingLabel = 'Įkeliamas turinys';
         this.rotationIsNotSupported = 'Sukimas jūsų įrenginyje nepalaikomas';
         // ERRORS
         this.somethingHasGoneWrongLabel = 'Objekto atvaizduoti nepavyko...';
@@ -269,7 +269,7 @@ class MimeViewerIntlNoNb extends MimeViewerIntl {
         this.currentPageLabel = 'Nåværende side';
         this.enterPageNumber = 'Skriv inn sidenummer';
         this.dropDisabled = 'Beklager, men drag and drop er ikke aktivert';
-        this.loading = 'Laster ...';
+        this.loadingLabel = 'Laster innhold';
         this.rotationIsNotSupported = 'Rotasjon støttes ikke av enheten din';
         // ERRORS
         this.somethingHasGoneWrongLabel = 'Å nei! Noe har gått galt...';
@@ -6774,14 +6774,15 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "22.1.6", ngImpor
 class ViewerSpinnerComponent {
     constructor() {
         this.spinnerService = inject(SpinnerService);
+        this.intl = inject(MimeViewerIntl).value;
         this.visible = this.spinnerService.visible;
     }
     static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "22.1.6", ngImport: i0, type: ViewerSpinnerComponent, deps: [], target: i0.ɵɵFactoryTarget.Component }); }
-    static { this.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "22.1.6", type: ViewerSpinnerComponent, isStandalone: true, selector: "mime-spinner", ngImport: i0, template: "<div class=\"mime-spinner\" [class.mime-spinner--active]=\"visible()\">\n  <mat-spinner></mat-spinner>\n</div>\n", styles: [".mime-spinner{display:none;position:absolute;left:50%;top:45%;transform:translate(-50%);z-index:9999}.mime-spinner--active{display:block}\n"], dependencies: [{ kind: "component", type: MatProgressSpinner, selector: "mat-progress-spinner, mat-spinner", inputs: ["color", "mode", "value", "diameter", "strokeWidth"], exportAs: ["matProgressSpinner"] }] }); }
+    static { this.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "22.1.6", type: ViewerSpinnerComponent, isStandalone: true, selector: "mime-spinner", ngImport: i0, template: "<div class=\"mime-spinner\" [class.mime-spinner--active]=\"visible()\">\n  <mat-spinner [attr.aria-label]=\"intl().loadingLabel\"></mat-spinner>\n</div>\n", styles: [".mime-spinner{display:none;position:absolute;left:50%;top:45%;transform:translate(-50%);z-index:9999}.mime-spinner--active{display:block}\n"], dependencies: [{ kind: "component", type: MatProgressSpinner, selector: "mat-progress-spinner, mat-spinner", inputs: ["color", "mode", "value", "diameter", "strokeWidth"], exportAs: ["matProgressSpinner"] }] }); }
 }
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "22.1.6", ngImport: i0, type: ViewerSpinnerComponent, decorators: [{
             type: Component,
-            args: [{ selector: 'mime-spinner', imports: [MatProgressSpinner], template: "<div class=\"mime-spinner\" [class.mime-spinner--active]=\"visible()\">\n  <mat-spinner></mat-spinner>\n</div>\n", styles: [".mime-spinner{display:none;position:absolute;left:50%;top:45%;transform:translate(-50%);z-index:9999}.mime-spinner--active{display:block}\n"] }]
+            args: [{ selector: 'mime-spinner', imports: [MatProgressSpinner], template: "<div class=\"mime-spinner\" [class.mime-spinner--active]=\"visible()\">\n  <mat-spinner [attr.aria-label]=\"intl().loadingLabel\"></mat-spinner>\n</div>\n", styles: [".mime-spinner{display:none;position:absolute;left:50%;top:45%;transform:translate(-50%);z-index:9999}.mime-spinner--active{display:block}\n"] }]
         }] });
 
 const VIEWER_PROVIDERS = [
