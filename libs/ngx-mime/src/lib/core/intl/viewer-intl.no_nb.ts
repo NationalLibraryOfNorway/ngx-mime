@@ -43,7 +43,7 @@ export class MimeViewerIntlNoNb extends MimeViewerIntl {
   override currentPageLabel = 'Nåværende side';
   override enterPageNumber = 'Skriv inn sidenummer';
   override dropDisabled = 'Beklager, men drag and drop er ikke aktivert';
-  override loading = 'Laster ...';
+  override loadingLabel = 'Laster innhold';
   override rotationIsNotSupported = 'Rotasjon støttes ikke av enheten din';
 
   // ERRORS

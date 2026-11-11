@@ -43,7 +43,7 @@ export class MimeViewerIntlLt extends MimeViewerIntl {
   override currentPageLabel = 'Dabartinis puslapis';
   override enterPageNumber = 'Įveskite puslapio numerį';
   override dropDisabled = 'Atleiskite, bet veiksmas negalimas';
-  override loading = 'Pakrovimas ...';
+  override loadingLabel = 'Įkeliamas turinys';
   override rotationIsNotSupported = 'Sukimas jūsų įrenginyje nepalaikomas';
 
   // ERRORS
